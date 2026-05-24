@@ -352,9 +352,21 @@ function appendAssistantTextMessage(
   model?: string,
   transcriptMessageId?: string,
 ): UIMessage[] {
-  if (!content.trim()) return messages
+  const trimmedContent = content.trim()
+  if (!trimmedContent) return messages
 
   const last = messages[messages.length - 1]
+  // Wake/reconnect replay can resend persisted assistant text without a
+  // transcript id. Ignore chunks that are already present in the hydrated tail.
+  if (
+    last?.type === 'assistant_text' &&
+    last.transcriptMessageId &&
+    !transcriptMessageId &&
+    last.content.trim().includes(trimmedContent)
+  ) {
+    return messages
+  }
+
   const canMergeIntoLast =
     last?.type === 'assistant_text' &&
     (
@@ -581,12 +593,38 @@ function mergeRestoredTranscriptMessageIds(
   return changed ? merged : messages
 }
 
+function dropDuplicateTranscriptTextMessages(messages: UIMessage[]): UIMessage[] {
+  const seen = new Set<string>()
+  const deduped: UIMessage[] = []
+  let changed = false
+
+  for (const message of messages) {
+    if (
+      (message.type === 'user_text' || message.type === 'assistant_text') &&
+      message.transcriptMessageId
+    ) {
+      const key = `${message.type}:${message.transcriptMessageId}:${message.content.trim()}`
+      if (seen.has(key)) {
+        changed = true
+        continue
+      }
+      seen.add(key)
+    }
+
+    deduped.push(message)
+  }
+
+  return changed ? deduped : messages
+}
+
 function mergeRestoredHistoryIntoLiveMessages(
   messages: UIMessage[],
   restoredMessages: UIMessage[],
 ): UIMessage[] {
   return mergeRestoredTerminalGoalEvents(
-    mergeRestoredTranscriptMessageIds(messages, restoredMessages),
+    dropDuplicateTranscriptTextMessages(
+      mergeRestoredTranscriptMessageIds(messages, restoredMessages),
+    ),
     restoredMessages,
   )
 }
@@ -1493,7 +1531,8 @@ export const useChatStore = create<ChatStore>((set, get) => ({
           apiRetry: null,
         }))
         useTabStore.getState().updateTabStatus(sessionId, 'idle')
-        const notification = wasAgentRunning
+        const appendedCompletionMessage = completionMessages !== session.messages
+        const notification = wasAgentRunning && appendedCompletionMessage
           ? buildAgentCompletionNotification(sessionId, completionMessages, text)
           : null
         if (notification) {
