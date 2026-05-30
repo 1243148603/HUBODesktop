@@ -1619,6 +1619,7 @@ describe('chatStore history mapping', () => {
     useSessionRuntimeStore.getState().setSelection(TEST_SESSION_ID, {
       providerId: 'provider-1',
       modelId: 'kimi-k2.6',
+      effortLevel: 'high',
     })
 
     useChatStore.getState().connectToSession(TEST_SESSION_ID)
@@ -1627,6 +1628,7 @@ describe('chatStore history mapping', () => {
       type: 'set_runtime_config',
       providerId: 'provider-1',
       modelId: 'kimi-k2.6',
+      effortLevel: 'high',
     })
     expect(sendMock.mock.calls.slice(0, 2)).toEqual([
       [
@@ -1635,6 +1637,7 @@ describe('chatStore history mapping', () => {
           type: 'set_runtime_config',
           providerId: 'provider-1',
           modelId: 'kimi-k2.6',
+          effortLevel: 'high',
         },
       ],
       [TEST_SESSION_ID, { type: 'prewarm_session' }],
@@ -1693,12 +1696,14 @@ describe('chatStore history mapping', () => {
     useChatStore.getState().setSessionRuntime(TEST_SESSION_ID, {
       providerId: null,
       modelId: 'claude-opus-4-7',
+      effortLevel: 'max',
     })
 
     expect(sendMock).toHaveBeenCalledWith(TEST_SESSION_ID, {
       type: 'set_runtime_config',
       providerId: null,
       modelId: 'claude-opus-4-7',
+      effortLevel: 'max',
     })
   })
 

@@ -2930,6 +2930,7 @@ describe('WebSocket Chat Integration', () => {
               type: 'set_runtime_config',
               providerId: providerA.id,
               modelId: 'model-a-sonnet',
+              effortLevel: 'medium',
             }))
             ws.send(JSON.stringify({ type: 'user_message', content: 'first turn' }))
             phase = 'turn1'
@@ -2950,6 +2951,7 @@ describe('WebSocket Chat Integration', () => {
               type: 'set_runtime_config',
               providerId: providerB.id,
               modelId: 'model-b-opus',
+              effortLevel: 'max',
             }))
             return
           }
@@ -2989,6 +2991,7 @@ describe('WebSocket Chat Integration', () => {
         options: {
           providerId: providerA.id,
           model: 'model-a-sonnet',
+          effort: 'medium',
         },
       })
       expect(startCalls[1]).toMatchObject({
@@ -2996,6 +2999,7 @@ describe('WebSocket Chat Integration', () => {
         options: {
           providerId: providerB.id,
           model: 'model-b-opus',
+          effort: 'max',
         },
       })
     } finally {

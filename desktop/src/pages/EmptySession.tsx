@@ -116,7 +116,7 @@ export function EmptySession() {
   const lastPluginReloadSummary = usePluginStore((state) => state.lastReloadSummary)
   const draftRuntimeSelection = useSessionRuntimeStore((state) => state.selections[DRAFT_RUNTIME_SELECTION_KEY])
   const draftRuntimeSelectionKey = draftRuntimeSelection
-    ? `${draftRuntimeSelection.providerId ?? 'official'}:${draftRuntimeSelection.modelId}`
+    ? `${draftRuntimeSelection.providerId ?? 'official'}:${draftRuntimeSelection.modelId}:${draftRuntimeSelection.effortLevel ?? 'auto'}`
     : undefined
   const draftModelLabel = draftRuntimeSelection?.modelId ?? currentModel?.name ?? currentModel?.id
   const isMobileComposer = useMobileViewport() && !isTauriRuntime()

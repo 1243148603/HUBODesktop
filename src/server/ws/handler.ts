@@ -70,15 +70,19 @@ const sessionTitleState = new Map<string, {
 const runtimeOverrides = new Map<string, {
   providerId: string | null
   modelId: string
+  effort?: string
 }>()
 
 const runtimeTransitionPromises = new Map<string, Promise<void>>()
 const sessionStartupPromises = new Map<string, Promise<void>>()
+const runtimeOverrideVersions = new Map<string, number>()
+const sessionStartupRuntimeVersions = new Map<string, number>()
 const lastResolvedStartupWorkDirs = new Map<string, string>()
 const prewarmPendingSessions = new Set<string>()
 const prewarmedSessions = new Set<string>()
 const prewarmIdleTimers = new Map<string, ReturnType<typeof setTimeout>>()
 const DEFAULT_PREWARM_IDLE_TIMEOUT_MS = 5 * 60_000
+const VALID_EFFORT_LEVELS = new Set(['low', 'medium', 'high', 'max'])
 
 async function sendRepositoryStartupStatus(
   ws: ServerWebSocket<WebSocketData>,
@@ -549,44 +553,73 @@ async function handleSetRuntimeConfig(
     })
     return
   }
+  const effortLevel =
+    typeof message.effortLevel === 'string' ? message.effortLevel.trim() : undefined
+  if (effortLevel !== undefined && !VALID_EFFORT_LEVELS.has(effortLevel)) {
+    sendMessage(ws, {
+      type: 'error',
+      message: 'Runtime effort selection is invalid.',
+      code: 'RUNTIME_CONFIG_INVALID',
+    })
+    return
+  }
 
   const nextOverride = {
     providerId: message.providerId ?? null,
     modelId,
+    ...(effortLevel ? { effort: effortLevel } : {}),
   }
   const prevOverride = runtimeOverrides.get(sessionId)
-  runtimeOverrides.set(sessionId, nextOverride)
-
   if (
     prevOverride &&
     prevOverride.providerId === nextOverride.providerId &&
-    prevOverride.modelId === nextOverride.modelId
+    prevOverride.modelId === nextOverride.modelId &&
+    prevOverride.effort === nextOverride.effort
   ) {
     return
   }
 
-  if (!conversationService.hasSession(sessionId)) {
-    const pendingStartup = sessionStartupPromises.get(sessionId)
-    if (pendingStartup) {
-      await enqueueRuntimeTransition(sessionId, async () => {
-        await pendingStartup.catch(() => undefined)
-        const currentOverride = runtimeOverrides.get(sessionId)
-        if (
-          currentOverride?.providerId !== nextOverride.providerId ||
-          currentOverride.modelId !== nextOverride.modelId ||
-          !conversationService.hasSession(sessionId)
-        ) {
-          return
-        }
-        await restartSessionWithRuntimeConfig(ws, sessionId)
-      })
-    }
+  runtimeOverrides.set(sessionId, nextOverride)
+  runtimeOverrideVersions.set(
+    sessionId,
+    (runtimeOverrideVersions.get(sessionId) ?? 0) + 1,
+  )
+
+  if (conversationService.hasSession(sessionId)) {
+    await enqueueRuntimeTransition(sessionId, async () => {
+      await persistSessionRuntimeConfig(sessionId, nextOverride)
+      await restartSessionWithRuntimeConfig(ws, sessionId)
+    })
     return
   }
 
-  await enqueueRuntimeTransition(sessionId, () =>
-    restartSessionWithRuntimeConfig(ws, sessionId),
-  )
+  const pendingStartup = sessionStartupPromises.get(sessionId)
+  if (pendingStartup) {
+    const startupRuntimeVersion = sessionStartupRuntimeVersions.get(sessionId) ?? 0
+    const currentRuntimeVersion = runtimeOverrideVersions.get(sessionId) ?? 0
+    if (startupRuntimeVersion >= currentRuntimeVersion) {
+      await persistSessionRuntimeConfig(sessionId, nextOverride)
+      return
+    }
+
+    await enqueueRuntimeTransition(sessionId, async () => {
+      await persistSessionRuntimeConfig(sessionId, nextOverride)
+      await pendingStartup.catch(() => undefined)
+      const currentOverride = runtimeOverrides.get(sessionId)
+      if (
+        currentOverride?.providerId !== nextOverride.providerId ||
+        currentOverride.modelId !== nextOverride.modelId ||
+        currentOverride.effort !== nextOverride.effort ||
+        !conversationService.hasSession(sessionId)
+      ) {
+        return
+      }
+      await restartSessionWithRuntimeConfig(ws, sessionId)
+    })
+    return
+  }
+
+  await persistSessionRuntimeConfig(sessionId, nextOverride)
 }
 
 async function restartSessionWithPermissionMode(
@@ -645,6 +678,24 @@ async function persistSessionPermissionMode(
   await sessionService.appendSessionMetadata(sessionId, {
     workDir,
     permissionMode: mode,
+  })
+}
+
+async function persistSessionRuntimeConfig(
+  sessionId: string,
+  runtime: { providerId: string | null; modelId: string; effort?: string },
+): Promise<void> {
+  const workDir =
+    conversationService.getSessionWorkDir(sessionId) ||
+    await sessionService.getSessionWorkDir(sessionId).catch(() => null)
+
+  if (!workDir) return
+
+  await sessionService.appendSessionMetadata(sessionId, {
+    workDir,
+    runtimeProviderId: runtime.providerId,
+    runtimeModelId: runtime.modelId,
+    ...(runtime.effort ? { effortLevel: runtime.effort } : {}),
   })
 }
 
@@ -981,6 +1032,9 @@ async function ensureCliSessionStarted(
 
   if (conversationService.hasSession(sessionId)) return
 
+  const startupRuntimeVersion = runtimeOverrideVersions.get(sessionId) ?? 0
+  sessionStartupRuntimeVersions.set(sessionId, startupRuntimeVersion)
+
   const startup = (async () => {
     const workDir = await resolveSessionWorkDir(sessionId)
     lastResolvedStartupWorkDirs.set(sessionId, workDir)
@@ -999,6 +1053,7 @@ async function ensureCliSessionStarted(
   } finally {
     if (sessionStartupPromises.get(sessionId) === startup) {
       sessionStartupPromises.delete(sessionId)
+      sessionStartupRuntimeVersions.delete(sessionId)
     }
   }
 }
@@ -1859,10 +1914,23 @@ function isKnownRuntimeProviderId(
 }
 
 async function getRuntimeSettings(sessionId?: string): Promise<RuntimeSettings> {
+  const launchInfo = sessionId
+    ? await sessionService.getSessionLaunchInfo(sessionId).catch(() => null)
+    : null
   const sessionPermissionMode = sessionId
-    ? await getSessionPermissionMode(sessionId)
+    ? launchInfo?.permissionMode ?? await getSessionPermissionMode(sessionId)
     : undefined
-  const runtimeOverride = sessionId ? runtimeOverrides.get(sessionId) : undefined
+  const persistedRuntimeOverride =
+    launchInfo?.runtimeModelId
+      ? {
+          providerId: launchInfo.runtimeProviderId ?? null,
+          modelId: launchInfo.runtimeModelId,
+          ...(launchInfo.effortLevel ? { effort: launchInfo.effortLevel } : {}),
+        }
+      : undefined
+  const runtimeOverride = sessionId
+    ? runtimeOverrides.get(sessionId) ?? persistedRuntimeOverride
+    : undefined
   if (runtimeOverride) {
     if (typeof runtimeOverride.providerId === 'string') {
       const { providers } = await providerService.listProviders()
@@ -1881,16 +1949,12 @@ async function getRuntimeSettings(sessionId?: string): Promise<RuntimeSettings> 
     }
 
     const userSettings = await settingsService.getUserSettings()
-    const effort =
-      typeof userSettings.effort === 'string' && userSettings.effort.trim()
-        ? userSettings.effort
-        : undefined
     const thinking = resolveDesktopThinkingMode(userSettings)
 
     return {
       permissionMode: sessionPermissionMode ?? await settingsService.getPermissionMode().catch(() => undefined),
       model: runtimeOverride.modelId,
-      effort,
+      effort: runtimeOverride.effort,
       thinking,
       providerId: runtimeOverride.providerId,
     }
@@ -1900,6 +1964,7 @@ async function getRuntimeSettings(sessionId?: string): Promise<RuntimeSettings> 
   return {
     ...defaults,
     permissionMode: sessionPermissionMode ?? defaults.permissionMode,
+    effort: launchInfo?.effortLevel ?? defaults.effort,
   }
 }
 
@@ -1995,6 +2060,7 @@ async function buildSessionStartupDiagnosticMessage(
   if (runtimeOverride) {
     lines.push(`- runtimeOverride.providerId: ${runtimeOverride.providerId ?? '(official)'}`)
     lines.push(`- runtimeOverride.modelId: ${runtimeOverride.modelId}`)
+    lines.push(`- runtimeOverride.effort: ${runtimeOverride.effort ?? '(auto)'}`)
   } else {
     lines.push('- runtimeOverride: (none)')
   }

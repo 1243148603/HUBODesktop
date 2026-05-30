@@ -136,7 +136,7 @@ const DEFAULT_NETWORK_SETTINGS: NetworkSettings = {
 export const useSettingsStore = create<SettingsStore>((set, get) => ({
   permissionMode: 'default',
   currentModel: null,
-  effortLevel: 'medium',
+  effortLevel: 'max',
   thinkingEnabled: true,
   availableModels: [],
   activeProviderName: null,

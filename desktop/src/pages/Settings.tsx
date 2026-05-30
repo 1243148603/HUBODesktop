@@ -9,7 +9,7 @@ import { ConfirmDialog } from '../components/shared/ConfirmDialog'
 import { Input } from '../components/shared/Input'
 import { Button } from '../components/shared/Button'
 import { Dropdown } from '../components/shared/Dropdown'
-import type { EffortLevel, ThemeMode, UpdateProxyMode, NetworkProxyMode, WebSearchMode, AppMode, ChatSendBehavior } from '../types/settings'
+import type { ThemeMode, UpdateProxyMode, NetworkProxyMode, WebSearchMode, AppMode, ChatSendBehavior } from '../types/settings'
 import type { Locale } from '../i18n'
 import type { SavedProvider, UpdateProviderInput, ProviderTestResult, ModelMapping, ApiFormat, ProviderAuthStrategy } from '../types/provider'
 import type { ProviderPreset } from '../types/providerPreset'
@@ -1430,8 +1430,6 @@ function ProviderFormModal({ open, onClose, mode, provider, presets }: ProviderF
 
 function GeneralSettings() {
   const {
-    effortLevel,
-    setEffort,
     thinkingEnabled,
     setThinkingEnabled,
     locale,
@@ -1516,13 +1514,6 @@ function GeneralSettings() {
   useEffect(() => {
     setPortableDirDraft(appMode.portableDir ?? appMode.defaultPortableDir ?? '')
   }, [appMode.defaultPortableDir, appMode.portableDir])
-
-  const EFFORT_LABELS: Record<EffortLevel, string> = {
-    low: t('settings.general.effort.low'),
-    medium: t('settings.general.effort.medium'),
-    high: t('settings.general.effort.high'),
-    max: t('settings.general.effort.max'),
-  }
 
   const LANGUAGES: Array<{ value: Locale; label: string }> = [
     { value: 'en', label: 'English' },
@@ -1962,25 +1953,6 @@ function GeneralSettings() {
           </button>
         }
       />
-
-      {/* Effort Level */}
-      <h2 className="text-base font-semibold text-[var(--color-text-primary)] mb-1">{t('settings.general.effortTitle')}</h2>
-      <p className="text-sm text-[var(--color-text-tertiary)] mb-3">{t('settings.general.effortDescription')}</p>
-      <div className="flex gap-2">
-        {(['low', 'medium', 'high', 'max'] as EffortLevel[]).map((level) => (
-          <button
-            key={level}
-            onClick={() => setEffort(level)}
-            className={`flex-1 py-2 text-xs font-semibold rounded-lg border transition-all ${
-              effortLevel === level
-                ? 'bg-[var(--color-brand)] text-white border-[var(--color-brand)]'
-                : 'border-[var(--color-border)] text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-hover)]'
-            }`}
-          >
-            {EFFORT_LABELS[level]}
-          </button>
-        ))}
-      </div>
 
       <div className="mt-8">
         <h2 className="text-base font-semibold text-[var(--color-text-primary)] mb-1">{t('settings.general.thinkingTitle')}</h2>

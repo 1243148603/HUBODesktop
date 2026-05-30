@@ -72,6 +72,9 @@ export type SessionLaunchInfo = {
   transcriptMessageCount: number
   customTitle: string | null
   permissionMode?: string
+  runtimeProviderId?: string | null
+  runtimeModelId?: string
+  effortLevel?: string
 }
 
 export type TrimSessionResult = {
@@ -228,6 +231,9 @@ type SessionListSummary = {
   messageCount: number
   workDir: string | null
   permissionMode?: string
+  runtimeProviderId?: string | null
+  runtimeModelId?: string
+  effortLevel?: string
   repository?: PreparedSessionWorkspace['repository']
   worktreeSession?: PersistedWorktreeSession | null
 }
@@ -239,6 +245,7 @@ const VALID_SESSION_PERMISSION_MODES = new Set([
   'bypassPermissions',
   'dontAsk',
 ])
+const VALID_SESSION_EFFORT_LEVELS = new Set(['low', 'medium', 'high', 'max'])
 
 type ContentBlock = Record<string, unknown>
 
@@ -348,6 +355,9 @@ export class SessionService {
     let latestWorkDir: string | null = null
     let latestCwd: string | null = null
     let permissionMode: string | undefined
+    let runtimeProviderId: string | null | undefined
+    let runtimeModelId: string | undefined
+    let effortLevel: string | undefined
     let repository: PreparedSessionWorkspace['repository'] | undefined
     let worktreeSession: PersistedWorktreeSession | null | undefined
 
@@ -392,6 +402,21 @@ export class SessionService {
             VALID_SESSION_PERMISSION_MODES.has(entry.permissionMode)
           ) {
             permissionMode = entry.permissionMode
+          }
+          if (
+            (entry as Record<string, unknown>).runtimeProviderId === null ||
+            typeof (entry as Record<string, unknown>).runtimeProviderId === 'string'
+          ) {
+            runtimeProviderId = (entry as Record<string, unknown>).runtimeProviderId as string | null
+          }
+          if (typeof (entry as Record<string, unknown>).runtimeModelId === 'string') {
+            runtimeModelId = (entry as Record<string, unknown>).runtimeModelId as string
+          }
+          if (
+            typeof (entry as Record<string, unknown>).effortLevel === 'string' &&
+            VALID_SESSION_EFFORT_LEVELS.has((entry as Record<string, unknown>).effortLevel as string)
+          ) {
+            effortLevel = (entry as Record<string, unknown>).effortLevel as string
           }
         }
 
@@ -454,6 +479,9 @@ export class SessionService {
       messageCount,
       workDir: latestWorkDir || latestCwd || this.desanitizePath(projectDir),
       ...(permissionMode ? { permissionMode } : {}),
+      ...(runtimeProviderId !== undefined ? { runtimeProviderId } : {}),
+      ...(runtimeModelId ? { runtimeModelId } : {}),
+      ...(effortLevel ? { effortLevel } : {}),
       ...(repository ? { repository } : {}),
       ...(worktreeSession !== undefined ? { worktreeSession } : {}),
     }
@@ -1846,10 +1874,28 @@ export class SessionService {
     const worktreeSession = this.resolveWorktreeSessionFromEntries(entries)
     const permissionMode = this.resolvePermissionModeFromEntries(entries)
     let customTitle: string | null = null
+    let runtimeProviderId: string | null | undefined
+    let runtimeModelId: string | undefined
+    let effortLevel: string | undefined
 
     for (const entry of entries) {
       if (entry.type === 'custom-title' && typeof entry.customTitle === 'string') {
         customTitle = entry.customTitle
+      }
+      if (entry.type === 'session-meta') {
+        const record = entry as Record<string, unknown>
+        if (record.runtimeProviderId === null || typeof record.runtimeProviderId === 'string') {
+          runtimeProviderId = record.runtimeProviderId as string | null
+        }
+        if (typeof record.runtimeModelId === 'string') {
+          runtimeModelId = record.runtimeModelId
+        }
+        if (
+          typeof record.effortLevel === 'string' &&
+          VALID_SESSION_EFFORT_LEVELS.has(record.effortLevel)
+        ) {
+          effortLevel = record.effortLevel
+        }
       }
     }
     const transcriptMessageCount = this.countTranscriptMessages(entries)
@@ -1863,6 +1909,9 @@ export class SessionService {
       transcriptMessageCount,
       customTitle,
       permissionMode,
+      ...(runtimeProviderId !== undefined ? { runtimeProviderId } : {}),
+      ...(runtimeModelId ? { runtimeModelId } : {}),
+      ...(effortLevel ? { effortLevel } : {}),
     }
   }
 
@@ -1928,6 +1977,9 @@ export class SessionService {
       customTitle?: string | null
       repository?: PreparedSessionWorkspace['repository']
       permissionMode?: string
+      runtimeProviderId?: string | null
+      runtimeModelId?: string
+      effortLevel?: string
     }
   ): Promise<void> {
     const matches = await this.findSessionFiles(sessionId)
@@ -1956,6 +2008,13 @@ export class SessionService {
       repository,
       ...(metadata.permissionMode && VALID_SESSION_PERMISSION_MODES.has(metadata.permissionMode)
         ? { permissionMode: metadata.permissionMode }
+        : {}),
+      ...(metadata.runtimeProviderId !== undefined
+        ? { runtimeProviderId: metadata.runtimeProviderId }
+        : {}),
+      ...(metadata.runtimeModelId ? { runtimeModelId: metadata.runtimeModelId } : {}),
+      ...(metadata.effortLevel && VALID_SESSION_EFFORT_LEVELS.has(metadata.effortLevel)
+        ? { effortLevel: metadata.effortLevel }
         : {}),
       timestamp: new Date().toISOString(),
     })
