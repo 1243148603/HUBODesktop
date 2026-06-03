@@ -123,7 +123,7 @@ All diagrams use a dark background (#1a1a2e) with HUBO orange-blue accent (#FF7A
 
 - [HUBO Home](/)
 - [Memory System Documentation](/en/memory/01-usage-guide)
-- [Agent Tool Source Code](https://github.com/NanmiCoder/hubo/tree/main/src/tools/AgentTool/)
-- [Swarm Infrastructure](https://github.com/NanmiCoder/hubo/tree/main/src/utils/swarm/)
-- [Task Management System](https://github.com/NanmiCoder/hubo/tree/main/src/tasks/)
-- [GitHub Issues](https://github.com/NanmiCoder/hubo/issues)
+- [Agent Tool Source Code](https://github.com/1243148603/HUBODesktop/tree/main/src/tools/AgentTool/)
+- [Swarm Infrastructure](https://github.com/1243148603/HUBODesktop/tree/main/src/utils/swarm/)
+- [Task Management System](https://github.com/1243148603/HUBODesktop/tree/main/src/tasks/)
+- [GitHub Issues](https://github.com/1243148603/HUBODesktop/issues)

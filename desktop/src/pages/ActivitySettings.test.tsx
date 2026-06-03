@@ -93,7 +93,7 @@ describe('ActivitySettings', () => {
         schemaVersion: 2,
         profile: {
           displayName: 'hubo',
-          subtitle: 'github.com/NanmiCoder/hubo',
+          subtitle: 'github.com/1243148603/HUBODesktop',
           avatarFile: null,
           avatarUpdatedAt: null,
         },
@@ -131,7 +131,7 @@ describe('ActivitySettings', () => {
         schemaVersion: 2,
         profile: {
           displayName: 'hubo',
-          subtitle: 'github.com/NanmiCoder/hubo',
+          subtitle: 'github.com/1243148603/HUBODesktop',
           avatarFile: 'profile/avatar.png',
           avatarUpdatedAt: '2026-05-09T12:00:00.000Z',
         },
@@ -150,7 +150,7 @@ describe('ActivitySettings', () => {
         schemaVersion: 2,
         profile: {
           displayName: 'hubo',
-          subtitle: 'github.com/NanmiCoder/hubo',
+          subtitle: 'github.com/1243148603/HUBODesktop',
           avatarFile: null,
           avatarUpdatedAt: null,
         },
@@ -180,9 +180,9 @@ describe('ActivitySettings', () => {
     expect(screen.getByText('hubo')).toBeInTheDocument()
     expect(screen.getByAltText('hubo avatar')).toHaveAttribute('src', '/app-icon.png')
     expect(screen.getByAltText('hubo avatar')).toHaveClass('scale-[1.28]')
-    expect(screen.getByRole('link', { name: 'github.com/NanmiCoder/hubo' })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'github.com/1243148603/HUBODesktop' })).toHaveAttribute(
       'href',
-      'https://github.com/NanmiCoder/hubo',
+      'https://github.com/1243148603/HUBODesktop',
     )
     expect(screen.getByText('Token Activity')).toBeInTheDocument()
     expect(screen.getByText('Total tokens')).toBeInTheDocument()

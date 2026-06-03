@@ -6,7 +6,7 @@ const preferences = {
   schemaVersion: 2,
   profile: {
     displayName: 'hubo',
-    subtitle: 'github.com/NanmiCoder/hubo',
+    subtitle: 'github.com/1243148603/HUBODesktop',
     avatarFile: null,
     avatarUpdatedAt: null,
   },

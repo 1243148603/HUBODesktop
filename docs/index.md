@@ -14,7 +14,7 @@ hero:
       link: /guide/quick-start
     - theme: alt
       text: GitHub
-      link: https://github.com/NanmiCoder/hubo
+      link: https://github.com/1243148603/HUBODesktop
 
 features:
   - icon: "\U0001F5A5"

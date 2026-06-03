@@ -114,8 +114,8 @@ All illustrations use a dark background (#1a1a2e) + HUBO orange-blue accent (#FF
 ## Related Resources
 
 - [HUBO Home](/en/)
-- [Memory system source code](https://github.com/NanmiCoder/hubo/tree/main/src/memdir/)
-- [Auto-extraction service](https://github.com/NanmiCoder/hubo/tree/main/src/services/extractMemories/)
-- [AutoDream service](https://github.com/NanmiCoder/hubo/tree/main/src/services/autoDream/)
-- [DreamTask](https://github.com/NanmiCoder/hubo/tree/main/src/tasks/DreamTask/)
-- [GitHub Issues](https://github.com/NanmiCoder/hubo/issues)
+- [Memory system source code](https://github.com/1243148603/HUBODesktop/tree/main/src/memdir/)
+- [Auto-extraction service](https://github.com/1243148603/HUBODesktop/tree/main/src/services/extractMemories/)
+- [AutoDream service](https://github.com/1243148603/HUBODesktop/tree/main/src/services/autoDream/)
+- [DreamTask](https://github.com/1243148603/HUBODesktop/tree/main/src/tasks/DreamTask/)
+- [GitHub Issues](https://github.com/1243148603/HUBODesktop/issues)

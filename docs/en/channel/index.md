@@ -80,4 +80,4 @@ All illustrations use a dark background (#1a1a2e) with HUBO orange-blue accents 
 - [HUBO Home](/en/)
 - [Agent Framework Deep Dive](/en/agent/03-agent-framework)
 - [Skills System Documentation](/en/skills/01-usage-guide)
-- [GitHub Issues](https://github.com/NanmiCoder/hubo/issues)
+- [GitHub Issues](https://github.com/1243148603/HUBODesktop/issues)

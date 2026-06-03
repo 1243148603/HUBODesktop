@@ -11,7 +11,7 @@ const MAX_PROJECT_PREFERENCE_ENTRIES = 2_000
 const MAX_PROFILE_DISPLAY_NAME_LENGTH = 80
 const MAX_PROFILE_SUBTITLE_LENGTH = 160
 const MAX_PROFILE_AVATAR_BYTES = 2_000_000
-const DEFAULT_PROFILE_SUBTITLE = 'github.com/NanmiCoder/hubo'
+const DEFAULT_PROFILE_SUBTITLE = 'github.com/1243148603/HUBODesktop'
 
 const AVATAR_CONTENT_TYPES = {
   'image/png': { extension: 'png', mediaType: 'image/png' },
