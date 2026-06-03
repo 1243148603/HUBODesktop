@@ -2,6 +2,12 @@
   "name": "hubo-desktop",
   "private": true,
   "version": "1.0.1",
+  "description": "Desktop coding agent workbench for Claude Code Haha.",
+  "homepage": "https://github.com/NanmiCoder/cc-haha",
+  "author": {
+    "name": "NanmiCoder",
+    "email": "relakkes@gmail.com"
+  }
   "type": "module",
   "scripts": {
     "dev": "vite",
