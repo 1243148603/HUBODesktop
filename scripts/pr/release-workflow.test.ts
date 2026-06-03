@@ -47,15 +47,17 @@ describe('release desktop workflow', () => {
     }
   })
 
-  test('development desktop artifacts exclude unpacked macOS app bundles', () => {
+  test('development desktop artifacts exclude unpacked macOS app bundles and updater-only files', () => {
     const workflow = readFileSync('.github/workflows/build-desktop-dev.yml', 'utf8')
     const collectStep = workflow.match(
       /- name: Collect artifacts[\s\S]*?(?:\n\s{6}- name:|$)/,
     )?.[0]
 
     expect(collectStep).toContain('*.dmg')
-    expect(collectStep).toContain('*.zip')
-    expect(collectStep).toContain('*.blockmap')
+    // The macOS auto-update zip and blockmaps are not collected: unsigned builds
+    // ship manual downloads only, so the artifact stays the installer + script.
+    expect(collectStep).not.toContain('*.zip')
+    expect(collectStep).not.toContain('*.blockmap')
     expect(collectStep).toContain('*.yml')
     expect(collectStep).toContain('install-macos-unsigned.sh')
     expect(collectStep).toContain('[ "${{ matrix.smoke_platform }}" = "macos" ]')
