@@ -1,6 +1,6 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
-import type { App, BrowserWindow, Display } from 'electron'
+import type { App, BrowserWindow, BrowserWindowConstructorOptions, Display } from 'electron'
 
 export const WINDOW_STATE_FILE = 'window-state.json'
 export const DEFAULT_WINDOW_WIDTH = 1280
@@ -21,6 +21,10 @@ export type WindowStateBounds = Pick<StoredWindowState, 'x' | 'y' | 'width' | 'h
 export type WindowCreateBounds =
   & Partial<Pick<StoredWindowState, 'x' | 'y'>>
   & Pick<StoredWindowState, 'width' | 'height'>
+export type WindowChromeOptions = Pick<
+  BrowserWindowConstructorOptions,
+  'autoHideMenuBar' | 'frame' | 'fullscreenable' | 'titleBarStyle'
+>
 
 export function windowStatePath(app: App, env: NodeJS.ProcessEnv = process.env): string {
   return path.join(env.CLAUDE_CONFIG_DIR || app.getPath('userData'), WINDOW_STATE_FILE)
@@ -132,6 +136,30 @@ export function windowOptionsFromState(state: StoredWindowState | null): WindowC
   return state
     ? { x: state.x, y: state.y, width: state.width, height: state.height }
     : { width: DEFAULT_WINDOW_WIDTH, height: DEFAULT_WINDOW_HEIGHT }
+}
+
+export function windowChromeOptionsForPlatform(
+  platform: NodeJS.Platform = process.platform,
+): WindowChromeOptions {
+  if (platform === 'darwin') {
+    return {
+      titleBarStyle: 'hiddenInset',
+      fullscreenable: false,
+    }
+  }
+
+  if (platform === 'win32') {
+    return {
+      frame: false,
+      autoHideMenuBar: true,
+      fullscreenable: true,
+    }
+  }
+
+  return {
+    titleBarStyle: 'default',
+    fullscreenable: true,
+  }
 }
 
 export function restoreWindowMaximized(window: BrowserWindow, state: StoredWindowState | null) {

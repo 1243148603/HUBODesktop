@@ -14,6 +14,7 @@ import {
   restoreWindowMaximized,
   showMainWindow,
   toggleWindowFullScreen,
+  windowChromeOptionsForPlatform,
   windowOptionsFromState,
   windowStatePath,
   writeWindowState,
@@ -124,6 +125,22 @@ describe('Electron window service', () => {
 
     restoreWindowMaximized({ maximize } as never, state)
     expect(maximize).toHaveBeenCalledTimes(1)
+  })
+
+  it('uses frameless custom chrome only on Windows', () => {
+    expect(windowChromeOptionsForPlatform('win32')).toEqual({
+      frame: false,
+      autoHideMenuBar: true,
+      fullscreenable: true,
+    })
+    expect(windowChromeOptionsForPlatform('darwin')).toEqual({
+      titleBarStyle: 'hiddenInset',
+      fullscreenable: false,
+    })
+    expect(windowChromeOptionsForPlatform('linux')).toEqual({
+      titleBarStyle: 'default',
+      fullscreenable: true,
+    })
   })
 
   it('shows, restores, and focuses the hidden main window when a tray or notification action reopens it', () => {

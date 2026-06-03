@@ -76,11 +76,20 @@ export function buildApplicationMenuTemplate(
   ]
 }
 
-export async function installApplicationMenu(app: App, getMainWindow: () => BrowserWindow | null) {
+export async function installApplicationMenu(
+  app: App,
+  getMainWindow: () => BrowserWindow | null,
+  platform: NodeJS.Platform = process.platform,
+) {
   const { Menu } = await import('electron')
-  const template = buildApplicationMenuTemplate(app.name || 'HUBO', destination => {
+  if (platform === 'win32') {
+    Menu.setApplicationMenu(null)
+    return
+  }
+
+  const template = buildApplicationMenuTemplate(app.name || 'Claude Code Haha', destination => {
     getMainWindow()?.webContents.send(ELECTRON_EVENT_CHANNELS.nativeMenuNavigate, destination)
-  }, process.platform, {
+  }, platform, {
     hide: () => {
       const window = getMainWindow()
       if (!window) {
@@ -94,7 +103,7 @@ export async function installApplicationMenu(app: App, getMainWindow: () => Brow
     },
     toggleFullScreen: () => {
       const window = getMainWindow()
-      if (window) toggleWindowFullScreen(window)
+      if (window) toggleWindowFullScreen(window, platform)
     },
   })
   Menu.setApplicationMenu(Menu.buildFromTemplate(template))

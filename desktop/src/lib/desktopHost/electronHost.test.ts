@@ -36,13 +36,28 @@ describe('electron desktop host', () => {
     expect(invoke).not.toHaveBeenCalled()
   })
 
-  it('does not advertise custom window chrome until Electron frameless drag is implemented', () => {
+  it('advertises custom window chrome for the Electron frameless shell', () => {
     const host = createElectronHost({
       invoke: vi.fn(),
       subscribe: vi.fn(),
     })
 
-    expect(host.capabilities.windowControls).toBe(false)
+    expect(host.capabilities.windowControls).toBe(true)
+  })
+
+  it('forwards drag-region fallback movement through the window dragging IPC channel', async () => {
+    const invoke = vi.fn().mockResolvedValue(undefined)
+    const host = createElectronHost({
+      invoke,
+      subscribe: vi.fn(),
+    })
+
+    await host.window.startDragging({ deltaX: 12, deltaY: -8 })
+
+    expect(invoke).toHaveBeenCalledWith(ELECTRON_IPC_CHANNELS.windowStartDragging, {
+      deltaX: 12,
+      deltaY: -8,
+    })
   })
 
   it('keeps event subscriptions behind named event channels', async () => {

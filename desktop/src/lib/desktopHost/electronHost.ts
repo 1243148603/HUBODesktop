@@ -69,7 +69,7 @@ export function createElectronHost(bridge: ElectronHostBridge): DesktopHost {
       shell: true,
       terminal: true,
       updates: true,
-      windowControls: false,
+      windowControls: true,
       zoom: true,
     },
     runtime: {
@@ -115,7 +115,7 @@ export function createElectronHost(bridge: ElectronHostBridge): DesktopHost {
       minimize: () => invoke(ELECTRON_IPC_CHANNELS.windowMinimize),
       toggleMaximize: () => invoke(ELECTRON_IPC_CHANNELS.windowToggleMaximize),
       close: () => invoke(ELECTRON_IPC_CHANNELS.windowClose),
-      startDragging: () => invoke(ELECTRON_IPC_CHANNELS.windowStartDragging),
+      startDragging: input => invoke(ELECTRON_IPC_CHANNELS.windowStartDragging, input),
       requestAttention: () => invoke(ELECTRON_IPC_CHANNELS.windowRequestAttention),
       focus: () => invoke(ELECTRON_IPC_CHANNELS.windowFocus),
       isMaximized: () => invoke(ELECTRON_IPC_CHANNELS.windowIsMaximized),

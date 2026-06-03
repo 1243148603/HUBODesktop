@@ -125,6 +125,7 @@ describe('Electron application menu service', () => {
     await installApplicationMenu(
       { name: 'HUBO' } as never,
       () => ({ webContents: { send } }) as never,
+      'darwin',
     )
 
     expect(menuMocks.buildFromTemplate).toHaveBeenCalledTimes(1)
@@ -140,6 +141,39 @@ describe('Electron application menu service', () => {
     expect(settingsItem).toBeDefined()
     settingsItem?.click?.({} as never, {} as never, {} as never)
     expect(send).toHaveBeenCalledWith(ELECTRON_EVENT_CHANNELS.nativeMenuNavigate, 'settings')
+  })
+
+  it('clears the native application menu on Windows so custom chrome owns the top bar', async () => {
+    const menuMocks = getElectronMenuMocks()
+    menuMocks.buildFromTemplate.mockClear()
+    menuMocks.setApplicationMenu.mockClear()
+
+    await installApplicationMenu(
+      { name: 'Claude Code Haha' } as never,
+      () => ({ webContents: { send: vi.fn() } }) as never,
+      'win32',
+    )
+
+    expect(menuMocks.buildFromTemplate).not.toHaveBeenCalled()
+    expect(menuMocks.setApplicationMenu).toHaveBeenCalledWith(null)
+  })
+
+  it('keeps the native application menu installed on Linux', async () => {
+    const menuMocks = getElectronMenuMocks()
+    menuMocks.buildFromTemplate.mockClear()
+    menuMocks.setApplicationMenu.mockClear()
+    const send = vi.fn()
+
+    await installApplicationMenu(
+      { name: 'Claude Code Haha' } as never,
+      () => ({ webContents: { send } }) as never,
+      'linux',
+    )
+
+    expect(menuMocks.buildFromTemplate).toHaveBeenCalledTimes(1)
+    expect(menuMocks.setApplicationMenu).toHaveBeenCalledWith({
+      template: menuMocks.buildFromTemplate.mock.calls[0]?.[0],
+    })
   })
 
   it('installs hide as a safe fullscreen-aware window hide before app hide', async () => {
@@ -161,6 +195,7 @@ describe('Electron application menu service', () => {
     await installApplicationMenu(
       { name: 'HUBO', hide: appHide } as never,
       () => window as never,
+      'darwin',
     )
 
     const template = menuMocks.buildFromTemplate.mock.calls[0]?.[0] as MenuItemConstructorOptions[]
@@ -191,6 +226,7 @@ describe('Electron application menu service', () => {
     await installApplicationMenu(
       { name: 'HUBO' } as never,
       () => window as never,
+      'darwin',
     )
 
     const template = menuMocks.buildFromTemplate.mock.calls[0]?.[0] as MenuItemConstructorOptions[]
