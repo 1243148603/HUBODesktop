@@ -808,6 +808,10 @@ export const zh: Record<TranslationKey, string> = {
   'settings.about.socialMedia': '社交媒体',
   'settings.about.updates': '应用更新',
   'settings.about.updatesDesc': '检查更新，下载安装包，并在安装后自动重启。',
+  'settings.about.contributors': '贡献者',
+  'settings.about.role.designDev': '设计/开发',
+  'settings.about.role.architecture': '架构',
+  'settings.about.role.core': '内核',
 
   // Settings > Computer Use
   'settings.tab.computerUse': 'Computer Use',

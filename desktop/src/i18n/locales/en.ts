@@ -806,6 +806,10 @@ export const en = {
   'settings.about.socialMedia': 'Social Media',
   'settings.about.updates': 'App Updates',
   'settings.about.updatesDesc': 'Check GitHub Releases, download the installer, and relaunch after install.',
+  'settings.about.contributors': 'Contributors',
+  'settings.about.role.designDev': 'Design & Development',
+  'settings.about.role.architecture': 'Architecture',
+  'settings.about.role.core': 'Core',
 
   // Settings > Computer Use
   'settings.tab.computerUse': 'Computer Use',

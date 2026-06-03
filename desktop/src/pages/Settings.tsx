@@ -3767,27 +3767,27 @@ function AboutSettings() {
 
       {/* Author */}
       <div className="w-full">
-        <h3 className="text-xs font-medium text-[var(--color-text-tertiary)] uppercase tracking-wider mb-3">贡献者</h3>
+        <h3 className="text-xs font-medium text-[var(--color-text-tertiary)] uppercase tracking-wider mb-3">{t('settings.about.contributors')}</h3>
         <button
           className="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-[var(--color-surface-hover)] transition-colors cursor-pointer"
         >
           <img src="/niya.png" alt="CQU" className="w-4 h-4 opacity-60" />
           <span className="text-sm text-[var(--color-text-primary)]">1243148603</span>
-          <span className="text-xs text-[var(--color-text-tertiary)] ml-auto">设计/开发</span>
+          <span className="text-xs text-[var(--color-text-tertiary)] ml-auto">{t('settings.about.role.designDev')}</span>
         </button>
          <button
           className="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-[var(--color-surface-hover)] transition-colors cursor-pointer"
         >
           <img src="/icons/github.svg" alt="GitHub" className="w-4 h-4 opacity-60" />
           <span className="text-sm text-[var(--color-text-primary)]">NanmiCoder</span>
-          <span className="text-xs text-[var(--color-text-tertiary)] ml-auto">架构</span>
+          <span className="text-xs text-[var(--color-text-tertiary)] ml-auto">{t('settings.about.role.architecture')}</span>
         </button>
           <button
           className="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-[var(--color-surface-hover)] transition-colors cursor-pointer"
         >
           <img src="/icons/github.svg" alt="GitHub" className="w-4 h-4 opacity-60" />
           <span className="text-sm text-[var(--color-text-primary)]">ultraworkers</span>
-          <span className="text-xs text-[var(--color-text-tertiary)] ml-auto">内核</span>
+          <span className="text-xs text-[var(--color-text-tertiary)] ml-auto">{t('settings.about.role.core')}</span>
         </button>
       </div>
 
