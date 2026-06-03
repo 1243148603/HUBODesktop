@@ -228,31 +228,3 @@ cp .env.example .env
 <<<<<<< HEAD
 =======
 
-## 感谢
-
-感谢以下开源项目和社区实践为本项目提供参考与启发：
-
-- [React](https://github.com/facebook/react)：前端工程与组件化 UI 生态。
-- [Tauri](https://github.com/tauri-apps/tauri)：跨端桌面应用能力与工程实践。
-- [cc-switch](https://github.com/farion1231/cc-switch)：模型供应商配置能力参考。
-
----
-
-## ⭐ Star 趋势图
-
-如果这个项目对您有帮助，请给个 ⭐ Star 支持一下，让更多的人看到 Claude Code Haha！
-
-<a href="https://www.star-history.com/#NanmiCoder/cc-haha&Date">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=NanmiCoder/cc-haha&type=Date&theme=dark" />
-    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=NanmiCoder/cc-haha&type=Date" />
-    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=NanmiCoder/cc-haha&type=Date" />
-  </picture>
-</a>
-
----
-
-## Disclaimer
-
-本仓库基于 2026-03-31 从 Anthropic npm registry 泄露的 Claude Code 源码。所有原始源码版权归 [Anthropic](https://www.anthropic.com) 所有。仅供学习和研究用途。
->>>>>>> upstream/main
