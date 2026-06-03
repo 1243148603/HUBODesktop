@@ -24,7 +24,11 @@ describe('provider-aware thinking support', () => {
     originalBedrock = process.env.CLAUDE_CODE_USE_BEDROCK
     originalVertex = process.env.CLAUDE_CODE_USE_VERTEX
     originalFoundry = process.env.CLAUDE_CODE_USE_FOUNDRY
+<<<<<<< HEAD
+    originalExplicitDisabledThinking = process.env.HUBO_SEND_DISABLED_THINKING
+=======
     originalExplicitDisabledThinking = process.env.CC_HAHA_SEND_DISABLED_THINKING
+>>>>>>> upstream/main
 
     delete process.env.CLAUDE_CODE_USE_BEDROCK
     delete process.env.CLAUDE_CODE_USE_VERTEX
@@ -38,7 +42,11 @@ describe('provider-aware thinking support', () => {
     restoreEnv('CLAUDE_CODE_USE_BEDROCK', originalBedrock)
     restoreEnv('CLAUDE_CODE_USE_VERTEX', originalVertex)
     restoreEnv('CLAUDE_CODE_USE_FOUNDRY', originalFoundry)
+<<<<<<< HEAD
+    restoreEnv('HUBO_SEND_DISABLED_THINKING', originalExplicitDisabledThinking)
+=======
     restoreEnv('CC_HAHA_SEND_DISABLED_THINKING', originalExplicitDisabledThinking)
+>>>>>>> upstream/main
     clearCapabilityCache()
   })
 
@@ -71,10 +79,17 @@ describe('provider-aware thinking support', () => {
   })
 
   test('only sends explicit disabled thinking when the provider opts in', () => {
+<<<<<<< HEAD
+    delete process.env.HUBO_SEND_DISABLED_THINKING
+    expect(shouldSendExplicitDisabledThinking()).toBe(false)
+
+    process.env.HUBO_SEND_DISABLED_THINKING = '1'
+=======
     delete process.env.CC_HAHA_SEND_DISABLED_THINKING
     expect(shouldSendExplicitDisabledThinking()).toBe(false)
 
     process.env.CC_HAHA_SEND_DISABLED_THINKING = '1'
+>>>>>>> upstream/main
     expect(shouldSendExplicitDisabledThinking()).toBe(true)
   })
 
@@ -83,7 +98,11 @@ describe('provider-aware thinking support', () => {
     process.env.ANTHROPIC_DEFAULT_SONNET_MODEL = 'deepseek-v4-pro'
     process.env.ANTHROPIC_DEFAULT_SONNET_MODEL_SUPPORTED_CAPABILITIES =
       'thinking,effort,adaptive_thinking,max_effort'
+<<<<<<< HEAD
+    delete process.env.HUBO_SEND_DISABLED_THINKING
+=======
     delete process.env.CC_HAHA_SEND_DISABLED_THINKING
+>>>>>>> upstream/main
     clearCapabilityCache()
 
     expect(modelSupportsThinking('deepseek-v4-pro')).toBe(true)
@@ -95,6 +114,16 @@ describe('provider-aware thinking support', () => {
 
   test('MiniMax preset models declare thinking support without effort passthrough', () => {
     process.env.ANTHROPIC_BASE_URL = 'https://api.minimaxi.com/anthropic'
+<<<<<<< HEAD
+    process.env.ANTHROPIC_DEFAULT_SONNET_MODEL = 'MiniMax-M2.7'
+    delete process.env.ANTHROPIC_DEFAULT_SONNET_MODEL_SUPPORTED_CAPABILITIES
+    clearCapabilityCache()
+
+    expect(modelSupportsThinking('MiniMax-M2.7')).toBe(true)
+    expect(modelSupportsAdaptiveThinking('MiniMax-M2.7')).toBe(false)
+    expect(modelSupportsEffort('MiniMax-M2.7')).toBe(false)
+    expect(modelSupportsMaxEffort('MiniMax-M2.7')).toBe(false)
+=======
     process.env.ANTHROPIC_DEFAULT_SONNET_MODEL = 'MiniMax-M3'
     delete process.env.ANTHROPIC_DEFAULT_SONNET_MODEL_SUPPORTED_CAPABILITIES
     clearCapabilityCache()
@@ -103,6 +132,7 @@ describe('provider-aware thinking support', () => {
     expect(modelSupportsAdaptiveThinking('MiniMax-M3')).toBe(false)
     expect(modelSupportsEffort('MiniMax-M3')).toBe(false)
     expect(modelSupportsMaxEffort('MiniMax-M3')).toBe(false)
+>>>>>>> upstream/main
   })
 
   test('third-party base URLs do not default unknown model names to effort support', () => {
@@ -115,10 +145,17 @@ describe('provider-aware thinking support', () => {
   })
 
   test('side queries inherit explicit disabled thinking for opted-in providers', () => {
+<<<<<<< HEAD
+    delete process.env.HUBO_SEND_DISABLED_THINKING
+    expect(resolveSideQueryThinkingConfig(undefined, 1024)).toBeUndefined()
+
+    process.env.HUBO_SEND_DISABLED_THINKING = '1'
+=======
     delete process.env.CC_HAHA_SEND_DISABLED_THINKING
     expect(resolveSideQueryThinkingConfig(undefined, 1024)).toBeUndefined()
 
     process.env.CC_HAHA_SEND_DISABLED_THINKING = '1'
+>>>>>>> upstream/main
     expect(resolveSideQueryThinkingConfig(undefined, 1024)).toEqual({ type: 'disabled' })
     expect(resolveSideQueryThinkingConfig(false, 1024)).toEqual({ type: 'disabled' })
     expect(resolveSideQueryThinkingConfig(256, 1024)).toEqual({ type: 'enabled', budget_tokens: 256 })

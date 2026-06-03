@@ -7,12 +7,20 @@ if ! command -v agent-browser >/dev/null 2>&1; then
 fi
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+<<<<<<< HEAD
+ARTIFACT_DIR="${ARTIFACT_DIR:-/tmp/hubo-e2e-deepseek-thinking-$$}"
+=======
 ARTIFACT_DIR="${ARTIFACT_DIR:-/tmp/cc-haha-e2e-deepseek-thinking-$$}"
+>>>>>>> upstream/main
 CONFIG_DIR="${ARTIFACT_DIR}/config"
 UPSTREAM_PORT="${UPSTREAM_PORT:-49391}"
 API_PORT="${API_PORT:-49392}"
 WEB_PORT="${WEB_PORT:-49393}"
+<<<<<<< HEAD
+SESSION_NAME="${SESSION_NAME:-hubo-deepseek-thinking-ui-$$}"
+=======
 SESSION_NAME="${SESSION_NAME:-cc-haha-deepseek-thinking-ui-$$}"
+>>>>>>> upstream/main
 
 mkdir -p "${ARTIFACT_DIR}"
 

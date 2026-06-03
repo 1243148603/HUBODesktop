@@ -9,7 +9,10 @@ import { useUpdateStore } from '../stores/updateStore'
 import type { SavedProvider } from '../types/provider'
 import type { ProviderPreset } from '../types/providerPreset'
 import type { AppMode, ChatSendBehavior, ThemeMode, UpdateProxySettings } from '../types/settings'
+<<<<<<< HEAD
+=======
 import { browserHost } from '../lib/desktopHost/browserHost'
+>>>>>>> upstream/main
 
 const MOCK_DELETE_PROVIDER = vi.fn()
 const MOCK_GET_SETTINGS = vi.fn()
@@ -123,6 +126,8 @@ vi.mock('../components/chat/CodeViewer', () => ({
   CodeViewer: ({ code }: { code: string }) => <pre data-testid="code-viewer">{code}</pre>,
 }))
 
+<<<<<<< HEAD
+=======
 function installElectronDesktopHost() {
   window.desktopHost = {
     ...browserHost,
@@ -156,6 +161,7 @@ function installElectronDesktopHost() {
   }
 }
 
+>>>>>>> upstream/main
 describe('Settings > General tab', () => {
   beforeEach(() => {
     vi.useRealTimers()
@@ -173,12 +179,19 @@ describe('Settings > General tab', () => {
     tauriCoreMock.invoke.mockReset()
     tauriCoreMock.invoke.mockResolvedValue(undefined)
     tauriDialogMock.open.mockReset()
+<<<<<<< HEAD
+    tauriDialogMock.open.mockResolvedValue('/Users/test/hubo-data')
+    tauriProcessMock.relaunch.mockReset()
+    tauriProcessMock.relaunch.mockResolvedValue(undefined)
+    delete (window as unknown as { __TAURI_INTERNALS__?: object }).__TAURI_INTERNALS__
+=======
     tauriDialogMock.open.mockResolvedValue('/Users/test/cc-haha-data')
     tauriProcessMock.relaunch.mockReset()
     tauriProcessMock.relaunch.mockResolvedValue(undefined)
     delete (window as unknown as { __TAURI_INTERNALS__?: object }).__TAURI_INTERNALS__
     delete (window as unknown as { __TAURI__?: object }).__TAURI__
     installElectronDesktopHost()
+>>>>>>> upstream/main
     MOCK_GET_SETTINGS.mockResolvedValue({})
     MOCK_UPDATE_SETTINGS.mockResolvedValue({})
     providerStoreState.providers = []
@@ -248,7 +261,11 @@ describe('Settings > General tab', () => {
       appMode: {
         mode: 'default',
         portableDir: null,
+<<<<<<< HEAD
+        defaultPortableDir: '/Applications/HUBO/CLAUDE_CONFIG_DIR',
+=======
         defaultPortableDir: '/Applications/Claude Code Haha/CLAUDE_CONFIG_DIR',
+>>>>>>> upstream/main
         activeConfigDir: null,
         configDirSource: 'system',
       },
@@ -258,9 +275,15 @@ describe('Settings > General tab', () => {
         useSettingsStore.setState({
           appMode: {
             mode,
+<<<<<<< HEAD
+            portableDir: mode === 'portable' ? portableDir ?? '/Applications/HUBO/CLAUDE_CONFIG_DIR' : null,
+            defaultPortableDir: '/Applications/HUBO/CLAUDE_CONFIG_DIR',
+            activeConfigDir: mode === 'portable' ? portableDir ?? '/Applications/HUBO/CLAUDE_CONFIG_DIR' : null,
+=======
             portableDir: mode === 'portable' ? portableDir ?? '/Applications/Claude Code Haha/CLAUDE_CONFIG_DIR' : null,
             defaultPortableDir: '/Applications/Claude Code Haha/CLAUDE_CONFIG_DIR',
             activeConfigDir: mode === 'portable' ? portableDir ?? '/Applications/Claude Code Haha/CLAUDE_CONFIG_DIR' : null,
+>>>>>>> upstream/main
             configDirSource: mode === 'portable' ? 'portable' : 'system',
           },
           appModeRequiresRestart: true,
@@ -397,8 +420,12 @@ describe('Settings > General tab', () => {
     expect(screen.getByText('Enter an HTTP or HTTPS proxy URL.')).toBeInTheDocument()
     expect(saveButton).toBeDisabled()
 
+<<<<<<< HEAD
+    fireEvent.change(proxyInput, { target: { value: '  http://127.0.0.1:7890  ' } })
+=======
     fireEvent.change(proxyInput, { target: { value: '  http://user:p%40ss@127.0.0.1:7890  ' } })
     expect(screen.getByText('HTTP and HTTPS proxy URLs are supported. For authenticated proxies, use http://user:password@127.0.0.1:7890; the URL is saved with network settings.')).toBeInTheDocument()
+>>>>>>> upstream/main
     const timeoutInput = screen.getByLabelText('AI request timeout')
     expect(timeoutInput).toHaveAttribute('type', 'number')
     expect(screen.queryByRole('slider', { name: 'AI request timeout' })).not.toBeInTheDocument()
@@ -413,7 +440,11 @@ describe('Settings > General tab', () => {
       aiRequestTimeoutMs: 180_000,
       proxy: {
         mode: 'manual',
+<<<<<<< HEAD
+        url: 'http://127.0.0.1:7890',
+=======
         url: 'http://user:p%40ss@127.0.0.1:7890',
+>>>>>>> upstream/main
       },
     })
     expect(useUIStore.getState().toasts[useUIStore.getState().toasts.length - 1]).toMatchObject({
@@ -444,6 +475,12 @@ describe('Settings > General tab', () => {
   })
 
   it('keeps data storage at the bottom of General settings', () => {
+<<<<<<< HEAD
+    const tauriWindow = window as unknown as { __TAURI_INTERNALS__?: object }
+    tauriWindow.__TAURI_INTERNALS__ = {}
+
+=======
+>>>>>>> upstream/main
     render(<Settings />)
 
     fireEvent.click(screen.getByText('General'))
@@ -456,13 +493,23 @@ describe('Settings > General tab', () => {
   })
 
   it('lets desktop users choose a portable data directory and relaunch immediately', async () => {
+<<<<<<< HEAD
+    const tauriWindow = window as unknown as { __TAURI_INTERNALS__?: object }
+    tauriWindow.__TAURI_INTERNALS__ = {}
+
+=======
+>>>>>>> upstream/main
     render(<Settings />)
 
     fireEvent.click(screen.getByText('General'))
     fireEvent.click(screen.getByRole('button', { name: 'Choose Folder' }))
 
     await waitFor(() => {
+<<<<<<< HEAD
+      expect(screen.getByLabelText('Portable data directory')).toHaveValue('/Users/test/hubo-data')
+=======
       expect(screen.getByLabelText('Portable data directory')).toHaveValue('/Users/test/cc-haha-data')
+>>>>>>> upstream/main
     })
 
     fireEvent.click(screen.getByRole('button', { name: 'Use This Folder and Restart' }))
@@ -470,19 +517,34 @@ describe('Settings > General tab', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Save and Restart' }))
 
     await waitFor(() => {
+<<<<<<< HEAD
+      expect(useSettingsStore.getState().setAppMode).toHaveBeenCalledWith('portable', '/Users/test/hubo-data')
+=======
       expect(useSettingsStore.getState().setAppMode).toHaveBeenCalledWith('portable', '/Users/test/cc-haha-data')
+>>>>>>> upstream/main
       expect(tauriCoreMock.invoke).toHaveBeenCalledWith('prepare_for_app_mode_restart')
       expect(tauriProcessMock.relaunch).toHaveBeenCalledTimes(1)
     })
   })
 
   it('switches back to the system directory without deleting portable data', async () => {
+<<<<<<< HEAD
+    const tauriWindow = window as unknown as { __TAURI_INTERNALS__?: object }
+    tauriWindow.__TAURI_INTERNALS__ = {}
+    useSettingsStore.setState({
+      appMode: {
+        mode: 'portable',
+        portableDir: '/Users/test/hubo-data',
+        defaultPortableDir: '/Applications/HUBO/CLAUDE_CONFIG_DIR',
+        activeConfigDir: '/Users/test/hubo-data',
+=======
     useSettingsStore.setState({
       appMode: {
         mode: 'portable',
         portableDir: '/Users/test/cc-haha-data',
         defaultPortableDir: '/Applications/Claude Code Haha/CLAUDE_CONFIG_DIR',
         activeConfigDir: '/Users/test/cc-haha-data',
+>>>>>>> upstream/main
         configDirSource: 'portable',
       },
     })
@@ -503,6 +565,12 @@ describe('Settings > General tab', () => {
   })
 
   it('validates portable directory input and lets users reset to the app-side folder', async () => {
+<<<<<<< HEAD
+    const tauriWindow = window as unknown as { __TAURI_INTERNALS__?: object }
+    tauriWindow.__TAURI_INTERNALS__ = {}
+
+=======
+>>>>>>> upstream/main
     render(<Settings />)
 
     fireEvent.click(screen.getByText('General'))
@@ -513,11 +581,20 @@ describe('Settings > General tab', () => {
     expect(screen.getByText('Choose or enter a portable data directory first.')).toBeInTheDocument()
 
     fireEvent.click(screen.getByRole('button', { name: 'Use the default portable folder beside the app' }))
+<<<<<<< HEAD
+    expect(input).toHaveValue('/Applications/HUBO/CLAUDE_CONFIG_DIR')
+=======
     expect(input).toHaveValue('/Applications/Claude Code Haha/CLAUDE_CONFIG_DIR')
+>>>>>>> upstream/main
     expect(screen.queryByText('Choose or enter a portable data directory first.')).not.toBeInTheDocument()
   })
 
   it('shows folder picker failures as an inline storage error', async () => {
+<<<<<<< HEAD
+    const tauriWindow = window as unknown as { __TAURI_INTERNALS__?: object }
+    tauriWindow.__TAURI_INTERNALS__ = {}
+=======
+>>>>>>> upstream/main
     tauriDialogMock.open.mockRejectedValueOnce(new Error('dialog unavailable'))
 
     render(<Settings />)
@@ -529,11 +606,20 @@ describe('Settings > General tab', () => {
   })
 
   it('treats external CLAUDE_CONFIG_DIR as the controlling data source', async () => {
+<<<<<<< HEAD
+    const tauriWindow = window as unknown as { __TAURI_INTERNALS__?: object }
+    tauriWindow.__TAURI_INTERNALS__ = {}
+=======
+>>>>>>> upstream/main
     useSettingsStore.setState({
       appMode: {
         mode: 'portable',
         portableDir: '/env/claude-data',
+<<<<<<< HEAD
+        defaultPortableDir: '/Applications/HUBO/CLAUDE_CONFIG_DIR',
+=======
         defaultPortableDir: '/Applications/Claude Code Haha/CLAUDE_CONFIG_DIR',
+>>>>>>> upstream/main
         activeConfigDir: '/env/claude-data',
         configDirSource: 'environment',
       },
@@ -554,6 +640,12 @@ describe('Settings > General tab', () => {
   })
 
   it('keeps mode switch confirmation cancelable before restart starts', async () => {
+<<<<<<< HEAD
+    const tauriWindow = window as unknown as { __TAURI_INTERNALS__?: object }
+    tauriWindow.__TAURI_INTERNALS__ = {}
+
+=======
+>>>>>>> upstream/main
     render(<Settings />)
 
     fireEvent.click(screen.getByText('General'))
@@ -569,6 +661,11 @@ describe('Settings > General tab', () => {
   })
 
   it('shows restart preparation failures without relaunching', async () => {
+<<<<<<< HEAD
+    const tauriWindow = window as unknown as { __TAURI_INTERNALS__?: object }
+    tauriWindow.__TAURI_INTERNALS__ = {}
+=======
+>>>>>>> upstream/main
     tauriCoreMock.invoke.mockRejectedValueOnce(new Error('restart preparation failed'))
 
     render(<Settings />)
@@ -582,6 +679,11 @@ describe('Settings > General tab', () => {
   })
 
   it('shows the saved restart-required state inside the storage section', () => {
+<<<<<<< HEAD
+    const tauriWindow = window as unknown as { __TAURI_INTERNALS__?: object }
+    tauriWindow.__TAURI_INTERNALS__ = {}
+=======
+>>>>>>> upstream/main
     useSettingsStore.setState({ appModeRequiresRestart: true })
 
     render(<Settings />)
@@ -726,7 +828,11 @@ describe('Settings > General tab', () => {
       expect(desktopNotificationsMock.requestDesktopNotificationPermission).toHaveBeenCalledTimes(1)
     })
     expect(desktopNotificationsMock.notifyDesktop).toHaveBeenCalledWith({
+<<<<<<< HEAD
+      title: 'HUBO notifications are enabled',
+=======
       title: 'Claude Code Haha notifications are enabled',
+>>>>>>> upstream/main
       body: 'Permission prompts and completed agent replies will now use system notifications.',
     })
   })
@@ -1330,7 +1436,11 @@ describe('Settings > About tab', () => {
     useUpdateStore.setState({
       status: 'available',
       availableVersion: '0.1.5',
+<<<<<<< HEAD
+      releaseNotes: '# HUBO v0.1.5\n\n- Fixed updater rendering\n- Added markdown support',
+=======
       releaseNotes: '# Claude Code Haha v0.1.5\n\n- Fixed updater rendering\n- Added markdown support',
+>>>>>>> upstream/main
       progressPercent: 0,
       downloadedBytes: 0,
       totalBytes: null,
@@ -1347,7 +1457,11 @@ describe('Settings > About tab', () => {
   it('renders release notes with markdown formatting', async () => {
     render(<Settings />)
 
+<<<<<<< HEAD
+    expect(await screen.findByRole('heading', { name: 'HUBO v0.1.5' })).toBeInTheDocument()
+=======
     expect(await screen.findByRole('heading', { name: 'Claude Code Haha v0.1.5' })).toBeInTheDocument()
+>>>>>>> upstream/main
     expect(screen.getByText('Fixed updater rendering')).toBeInTheDocument()
     expect(screen.getByText('Added markdown support')).toBeInTheDocument()
   })
@@ -1356,7 +1470,11 @@ describe('Settings > About tab', () => {
     useUpdateStore.setState({
       status: 'downloading',
       availableVersion: '0.1.5',
+<<<<<<< HEAD
+      releaseNotes: '# HUBO v0.1.5',
+=======
       releaseNotes: '# Claude Code Haha v0.1.5',
+>>>>>>> upstream/main
       progressPercent: 0,
       downloadedBytes: 1536,
       totalBytes: null,

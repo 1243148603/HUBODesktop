@@ -10,7 +10,11 @@ beforeAll(() => {
 })
 
 const { bridge } = vi.hoisted(() => ({
+<<<<<<< HEAD
+  bridge: { open: vi.fn(), navigate: vi.fn(), setBounds: vi.fn(), setVisible: vi.fn(), close: vi.fn(), eval: vi.fn() },
+=======
   bridge: { open: vi.fn(), navigate: vi.fn(), setBounds: vi.fn(), setVisible: vi.fn(), close: vi.fn(), message: vi.fn() },
+>>>>>>> upstream/main
 }))
 vi.mock('../../lib/previewBridge', () => ({ previewBridge: bridge }))
 vi.mock('@tauri-apps/api/event', () => ({ listen: () => Promise.resolve(() => {}) }))
@@ -70,11 +74,19 @@ describe('BrowserSurface', () => {
     expect(bridge.close).toHaveBeenCalled()
   })
 
+<<<<<<< HEAD
+  it('截图 button triggers a capture via preview_eval', () => {
+    useBrowserPanelStore.getState().open('s1', 'http://localhost:5173/')
+    render(<BrowserSurface sessionId="s1" />)
+    fireEvent.click(screen.getByLabelText('截图'))
+    expect(bridge.eval).toHaveBeenCalledWith(expect.stringContaining('capture'))
+=======
   it('截图 button triggers a structured capture message', () => {
     useBrowserPanelStore.getState().open('s1', 'http://localhost:5173/')
     render(<BrowserSurface sessionId="s1" />)
     fireEvent.click(screen.getByLabelText('截图'))
     expect(bridge.message).toHaveBeenCalledWith({ v: 1, type: 'capture', kind: 'full' })
+>>>>>>> upstream/main
   })
 
   it('places preview action buttons on the right side of the address toolbar', () => {
@@ -93,10 +105,17 @@ describe('BrowserSurface', () => {
     render(<BrowserSurface sessionId="s1" />)
     fireEvent.click(screen.getByLabelText('选择元素'))
     expect(useBrowserPanelStore.getState().bySession['s1']!.pickerActive).toBe(true)
+<<<<<<< HEAD
+    expect(bridge.eval).toHaveBeenCalledWith(expect.stringContaining('enter-picker'))
+    fireEvent.click(screen.getByLabelText('选择元素'))
+    expect(useBrowserPanelStore.getState().bySession['s1']!.pickerActive).toBe(false)
+    expect(bridge.eval).toHaveBeenLastCalledWith(expect.stringContaining('exit-picker'))
+=======
     expect(bridge.message).toHaveBeenCalledWith({ v: 1, type: 'enter-picker' })
     fireEvent.click(screen.getByLabelText('选择元素'))
     expect(useBrowserPanelStore.getState().bySession['s1']!.pickerActive).toBe(false)
     expect(bridge.message).toHaveBeenLastCalledWith({ v: 1, type: 'exit-picker' })
+>>>>>>> upstream/main
   })
 
   it('renders the loading indicator while the session is loading (open starts loading)', () => {

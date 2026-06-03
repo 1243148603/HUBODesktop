@@ -89,6 +89,8 @@ describe('OpenAI Codex OAuth client', () => {
     }
   })
 
+<<<<<<< HEAD
+=======
   test('exchanges authorization code through configured proxy fetch options', async () => {
     const originalFetch = globalThis.fetch
     let tokenRequestInit: RequestInit | undefined
@@ -123,6 +125,7 @@ describe('OpenAI Codex OAuth client', () => {
     }
   })
 
+>>>>>>> upstream/main
   test('refreshes tokens with Codex-compatible token request headers', async () => {
     const originalFetch = globalThis.fetch
     let tokenRequestBody = ''
@@ -155,6 +158,8 @@ describe('OpenAI Codex OAuth client', () => {
     }
   })
 
+<<<<<<< HEAD
+=======
   test('refreshes tokens through configured proxy fetch options', async () => {
     const originalFetch = globalThis.fetch
     let tokenRequestInit: RequestInit | undefined
@@ -185,6 +190,7 @@ describe('OpenAI Codex OAuth client', () => {
     }
   })
 
+>>>>>>> upstream/main
   test('includes sanitized token error response details for diagnostics', async () => {
     const originalFetch = globalThis.fetch
 

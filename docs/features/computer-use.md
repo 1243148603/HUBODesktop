@@ -138,7 +138,11 @@ open "x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapt
 ### 4. 启动
 
 ```bash
+<<<<<<< HEAD
+./bin/hubo
+=======
 ./bin/claude-haha
+>>>>>>> upstream/main
 ```
 
 ### 5. 使用
@@ -166,11 +170,19 @@ open "x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapt
 如果你只想使用普通 Coding Agent，不希望暴露 `computer-use` MCP 工具，可以使用任一方式禁用：
 
 ```bash
+<<<<<<< HEAD
+hubo --no-computer-use
+CLAUDE_COMPUTER_USE_ENABLED=0 hubo
+```
+
+也可以写入全局配置文件 `~/.claude/hubo/computer-use-config.json`：
+=======
 claude-haha --no-computer-use
 CLAUDE_COMPUTER_USE_ENABLED=0 claude-haha
 ```
 
 也可以写入全局配置文件 `~/.claude/cc-haha/computer-use-config.json`：
+>>>>>>> upstream/main
 
 ```json
 {

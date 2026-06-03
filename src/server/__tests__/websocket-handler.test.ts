@@ -1,7 +1,10 @@
 import { afterEach, describe, expect, it, mock, spyOn } from 'bun:test'
 import type { ServerWebSocket } from 'bun'
 import {
+<<<<<<< HEAD
+=======
   __markPrewarmPendingForTests,
+>>>>>>> upstream/main
   __resetWebSocketHandlerStateForTests,
   closeSessionConnection,
   getActiveSessionIds,
@@ -136,6 +139,8 @@ describe('WebSocket handler session isolation', () => {
     expect(setTimeoutSpy).toHaveBeenCalled()
     expect(setTimeoutSpy.mock.calls[0]?.[1]).toBeGreaterThan(30_000)
   })
+<<<<<<< HEAD
+=======
 
   it('does not forward prewarm startup status to a reconnecting client', async () => {
     const sessionId = `prewarm-reconnect-${crypto.randomUUID()}`
@@ -162,4 +167,5 @@ describe('WebSocket handler session isolation', () => {
     const secondMessages = second.sent.map((payload) => JSON.parse(payload))
     expect(secondMessages).not.toContainEqual({ type: 'status', state: 'thinking' })
   })
+>>>>>>> upstream/main
 })

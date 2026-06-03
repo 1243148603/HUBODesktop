@@ -3,7 +3,11 @@ import { sessionsApi } from '../api/sessions'
 import { dropSession as dropVirtualHeightSession } from '../components/chat/virtualHeightCache'
 import { destroyTerminalRuntime } from '../lib/terminalRuntime'
 
+<<<<<<< HEAD
+const TAB_STORAGE_KEY = 'hubo-open-tabs'
+=======
 const TAB_STORAGE_KEY = 'cc-haha-open-tabs'
+>>>>>>> upstream/main
 
 export const SETTINGS_TAB_ID = '__settings__'
 export const SCHEDULED_TAB_ID = '__scheduled__'

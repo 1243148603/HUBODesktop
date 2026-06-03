@@ -12,7 +12,11 @@ export function resolveBundledCliPathFromExecPath(
 ): string | null {
   const execName = path.basename(execPath)
 
+<<<<<<< HEAD
+  if (execName.startsWith('hubo-sidecar')) {
+=======
   if (execName.startsWith('claude-sidecar')) {
+>>>>>>> upstream/main
     return execPath
   }
 
@@ -47,7 +51,11 @@ export function resolveClaudeCliLauncher(options?: {
   }
 
   const cliBaseName = path.basename(command)
+<<<<<<< HEAD
+  if (cliBaseName.startsWith('hubo-sidecar')) {
+=======
   if (cliBaseName.startsWith('claude-sidecar')) {
+>>>>>>> upstream/main
     return {
       command,
       kind: 'sidecar',

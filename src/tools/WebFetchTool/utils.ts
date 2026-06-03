@@ -87,7 +87,11 @@ export function shouldSkipWebFetchPreflight(
   // Desktop sessions often route through third-party providers or constrained
   // corporate networks where Anthropic's domain preflight fails despite the
   // actual target URL being reachable through the configured provider path.
+<<<<<<< HEAD
+  return Boolean(process.env.HUBO_DESKTOP_SERVER_URL)
+=======
   return Boolean(process.env.CC_HAHA_DESKTOP_SERVER_URL)
+>>>>>>> upstream/main
 }
 
 export function clearWebFetchCache(): void {

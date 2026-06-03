@@ -16,12 +16,21 @@ BASE_URL="http://127.0.0.1:${API_PORT}"
 WEB_URL="http://127.0.0.1:${WEB_PORT}/?serverUrl=${BASE_URL}"
 
 RUN_ID="$(date +%s)-$RANDOM"
+<<<<<<< HEAD
+SESSION_NAME="hubo-install-e2e-${RUN_ID}"
+ARTIFACT_DIR="$(mktemp -d "/tmp/hubo-install-e2e-${RUN_ID}-XXXX")"
+SERVER_LOG="${ARTIFACT_DIR}/server.log"
+WEB_LOG="${ARTIFACT_DIR}/web.log"
+
+if [[ "${HUBO_E2E_USE_REAL_CONFIG:-1}" == "1" ]]; then
+=======
 SESSION_NAME="cc-haha-install-e2e-${RUN_ID}"
 ARTIFACT_DIR="$(mktemp -d "/tmp/cc-haha-install-e2e-${RUN_ID}-XXXX")"
 SERVER_LOG="${ARTIFACT_DIR}/server.log"
 WEB_LOG="${ARTIFACT_DIR}/web.log"
 
 if [[ "${CC_HAHA_E2E_USE_REAL_CONFIG:-1}" == "1" ]]; then
+>>>>>>> upstream/main
   CONFIG_DIR="${CLAUDE_CONFIG_DIR:-$HOME/.claude}"
 else
   CONFIG_DIR="${CLAUDE_CONFIG_DIR:-${ARTIFACT_DIR}/claude-config}"

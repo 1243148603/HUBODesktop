@@ -1,5 +1,9 @@
 import { describe, expect, test } from 'bun:test'
+<<<<<<< HEAD
+import { resolveDesktopSmokeRuntimeSelection } from './execute'
+=======
 import { buildDesktopSmokeBrowserEnv, resolveDesktopSmokeRuntimeSelection } from './execute'
+>>>>>>> upstream/main
 
 describe('desktop smoke runtime selection', () => {
   test('lets current-runtime use the desktop default active provider', () => {
@@ -30,6 +34,8 @@ describe('desktop smoke runtime selection', () => {
     })
   })
 })
+<<<<<<< HEAD
+=======
 
 describe('desktop smoke browser environment', () => {
   test('scopes agent-browser to a temporary session and bypasses loopback proxy traffic', () => {
@@ -54,3 +60,4 @@ describe('desktop smoke browser environment', () => {
     })
   })
 })
+>>>>>>> upstream/main

@@ -41,7 +41,11 @@ const PROVIDER_MANAGED_ENV_VARS = new Set([
   'CLAUDE_CODE_SKIP_VERTEX_AUTH',
   'CLAUDE_CODE_SKIP_FOUNDRY_AUTH',
   'CLAUDE_CODE_SKIP_AZURE_OPENAI_AUTH',
+<<<<<<< HEAD
+  'HUBO_OPENAI_OAUTH_PROVIDER',
+=======
   'CC_HAHA_OPENAI_OAUTH_PROVIDER',
+>>>>>>> upstream/main
   'OPENAI_CODEX_OAUTH_FILE',
   // Model defaults — often set to provider-specific ID formats
   'ANTHROPIC_MODEL',

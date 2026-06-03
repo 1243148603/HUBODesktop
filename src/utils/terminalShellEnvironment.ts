@@ -6,7 +6,11 @@ import { isEnvTruthy } from './envUtils.js'
 import { logForDebugging } from './debug.js'
 
 const TERMINAL_SHELL_ENV_TIMEOUT_MS = 5000
+<<<<<<< HEAD
+const TERMINAL_ENV_MARKER = '__HUBO_TERMINAL_ENV_START__'
+=======
 const TERMINAL_ENV_MARKER = '__CC_HAHA_TERMINAL_ENV_START__'
+>>>>>>> upstream/main
 
 let cachedTerminalShellEnv:
   | Promise<Record<string, string> | null>
@@ -104,7 +108,11 @@ async function captureTerminalShellEnvironment(
 ): Promise<Record<string, string> | null> {
   if (
     process.platform === 'win32' ||
+<<<<<<< HEAD
+    isEnvTruthy(baseEnv.HUBO_DISABLE_TERMINAL_SHELL_ENV) ||
+=======
     isEnvTruthy(baseEnv.CC_HAHA_DISABLE_TERMINAL_SHELL_ENV) ||
+>>>>>>> upstream/main
     // Direct terminal launches already inherit shell env; spawning an
     // interactive login shell here can interfere with the active TTY.
     (process.stdin.isTTY && process.stdout.isTTY)

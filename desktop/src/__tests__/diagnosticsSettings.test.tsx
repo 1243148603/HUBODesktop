@@ -92,11 +92,19 @@ describe('Settings > Diagnostics tab', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     diagnosticsApiMock.getStatus.mockResolvedValue({
+<<<<<<< HEAD
+      logDir: '/tmp/claude/hubo/diagnostics',
+      diagnosticsPath: '/tmp/claude/hubo/diagnostics/diagnostics.jsonl',
+      cliDiagnosticsPath: '/tmp/claude/hubo/diagnostics/cli-diagnostics.jsonl',
+      runtimeErrorsPath: '/tmp/claude/hubo/diagnostics/runtime-errors.log',
+      exportDir: '/tmp/claude/hubo/diagnostics/exports',
+=======
       logDir: '/tmp/claude/cc-haha/diagnostics',
       diagnosticsPath: '/tmp/claude/cc-haha/diagnostics/diagnostics.jsonl',
       cliDiagnosticsPath: '/tmp/claude/cc-haha/diagnostics/cli-diagnostics.jsonl',
       runtimeErrorsPath: '/tmp/claude/cc-haha/diagnostics/runtime-errors.log',
       exportDir: '/tmp/claude/cc-haha/diagnostics/exports',
+>>>>>>> upstream/main
       retentionDays: 7,
       maxBytes: 50 * 1024 * 1024,
       totalBytes: 4096,
@@ -120,8 +128,13 @@ describe('Settings > Diagnostics tab', () => {
     })
     diagnosticsApiMock.exportBundle.mockResolvedValue({
       bundle: {
+<<<<<<< HEAD
+        path: '/tmp/claude/hubo/diagnostics/exports/hubo-diagnostics.tar.gz',
+        fileName: 'hubo-diagnostics.tar.gz',
+=======
         path: '/tmp/claude/cc-haha/diagnostics/exports/cc-haha-diagnostics.tar.gz',
         fileName: 'cc-haha-diagnostics.tar.gz',
+>>>>>>> upstream/main
         bytes: 1024,
       },
     })
@@ -129,8 +142,13 @@ describe('Settings > Diagnostics tab', () => {
     diagnosticsApiMock.clear.mockResolvedValue({ ok: true })
     doctorRepairMock.runDoctorRepair.mockResolvedValue({
       local: {
+<<<<<<< HEAD
+        removedKeys: ['hubo-open-tabs', 'hubo-session-runtime'],
+        missingKeys: ['hubo-theme', 'hubo-locale', 'hubo.persistence.schemaVersion'],
+=======
         removedKeys: ['cc-haha-open-tabs', 'cc-haha-session-runtime'],
         missingKeys: ['cc-haha-theme', 'cc-haha-locale', 'cc-haha.persistence.schemaVersion'],
+>>>>>>> upstream/main
         failedKeys: [],
       },
       server: {
@@ -149,7 +167,11 @@ describe('Settings > Diagnostics tab', () => {
     fireEvent.click(screen.getByText('Diagnostics'))
 
     expect(await screen.findByText('Log directory')).toBeInTheDocument()
+<<<<<<< HEAD
+    expect(screen.getByText('/tmp/claude/hubo/diagnostics')).toBeInTheDocument()
+=======
     expect(screen.getByText('/tmp/claude/cc-haha/diagnostics')).toBeInTheDocument()
+>>>>>>> upstream/main
     expect(screen.getByRole('button', { name: /Export Bundle/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /Copy Error Summary/i })).toBeInTheDocument()
     expect(screen.getByText('cli_start_failed')).toBeInTheDocument()
@@ -166,7 +188,11 @@ describe('Settings > Diagnostics tab', () => {
     await waitFor(() => {
       expect(diagnosticsApiMock.exportBundle).toHaveBeenCalled()
     })
+<<<<<<< HEAD
+    expect(await screen.findByText('/tmp/claude/hubo/diagnostics/exports/hubo-diagnostics.tar.gz')).toBeInTheDocument()
+=======
     expect(await screen.findByText('/tmp/claude/cc-haha/diagnostics/exports/cc-haha-diagnostics.tar.gz')).toBeInTheDocument()
+>>>>>>> upstream/main
   })
 
   it('asks with the shared confirm dialog before clearing diagnostics', async () => {
@@ -240,9 +266,15 @@ describe('Settings > Diagnostics tab', () => {
   })
 
   it('runs Doctor from Diagnostics without clearing unrelated desktop state', async () => {
+<<<<<<< HEAD
+    window.localStorage.setItem('hubo-open-tabs', '{"activeTabId":"__settings__"}')
+    window.localStorage.setItem('hubo-theme', 'dark')
+    window.localStorage.setItem('hubo-chat-history', 'keep')
+=======
     window.localStorage.setItem('cc-haha-open-tabs', '{"activeTabId":"__settings__"}')
     window.localStorage.setItem('cc-haha-theme', 'dark')
     window.localStorage.setItem('cc-haha-chat-history', 'keep')
+>>>>>>> upstream/main
 
     render(<Settings />)
 
@@ -255,6 +287,10 @@ describe('Settings > Diagnostics tab', () => {
 
     const toasts = useUIStore.getState().toasts
     expect(toasts[toasts.length - 1]?.message).toContain('Doctor')
+<<<<<<< HEAD
+    expect(window.localStorage.getItem('hubo-chat-history')).toBe('keep')
+=======
     expect(window.localStorage.getItem('cc-haha-chat-history')).toBe('keep')
+>>>>>>> upstream/main
   })
 })

@@ -1,3 +1,11 @@
+<<<<<<< HEAD
+import { describe, expect, it } from 'vitest'
+import { pathToComposerAttachment } from './composerAttachments'
+
+describe('composer attachment payloads', () => {
+  it('keeps many selected desktop project files as paths instead of request-body data', () => {
+    const projectRoot = '/tmp/hubo-issue-444-regression'
+=======
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { browserHost } from './desktopHost/browserHost'
 import { pathToComposerAttachment, selectNativeFileAttachments } from './composerAttachments'
@@ -9,6 +17,7 @@ describe('composer attachment payloads', () => {
 
   it('keeps many selected desktop project files as paths instead of request-body data', () => {
     const projectRoot = '/tmp/cc-haha-issue-444-regression'
+>>>>>>> upstream/main
     const files = Array.from({ length: 12 }, (_, index) => (
       `${projectRoot}/assets/large-${index + 1}.bin`
     ))
@@ -36,6 +45,8 @@ describe('composer attachment payloads', () => {
     expect(pathOnlyPayload.length).toBeLessThan(3 * 1024)
     expect(pathOnlyAttachments.every((attachment) => attachment.path && !attachment.data)).toBe(true)
   })
+<<<<<<< HEAD
+=======
 
   it('selects native file attachments through the injected desktop host', async () => {
     const open = vi.fn().mockResolvedValue(['/workspace/a.txt', '/workspace/b.log'])
@@ -61,4 +72,5 @@ describe('composer attachment payloads', () => {
       '/workspace/b.log',
     ])
   })
+>>>>>>> upstream/main
 })

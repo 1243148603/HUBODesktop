@@ -9,6 +9,18 @@ import { useTabStore, SETTINGS_TAB_ID, SCHEDULED_TAB_ID } from '../../stores/tab
 import { useChatStore } from '../../stores/chatStore'
 import { useOpenTargetStore } from '../../stores/openTargetStore'
 import { desktopUiPreferencesApi, type SidebarProjectPreferences } from '../../api/desktopUiPreferences'
+<<<<<<< HEAD
+
+const isTauri = typeof window !== 'undefined' && ('__TAURI_INTERNALS__' in window || '__TAURI__' in window)
+const isWindows = typeof navigator !== 'undefined' && /Win/.test(navigator.platform)
+const SESSION_LIST_AUTO_REFRESH_MS = 30_000
+const SESSION_LIST_FOCUS_REFRESH_MIN_MS = 5_000
+const PROJECT_ORDER_STORAGE_KEY = 'hubo-sidebar-project-order'
+const PROJECT_PINNED_STORAGE_KEY = 'hubo-sidebar-pinned-projects'
+const PROJECT_HIDDEN_STORAGE_KEY = 'hubo-sidebar-hidden-projects'
+const PROJECT_ORGANIZATION_STORAGE_KEY = 'hubo-sidebar-project-organization'
+const PROJECT_SORT_STORAGE_KEY = 'hubo-sidebar-project-sort'
+=======
 import { getDesktopHost } from '../../lib/desktopHost'
 import { publicAssetPath } from '../../lib/publicAsset'
 
@@ -23,6 +35,7 @@ const PROJECT_PINNED_STORAGE_KEY = 'cc-haha-sidebar-pinned-projects'
 const PROJECT_HIDDEN_STORAGE_KEY = 'cc-haha-sidebar-hidden-projects'
 const PROJECT_ORGANIZATION_STORAGE_KEY = 'cc-haha-sidebar-project-organization'
 const PROJECT_SORT_STORAGE_KEY = 'cc-haha-sidebar-project-sort'
+>>>>>>> upstream/main
 const PROJECT_GROUP_VISIBLE_COUNT = 6
 const PROJECT_GROUP_SCROLL_COUNT = 12
 
@@ -349,7 +362,11 @@ export function Sidebar({ isMobile = false, onRequestClose }: SidebarProps) {
   const createSessionFromExistingFolder = useCallback(async () => {
     setProjectHeaderMenu(null)
     setProjectHeaderSubmenu(null)
+<<<<<<< HEAD
+    if (!isTauri) {
+=======
     if (!canUseNativeDialogs) {
+>>>>>>> upstream/main
       addToast({
         type: 'error',
         message: t('sidebar.chooseProjectFolderUnavailable'),
@@ -357,7 +374,12 @@ export function Sidebar({ isMobile = false, onRequestClose }: SidebarProps) {
       return
     }
     try {
+<<<<<<< HEAD
+      const { open } = await import('@tauri-apps/plugin-dialog')
+      const selected = await open({
+=======
       const selected = await getDesktopHost().dialogs.open({
+>>>>>>> upstream/main
         directory: true,
         multiple: false,
         title: t('sidebar.useExistingFolder'),
@@ -574,6 +596,27 @@ export function Sidebar({ isMobile = false, onRequestClose }: SidebarProps) {
     setRenameValue('')
   }, [renamingId, renameValue, renameSession])
 
+<<<<<<< HEAD
+  const startDraggingRef = useRef<(() => Promise<void>) | null>(null)
+
+  useEffect(() => {
+    if (!isTauri) return
+    import('@tauri-apps/api/window')
+      .then(({ getCurrentWindow }) => {
+        const win = getCurrentWindow()
+        startDraggingRef.current = () => win.startDragging()
+      })
+      .catch(() => {})
+  }, [])
+
+  const handleSidebarDrag = useCallback((e: React.MouseEvent) => {
+    if (e.button !== 0) return
+    if ((e.target as HTMLElement).closest('button, input, textarea, select, a, [role="button"]')) return
+    startDraggingRef.current?.()
+  }, [])
+
+=======
+>>>>>>> upstream/main
   useEffect(() => {
     if (!isBatchMode) return
 
@@ -597,10 +640,20 @@ export function Sidebar({ isMobile = false, onRequestClose }: SidebarProps) {
 
   return (
     <aside
+<<<<<<< HEAD
+      onMouseDown={handleSidebarDrag}
+=======
+>>>>>>> upstream/main
       className="sidebar-panel relative h-full flex flex-col bg-[var(--color-surface-sidebar)] border-r border-[var(--color-border)] select-none"
       data-state={expanded ? 'open' : 'closed'}
       aria-label="Sidebar"
     >
+<<<<<<< HEAD
+      <div className={`px-3 pb-2 ${isTauri && !isWindows ? 'pt-[44px]' : 'pt-3'}`}>
+        <div className={`flex ${expanded ? 'items-center justify-between gap-3' : 'flex-col items-center gap-2'}`}>
+          <div className={`flex min-w-0 items-center ${expanded ? 'gap-2.5' : 'justify-center'}`}>
+            <img src="/app-icon.png" alt="" className="h-8 w-8 flex-shrink-0" />
+=======
       <div
         data-testid="sidebar-title-region"
         data-desktop-drag-region
@@ -609,10 +662,17 @@ export function Sidebar({ isMobile = false, onRequestClose }: SidebarProps) {
         <div className={`flex ${expanded ? 'items-center justify-between gap-3' : 'flex-col items-center gap-2'}`}>
           <div className={`flex min-w-0 items-center ${expanded ? 'gap-2.5' : 'justify-center'}`}>
             <img src={publicAssetPath('app-icon.png')} alt="" className="h-8 w-8 flex-shrink-0" />
+>>>>>>> upstream/main
             <span
               className={`sidebar-copy ${expanded ? 'sidebar-copy--visible' : 'sidebar-copy--hidden'} text-[13px] font-semibold tracking-tight text-[var(--color-text-primary)]`}
               style={{ fontFamily: 'var(--font-headline)' }}
             >
+<<<<<<< HEAD
+              HUBO
+            </span>
+          </div>
+          <div className={`flex items-center ${expanded ? 'gap-1.5' : 'flex-col gap-2'}`}>
+=======
               Claude Code <span className="text-[var(--color-primary-container)]">Haha</span>
             </span>
           </div>
@@ -628,6 +688,7 @@ export function Sidebar({ isMobile = false, onRequestClose }: SidebarProps) {
             >
               <GitHubIcon />
             </a>
+>>>>>>> upstream/main
             {isMobile ? (
               <button
                 type="button"
@@ -1899,6 +1960,8 @@ function formatRelativeTime(
   return new Intl.DateTimeFormat(undefined, { month: 'numeric', day: 'numeric' }).format(date)
 }
 
+<<<<<<< HEAD
+=======
 function GitHubIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -1906,6 +1969,7 @@ function GitHubIcon() {
     </svg>
   )
 }
+>>>>>>> upstream/main
 
 function PlusIcon() {
   return (

@@ -1,7 +1,11 @@
 import { useEffect } from 'react'
 import { useTranslation } from '../../i18n'
 import { MarkdownRenderer } from '../markdown/MarkdownRenderer'
+<<<<<<< HEAD
+import { isTauriRuntime } from '../../lib/desktopRuntime'
+=======
 import { isDesktopRuntime } from '../../lib/desktopRuntime'
+>>>>>>> upstream/main
 import { useUpdateStore } from '../../stores/updateStore'
 
 export function UpdateChecker() {
@@ -19,7 +23,11 @@ export function UpdateChecker() {
     void initialize()
   }, [initialize])
 
+<<<<<<< HEAD
+  if (!isTauriRuntime()) return null
+=======
   if (!isDesktopRuntime()) return null
+>>>>>>> upstream/main
 
   const showPopup = shouldPrompt && !!availableVersion && status === 'downloaded'
 

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+=======
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
+>>>>>>> upstream/main
 import '@testing-library/jest-dom'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { useUIStore } from '../../stores/uiStore'
@@ -12,7 +16,10 @@ const mocks = vi.hoisted(() => ({
   restoreTabs: vi.fn(),
   connectToSession: vi.fn(),
   setActiveTab: vi.fn(),
+<<<<<<< HEAD
+=======
   openTab: vi.fn(),
+>>>>>>> upstream/main
   tabState: {
     activeTabId: null as string | null,
     tabs: [] as Array<{ sessionId: string; title: string; type: string; status: string }>,
@@ -22,7 +29,10 @@ const mocks = vi.hoisted(() => ({
 vi.mock('../../lib/desktopRuntime', () => ({
   initializeDesktopServerUrl: mocks.initializeDesktopServerUrl,
   isTauriRuntime: () => mocks.isTauriRuntime,
+<<<<<<< HEAD
+=======
   isDesktopRuntime: () => mocks.isTauriRuntime,
+>>>>>>> upstream/main
   isH5ConnectionRequiredError: (error: unknown) =>
     error instanceof Error && error.name === 'H5ConnectionRequiredError',
 }))
@@ -50,7 +60,11 @@ vi.mock('../../stores/tabStore', () => {
     restoreTabs: mocks.restoreTabs,
     activeTabId: mocks.tabState.activeTabId,
     tabs: mocks.tabState.tabs,
+<<<<<<< HEAD
+    openTab: vi.fn(),
+=======
     openTab: mocks.openTab,
+>>>>>>> upstream/main
     setActiveTab: mocks.setActiveTab,
   })
   useTabStore.setState = (next: { activeTabId?: string | null }) => {
@@ -118,7 +132,10 @@ describe('AppShell boot flow', () => {
     mocks.initializeDesktopServerUrl.mockResolvedValue('http://127.0.0.1:3456')
     mocks.fetchAll.mockResolvedValue(undefined)
     mocks.restoreTabs.mockResolvedValue(undefined)
+<<<<<<< HEAD
+=======
     mocks.openTab.mockReset()
+>>>>>>> upstream/main
     mocks.setActiveTab.mockImplementation((sessionId: string) => {
       mocks.tabState.activeTabId = sessionId
     })
@@ -126,7 +143,10 @@ describe('AppShell boot flow', () => {
     mocks.tabState.tabs = []
     useSessionStore.setState({ sessions: [], activeSessionId: null, isLoading: false, error: null })
     useUIStore.setState({ sidebarOpen: true })
+<<<<<<< HEAD
+=======
     Reflect.deleteProperty(window, 'desktopHost')
+>>>>>>> upstream/main
   })
 
   it('renders the desktop chrome after server and settings bootstrap', async () => {
@@ -181,6 +201,8 @@ describe('AppShell boot flow', () => {
     })
   })
 
+<<<<<<< HEAD
+=======
   it('routes native menu navigation through the desktop host', async () => {
     let navigate: ((target: string) => void) | undefined
     const unlisten = vi.fn()
@@ -208,6 +230,7 @@ describe('AppShell boot flow', () => {
     expect(mocks.openTab).toHaveBeenCalledWith('__settings__', 'Settings', 'settings')
   })
 
+>>>>>>> upstream/main
   it('shows the H5 connection view in browser mode when startup needs H5 auth', async () => {
     mocks.initializeDesktopServerUrl.mockRejectedValueOnce(
       Object.assign(new Error('Enter your H5 token to continue.'), {

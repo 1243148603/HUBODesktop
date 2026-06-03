@@ -19,6 +19,10 @@ import {
   MODEL_CONTEXT_WINDOW_DEFAULT,
   getContextWindowForModel,
   getModelMaxOutputTokens,
+<<<<<<< HEAD
+} from '../../utils/context.js'
+import {
+=======
   is1mContextDisabled,
 } from '../../utils/context.js'
 import {
@@ -26,6 +30,7 @@ import {
   getModelContextWindowFromEnvValue,
 } from '../../utils/model/modelContextWindows.js'
 import {
+>>>>>>> upstream/main
   calculateContextBudget,
   getProviderUsageTrust,
   hasMediaInput,
@@ -41,7 +46,10 @@ import { registerFilesystemAccessRoot } from './filesystemAccessRoots.js'
 import { normalizeDriveRootPathForPlatform } from './windowsDrivePath.js'
 import { cleanSessionTitleSource } from '../../utils/sessionTitleText.js'
 import { roughTokenCountEstimationForMessages } from '../../services/tokenEstimation.js'
+<<<<<<< HEAD
+=======
 import { ProviderService } from './providerService.js'
+>>>>>>> upstream/main
 
 // ============================================================================
 // Types
@@ -275,8 +283,11 @@ const TASK_NOTIFICATION_BLOCK_RE = /<task-notification>\s*[\s\S]*?<\/task-notifi
 // ============================================================================
 
 export class SessionService {
+<<<<<<< HEAD
+=======
   private providerService = new ProviderService()
 
+>>>>>>> upstream/main
   private readonly sessionListCacheTtlMs = 5_000
   private readonly sessionListCache = new Map<string, {
     expiresAt: number
@@ -1296,6 +1307,9 @@ export class SessionService {
     return `$${cost > 0.5 ? (Math.round(cost * 100) / 100).toFixed(2) : cost.toFixed(4)}`
   }
 
+<<<<<<< HEAD
+  private getTranscriptContextWindow(model: string): number {
+=======
   private async getProviderContextWindowForSession(
     sessionId: string,
     model: string,
@@ -1333,6 +1347,7 @@ export class SessionService {
       return providerContextWindow
     }
 
+>>>>>>> upstream/main
     try {
       return getContextWindowForModel(model)
     } catch (err) {
@@ -1406,7 +1421,11 @@ export class SessionService {
 
     if (!latest) return null
 
+<<<<<<< HEAD
+    const rawMaxTokens = this.getTranscriptContextWindow(latest.model)
+=======
     const rawMaxTokens = await this.getTranscriptContextWindow(sessionId, latest.model)
+>>>>>>> upstream/main
     const promptTokens = latest.inputTokens + latest.cacheReadInputTokens + latest.cacheCreationInputTokens
     const transcriptMessages = entries.filter(entry =>
       entry.type === 'user' || entry.type === 'assistant' || entry.type === 'attachment',
@@ -1546,7 +1565,11 @@ export class SessionService {
           webSearchRequests: 0,
           costUSD: 0,
           costDisplay: '$0.0000',
+<<<<<<< HEAD
+          contextWindow: this.getTranscriptContextWindow(model),
+=======
           contextWindow: await this.getTranscriptContextWindow(sessionId, model),
+>>>>>>> upstream/main
           maxOutputTokens: getModelMaxOutputTokens(model).default,
         }
         models.set(model, modelUsage)

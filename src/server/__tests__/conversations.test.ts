@@ -530,6 +530,8 @@ describe('ConversationService', () => {
     }
   })
 
+<<<<<<< HEAD
+=======
   it('should use active provider model context windows for transcript estimates', async () => {
     const previousConfigDir = process.env.CLAUDE_CONFIG_DIR
     const previousNodeEnv = process.env.NODE_ENV
@@ -608,6 +610,7 @@ describe('ConversationService', () => {
     }
   })
 
+>>>>>>> upstream/main
   it('should not report transcript context as full for low-trust media usage spikes', async () => {
     const previousConfigDir = process.env.CLAUDE_CONFIG_DIR
     const previousNodeEnv = process.env.NODE_ENV
@@ -966,10 +969,18 @@ describe('WebSocket Chat Integration', () => {
     )
     await fs.mkdir(path.join(tmpDir, 'projects'), { recursive: true })
 
+<<<<<<< HEAD
+    const port = 15000 + Math.floor(Math.random() * 1000)
+    const { startServer } = await import('../index.js')
+    server = startServer(port, '127.0.0.1')
+    baseUrl = `http://127.0.0.1:${port}`
+    wsUrl = `ws://127.0.0.1:${port}`
+=======
     const { startServer } = await import('../index.js')
     server = startServer(0, '127.0.0.1')
     baseUrl = `http://127.0.0.1:${server.port}`
     wsUrl = `ws://127.0.0.1:${server.port}`
+>>>>>>> upstream/main
   })
 
   afterAll(async () => {
@@ -1184,6 +1195,8 @@ describe('WebSocket Chat Integration', () => {
     expect(titleIndex).toBeLessThan(completionIndex)
   })
 
+<<<<<<< HEAD
+=======
   it('refreshes the first-turn AI title from the completed assistant transcript', async () => {
     const providerConfigPath = path.join(tmpDir, 'cc-haha', 'providers.json')
     const originalProviderConfig = await fs.readFile(providerConfigPath, 'utf-8').catch(() => null)
@@ -1284,6 +1297,7 @@ describe('WebSocket Chat Integration', () => {
     }
   }, 10000)
 
+>>>>>>> upstream/main
   it('uses the /goal objective for the derived session title', async () => {
     const sessionId = `title-goal-${crypto.randomUUID()}`
     const messages: any[] = []
@@ -1723,7 +1737,11 @@ describe('WebSocket Chat Integration', () => {
   })
 
   it('should keep a long desktop session alive in a /tmp project across engineering turns', async () => {
+<<<<<<< HEAD
+    const projectDir = await fs.mkdtemp(path.join(os.tmpdir(), 'hubo-issue247-project-'))
+=======
     const projectDir = await fs.mkdtemp(path.join(os.tmpdir(), 'cc-haha-issue247-project-'))
+>>>>>>> upstream/main
     let sessionId: string | undefined
 
     try {

@@ -4,8 +4,13 @@ import '@testing-library/jest-dom'
 
 import { ModelSelector } from './ModelSelector'
 import { useChatStore } from '../../stores/chatStore'
+<<<<<<< HEAD
+import { useHuboOAuthStore } from '../../stores/huboOAuthStore'
+import { useHuboOpenAIOAuthStore } from '../../stores/huboOpenAIOAuthStore'
+=======
 import { useHahaOAuthStore } from '../../stores/hahaOAuthStore'
 import { useHahaOpenAIOAuthStore } from '../../stores/hahaOpenAIOAuthStore'
+>>>>>>> upstream/main
 import { useProviderStore } from '../../stores/providerStore'
 import { useSessionRuntimeStore } from '../../stores/sessionRuntimeStore'
 import { useSettingsStore } from '../../stores/settingsStore'
@@ -30,6 +35,19 @@ afterEach(() => {
   useProviderStore.setState(useProviderStore.getInitialState(), true)
   useSessionRuntimeStore.setState(useSessionRuntimeStore.getInitialState(), true)
   useChatStore.setState(useChatStore.getInitialState(), true)
+<<<<<<< HEAD
+  useHuboOAuthStore.setState(useHuboOAuthStore.getInitialState(), true)
+  useHuboOpenAIOAuthStore.setState(useHuboOpenAIOAuthStore.getInitialState(), true)
+})
+
+// Prevent real API calls from fetchStatus on mount
+beforeEach(() => {
+  useHuboOAuthStore.setState({ fetchStatus: async () => {} })
+  useHuboOpenAIOAuthStore.setState({ fetchStatus: async () => {} })
+})
+
+describe('ModelSelector', () => {
+=======
   useHahaOAuthStore.setState(useHahaOAuthStore.getInitialState(), true)
   useHahaOpenAIOAuthStore.setState(useHahaOpenAIOAuthStore.getInitialState(), true)
 })
@@ -126,6 +144,7 @@ describe('ModelSelector', () => {
     expect(fetchOpenAIStatus).not.toHaveBeenCalled()
   })
 
+>>>>>>> upstream/main
   it('uses controlled model selection without mutating settings directly', async () => {
     const onChange = vi.fn()
     useSettingsStore.setState({
@@ -286,7 +305,11 @@ describe('ModelSelector', () => {
       },
     ]
     const setSessionRuntime = vi.fn()
+<<<<<<< HEAD
+    useHuboOpenAIOAuthStore.setState({
+=======
     useHahaOpenAIOAuthStore.setState({
+>>>>>>> upstream/main
       status: { loggedIn: true, expiresAt: null, email: null, accountId: null },
       fetchStatus: async () => {},
     })
@@ -327,8 +350,13 @@ describe('ModelSelector', () => {
   })
 
   it('hides official provider sections when OAuth is not logged in', async () => {
+<<<<<<< HEAD
+    useHuboOAuthStore.setState({ status: { loggedIn: false }, fetchStatus: async () => {} })
+    useHuboOpenAIOAuthStore.setState({ status: { loggedIn: false }, fetchStatus: async () => {} })
+=======
     useHahaOAuthStore.setState({ status: { loggedIn: false }, fetchStatus: async () => {} })
     useHahaOpenAIOAuthStore.setState({ status: { loggedIn: false }, fetchStatus: async () => {} })
+>>>>>>> upstream/main
     useSettingsStore.setState({
       locale: 'en',
       availableModels: MODELS,

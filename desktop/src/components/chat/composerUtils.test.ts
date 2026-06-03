@@ -1,7 +1,10 @@
 import { describe, expect, it } from 'vitest'
 import {
+<<<<<<< HEAD
+=======
   appendAgentSlashCommands,
   buildAgentSlashCommands,
+>>>>>>> upstream/main
   filterSlashCommands,
   findSlashToken,
   getLocalizedFallbackCommands,
@@ -112,6 +115,8 @@ describe('composerUtils', () => {
     expect(mergeSlashCommands([]).map((command) => command.name)).not.toContain('goal --tokens')
   })
 
+<<<<<<< HEAD
+=======
   it('builds agent slash entries under the /agent namespace', () => {
     expect(
       buildAgentSlashCommands([
@@ -141,6 +146,7 @@ describe('composerUtils', () => {
     expect(withAgents.map((command) => command.name)).toContain('agent debugger')
   })
 
+>>>>>>> upstream/main
   it('does not replace /goal arguments as slash command fragments', () => {
     expect(replaceSlashCommand('/goal sta', 9, 'goal status')).toBeNull()
   })

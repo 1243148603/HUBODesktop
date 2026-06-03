@@ -89,6 +89,8 @@ describe('desktop theme tokens', () => {
     expect(css).toContain('box-shadow: var(--shadow-activity-cell-hover);')
   })
 
+<<<<<<< HEAD
+=======
   it('uses container queries for the activity summary grid', () => {
     const activitySummaryCss = getCssBetween('.activity-summary-panel {', '.activity-heat-cell {')
     const mediumStart = activitySummaryCss.indexOf('@container (min-width: 620px)')
@@ -103,6 +105,7 @@ describe('desktop theme tokens', () => {
     expect(mediumSummaryCss).toContain('grid-column: span 2;')
   })
 
+>>>>>>> upstream/main
   it('avoids color-mix in the startup-critical UI zoom shell chrome for Safari 15 WebView support', () => {
     const zoomShellCss = getCssBetween('.settings-zoom-kbd {', '/* ─── Tailwind Theme Override')
 

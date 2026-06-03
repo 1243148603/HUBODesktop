@@ -394,7 +394,10 @@ describe('WebSocket goal command events', () => {
       content: 'late unrelated output',
     })).toBe(false)
   })
+<<<<<<< HEAD
+=======
 
+>>>>>>> upstream/main
 })
 
 describe('WebSocket stream event translation', () => {

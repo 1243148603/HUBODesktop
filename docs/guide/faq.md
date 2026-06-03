@@ -16,7 +16,11 @@
 ## Q: `Cannot find package 'bundle'`
 
 ```
+<<<<<<< HEAD
+error: Cannot find package 'bundle' from '.../hubo/src/entrypoints/cli.tsx'
+=======
 error: Cannot find package 'bundle' from '.../claude-code-haha/src/entrypoints/cli.tsx'
+>>>>>>> upstream/main
 ```
 
 **原因**：Bun 版本过低，不支持项目所需的 `bun:bundle` 等内置模块。

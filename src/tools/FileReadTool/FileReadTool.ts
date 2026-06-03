@@ -44,7 +44,10 @@ import {
   compressImageBufferWithTokenLimit,
   createImageMetadataText,
   detectImageFormatFromBuffer,
+<<<<<<< HEAD
+=======
   downsampleImageBufferToVisionTokenBudget,
+>>>>>>> upstream/main
   type ImageDimensions,
   ImageResizeError,
   maybeResizeAndDownsampleImageBuffer,
@@ -799,6 +802,8 @@ function createImageResponse(
   }
 }
 
+<<<<<<< HEAD
+=======
 function estimateVisionImageTokens(dimensions?: ImageDimensions): number | null {
   const width = dimensions?.displayWidth
   const height = dimensions?.displayHeight
@@ -811,6 +816,7 @@ function estimateVisionImageTokens(dimensions?: ImageDimensions): number | null 
   return Math.ceil((width * height) / 750)
 }
 
+>>>>>>> upstream/main
 /**
  * Inner implementation of call, separated to allow ENOENT handling in the outer call.
  */
@@ -1146,6 +1152,12 @@ export async function readImageWithTokenBudget(
     result = createImageResponse(imageBuffer, detectedFormat, originalSize)
   }
 
+<<<<<<< HEAD
+  // Check if it fits in token budget
+  const estimatedTokens = Math.ceil(result.file.base64.length * 0.125)
+  if (estimatedTokens > maxTokens) {
+    // Aggressive compression from the SAME buffer (no re-read)
+=======
   // Check if it fits in vision token budget. This is intentionally based on
   // image dimensions, not base64 payload length, because the tool result is an
   // image content block rather than text.
@@ -1171,6 +1183,7 @@ export async function readImageWithTokenBudget(
     }
 
     // Compatibility fallback from the SAME buffer (no re-read)
+>>>>>>> upstream/main
     try {
       const compressed = await compressImageBufferWithTokenLimit(
         imageBuffer,

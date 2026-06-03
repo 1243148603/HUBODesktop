@@ -19,6 +19,9 @@ import { SettingsService } from '../services/settingsService.js'
 import { ProviderService } from '../services/providerService.js'
 import { isOpenAIOfficialProviderId } from '../services/openaiOfficialProvider.js'
 import { diagnosticsService } from '../services/diagnosticsService.js'
+<<<<<<< HEAD
+import { deriveTitle, generateTitle, saveAiTitle } from '../services/titleService.js'
+=======
 import {
   buildConversationTitleInput,
   deriveTitle,
@@ -27,6 +30,7 @@ import {
   saveAiTitle,
   type TitleConversationTurn,
 } from '../services/titleService.js'
+>>>>>>> upstream/main
 import { parseSlashCommand } from '../../utils/slashCommandParsing.js'
 import {
   COMMAND_NAME_TAG,
@@ -70,10 +74,15 @@ const sessionTitleState = new Map<string, {
   userMessageCount: number
   hasCustomTitle: boolean
   firstUserMessage: string
+<<<<<<< HEAD
+  allUserMessages: string[]
+  startedGenerationCounts: Set<number>
+=======
   completedTurns: TitleConversationTurn[]
   activeTurn?: TitleConversationTurn & { count: number }
   startedGenerationKeys: Set<string>
   generationSeq: number
+>>>>>>> upstream/main
 }>()
 
 const runtimeOverrides = new Map<string, {
@@ -159,7 +168,11 @@ export const handleWebSocket = {
     }
 
     addActiveClient(sessionId, ws)
+<<<<<<< HEAD
+    if (prewarmedSessions.has(sessionId)) {
+=======
     if (prewarmPendingSessions.has(sessionId) || prewarmedSessions.has(sessionId)) {
+>>>>>>> upstream/main
       bindPrewarmMetadataCapture(sessionId)
     } else {
       bindClientSessionOutput(sessionId, ws)
@@ -319,13 +332,27 @@ async function handleUserMessage(
       userMessageCount: 0,
       hasCustomTitle: !!(await sessionService.getCustomTitle(sessionId)),
       firstUserMessage: '',
+<<<<<<< HEAD
+      allUserMessages: [],
+      startedGenerationCounts: new Set<number>(),
+=======
       completedTurns: [],
       startedGenerationKeys: new Set<string>(),
       generationSeq: 0,
+>>>>>>> upstream/main
     }
     sessionTitleState.set(sessionId, titleState)
   }
   const titleInput = getTitleInputForUserMessage(message.content, desktopSlashCommand)
+<<<<<<< HEAD
+  if (titleInput) {
+    titleState.userMessageCount++
+    titleState.allUserMessages.push(titleInput)
+    if (titleState.userMessageCount === 1) {
+      titleState.firstUserMessage = titleInput
+    }
+    triggerTitleGeneration(ws, sessionId)
+=======
   let titleTurnNumber: number | null = null
   if (titleInput) {
     titleState.userMessageCount++
@@ -339,6 +366,7 @@ async function handleUserMessage(
       titleState.firstUserMessage = titleInput
     }
     triggerTitleGeneration(ws, sessionId, 'user-message')
+>>>>>>> upstream/main
   }
 
   // 启动 CLI 子进程（如果还没有）
@@ -375,9 +403,12 @@ async function handleUserMessage(
   let userMessageSent = false
   const shouldForwardCurrentTurnLocalCommand =
     createCurrentTurnLocalCommandForwarder(desktopSlashCommand)
+<<<<<<< HEAD
+=======
   const removeTitleOutputCallback = titleTurnNumber === null
     ? null
     : bindTitleSessionOutput(ws, sessionId, () => userMessageSent)
+>>>>>>> upstream/main
 
   bindAllClientSessionOutputs(sessionId, {
     shouldForward: (cliMsg) => {
@@ -394,8 +425,11 @@ async function handleUserMessage(
     message.attachments
   )
   if (!sent) {
+<<<<<<< HEAD
+=======
     removeTitleOutputCallback?.()
     discardActiveTitleTurn(sessionId, titleTurnNumber)
+>>>>>>> upstream/main
     sendMessage(ws, {
       type: 'error',
       message: 'CLI process is not running. The session may have ended or the process crashed.',
@@ -784,6 +818,29 @@ function handleStopGeneration(ws: ServerWebSocket<WebSocketData>) {
 // Title generation
 // ============================================================================
 
+<<<<<<< HEAD
+function triggerTitleGeneration(ws: ServerWebSocket<WebSocketData>, sessionId: string): void {
+  const state = sessionTitleState.get(sessionId)
+  if (!state || state.hasCustomTitle) return
+
+  const count = state.userMessageCount
+
+  // Generate on count 1 (first response) and count 3 (with more context)
+  if (count !== 1 && count !== 3) return
+  if (state.startedGenerationCounts.has(count)) return
+  state.startedGenerationCounts.add(count)
+
+  const text = count === 1
+    ? state.firstUserMessage
+    : state.allUserMessages.join('\n')
+  const runtimeProviderId = runtimeOverrides.get(sessionId)?.providerId
+
+  // Fire-and-forget: derive quick title, then upgrade with AI
+  void (async () => {
+    try {
+      // Stage 1: quick placeholder (only on first message)
+      if (count === 1) {
+=======
 type TitleGenerationPhase = 'user-message' | 'turn-complete'
 
 function triggerTitleGeneration(
@@ -808,6 +865,7 @@ function triggerTitleGeneration(
     void (async () => {
       try {
         const text = state.firstUserMessage
+>>>>>>> upstream/main
         const placeholder = deriveTitle(text)
         if (placeholder) {
           const saved = await saveAiTitle(sessionId, placeholder)
@@ -815,6 +873,14 @@ function triggerTitleGeneration(
             state.hasCustomTitle = true
             return
           }
+<<<<<<< HEAD
+          sendMessage(ws, { type: 'session_title_updated', sessionId, title: placeholder })
+        }
+      }
+
+      // Stage 2: AI-generated title
+      const aiTitle = await generateTitle(text, runtimeProviderId)
+=======
           sendSessionTitleUpdated(ws, sessionId, placeholder)
         }
       } catch (err) {
@@ -847,13 +913,18 @@ function triggerTitleGeneration(
         titleLanguagePreference,
       )
       if (generationSeq !== state.generationSeq) return
+>>>>>>> upstream/main
       if (aiTitle) {
         const saved = await saveAiTitle(sessionId, aiTitle)
         if (!saved) {
           state.hasCustomTitle = true
           return
         }
+<<<<<<< HEAD
+        sendMessage(ws, { type: 'session_title_updated', sessionId, title: aiTitle })
+=======
         sendSessionTitleUpdated(ws, sessionId, aiTitle)
+>>>>>>> upstream/main
       }
     } catch (err) {
       console.error(`[Title] Failed to generate title for ${sessionId}:`, err)
@@ -861,6 +932,8 @@ function triggerTitleGeneration(
   })()
 }
 
+<<<<<<< HEAD
+=======
 async function getResponseLanguageSetting(): Promise<string | undefined> {
   const userSettings = await settingsService.getUserSettings().catch(() => ({}))
   return typeof userSettings.language === 'string'
@@ -989,6 +1062,7 @@ function discardActiveTitleTurn(sessionId: string, count: number | null): void {
   }
 }
 
+>>>>>>> upstream/main
 // ============================================================================
 // CLI message translation
 // ============================================================================
@@ -1073,7 +1147,11 @@ function cleanupSessionRuntimeState(sessionId: string) {
 }
 
 function getPrewarmIdleTimeoutMs(): number {
+<<<<<<< HEAD
+  const raw = process.env.HUBO_PREWARM_IDLE_TIMEOUT_MS
+=======
   const raw = process.env.CC_HAHA_PREWARM_IDLE_TIMEOUT_MS
+>>>>>>> upstream/main
   if (!raw) return DEFAULT_PREWARM_IDLE_TIMEOUT_MS
   const parsed = Number.parseInt(raw, 10)
   return Number.isFinite(parsed) && parsed >= 0
@@ -2067,6 +2145,12 @@ function bindClientSessionOutput(
       sendMessage(ws, msg)
     }
 
+<<<<<<< HEAD
+    if (cliMsg.type === 'result') {
+      triggerTitleGeneration(ws, sessionId)
+    }
+=======
+>>>>>>> upstream/main
   }
 
   clientOutputCallbacks.set(ws, { sessionId, callback })
@@ -2178,7 +2262,11 @@ async function getDefaultRuntimeSettings(): Promise<RuntimeSettings> {
 
   let model: string | undefined
   if (resolvedActiveId) {
+<<<<<<< HEAD
+    // Provider is active — only consult provider-managed hubo settings.
+=======
     // Provider is active — only consult provider-managed cc-haha settings.
+>>>>>>> upstream/main
     // Global ~/.claude/settings.json model values must not bleed into provider mode.
     const baseModel =
       typeof modelSettings.model === 'string' && modelSettings.model.trim()
@@ -2410,6 +2498,10 @@ export function __resetWebSocketHandlerStateForTests(): void {
   activeSessions.clear()
   clientOutputCallbacks.clear()
   sessionCleanupTimers.clear()
+<<<<<<< HEAD
+  prewarmIdleTimers.clear()
+}
+=======
   prewarmPendingSessions.clear()
   prewarmedSessions.clear()
   prewarmIdleTimers.clear()
@@ -2418,3 +2510,4 @@ export function __resetWebSocketHandlerStateForTests(): void {
 export function __markPrewarmPendingForTests(sessionId: string): void {
   prewarmPendingSessions.add(sessionId)
 }
+>>>>>>> upstream/main

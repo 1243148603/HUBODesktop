@@ -3,7 +3,10 @@ import type { TranslationKey } from '../../i18n'
 
 /** Map from slash command name to its i18n description key */
 const SLASH_CMD_DESCRIPTION_KEYS: Record<string, TranslationKey> = {
+<<<<<<< HEAD
+=======
   agent: 'slashCmd.agent.description',
+>>>>>>> upstream/main
   mcp: 'slashCmd.mcp.description',
   skills: 'slashCmd.skills.description',
   help: 'slashCmd.help.description',
@@ -54,7 +57,10 @@ export const SLASH_COMMAND_ALIASES = [
 
 /** Static fallback with English descriptions (for non-React contexts) */
 export const FALLBACK_SLASH_COMMANDS: SlashCommandOption[] = [
+<<<<<<< HEAD
+=======
   { name: 'agent', description: 'Run a prompt with a selected Agent', argumentHint: '<agent> <prompt>' },
+>>>>>>> upstream/main
   { name: 'mcp', description: 'Open available MCP tools for the current chat context' },
   { name: 'skills', description: 'Browse user-invocable skills for the current chat context' },
   { name: 'help', description: 'Show available desktop and agent commands' },
@@ -117,6 +123,8 @@ export type SlashCommandOption = {
   argumentHint?: string
 }
 
+<<<<<<< HEAD
+=======
 export type AgentSlashCommandSource = {
   agentType: string
   description?: string
@@ -162,6 +170,7 @@ export function appendAgentSlashCommands(
   ]
 }
 
+>>>>>>> upstream/main
 export type SlashUiAction =
   | {
       type: 'panel'

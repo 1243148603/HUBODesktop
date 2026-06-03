@@ -95,15 +95,26 @@ function filterSettingsEnv(
 }
 
 /**
+<<<<<<< HEAD
+ * Read env vars from ~/.claude/hubo/settings.json (Hubo-specific provider
+=======
  * Read env vars from ~/.claude/cc-haha/settings.json (Haha-specific provider
+>>>>>>> upstream/main
  * config). This file is written by ProviderService.syncToSettings() and
  * contains ANTHROPIC_BASE_URL, ANTHROPIC_AUTH_TOKEN, model defaults, etc.
  * Returns an empty object if the file doesn't exist or is invalid.
  */
+<<<<<<< HEAD
+function getCcHuboSettingsEnv(): Record<string, string> {
+  try {
+    const huboSettings = join(getClaudeConfigHomeDir(), 'hubo', 'settings.json')
+    const raw = readFileSync(huboSettings, 'utf-8')
+=======
 function getCcHahaSettingsEnv(): Record<string, string> {
   try {
     const ccHahaSettings = join(getClaudeConfigHomeDir(), 'cc-haha', 'settings.json')
     const raw = readFileSync(ccHahaSettings, 'utf-8')
+>>>>>>> upstream/main
     const parsed = JSON.parse(raw) as { env?: Record<string, string> }
     const settingsEnv = normalizeLegacyDeepSeekManagedEnv(parsed.env ?? {}).env
     return mergeActiveProviderManagedEnv(settingsEnv, getClaudeConfigHomeDir())
@@ -170,11 +181,19 @@ export function applySafeConfigEnvironmentVariables(): void {
     )
   }
 
+<<<<<<< HEAD
+  // hubo provider isolation: apply env from ~/.claude/hubo/settings.json
+  // AFTER userSettings so Hubo-specific provider config takes priority over
+  // the original Claude Code's settings. This prevents Hubo from polluting
+  // ~/.claude/settings.json while still allowing it to override provider vars.
+  Object.assign(process.env, filterSettingsEnv(getCcHuboSettingsEnv()))
+=======
   // cc-haha provider isolation: apply env from ~/.claude/cc-haha/settings.json
   // AFTER userSettings so Haha-specific provider config takes priority over
   // the original Claude Code's settings. This prevents Haha from polluting
   // ~/.claude/settings.json while still allowing it to override provider vars.
   Object.assign(process.env, filterSettingsEnv(getCcHahaSettingsEnv()))
+>>>>>>> upstream/main
 
   // Compute remote-managed-settings eligibility now, with userSettings and
   // flagSettings env applied. Eligibility reads CLAUDE_CODE_USE_BEDROCK,
@@ -217,9 +236,15 @@ export function applyConfigEnvironmentVariables(): void {
 
   Object.assign(process.env, filterSettingsEnv(getSettings_DEPRECATED()?.env))
 
+<<<<<<< HEAD
+  // hubo provider isolation: same as in applySafeConfigEnvironmentVariables,
+  // apply Hubo-specific env last so it overrides the original settings.
+  Object.assign(process.env, filterSettingsEnv(getCcHuboSettingsEnv()))
+=======
   // cc-haha provider isolation: same as in applySafeConfigEnvironmentVariables,
   // apply Haha-specific env last so it overrides the original settings.
   Object.assign(process.env, filterSettingsEnv(getCcHahaSettingsEnv()))
+>>>>>>> upstream/main
 
   // Clear caches so agents are rebuilt with the new env vars
   clearCACertsCache()

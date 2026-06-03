@@ -42,6 +42,11 @@ import {
   resetDesktopNotificationsForTests,
   setNativeNotificationSenderForTests,
 } from './desktopNotifications'
+<<<<<<< HEAD
+import { useSettingsStore } from '../stores/settingsStore'
+
+describe('desktopNotifications', () => {
+=======
 import { browserHost } from './desktopHost/browserHost'
 import { useSettingsStore } from '../stores/settingsStore'
 
@@ -97,6 +102,7 @@ describe('desktopNotifications', () => {
     }
   }
 
+>>>>>>> upstream/main
   beforeEach(() => {
     vi.useRealTimers()
     resetDesktopNotificationsForTests()
@@ -114,12 +120,18 @@ describe('desktopNotifications', () => {
       configurable: true,
       value: 'Linux x86_64',
     })
+<<<<<<< HEAD
+  })
+
+  it('sends through the Tauri plugin when native notification permission is already granted', async () => {
+=======
     installElectronNotificationHost()
     Reflect.deleteProperty(window, '__TAURI_INTERNALS__')
     Reflect.deleteProperty(window, '__TAURI__')
   })
 
   it('sends through the desktop notification host when permission is already granted', async () => {
+>>>>>>> upstream/main
     notificationPluginMock.isPermissionGranted.mockResolvedValue(true)
 
     notifyDesktop({
@@ -137,7 +149,11 @@ describe('desktopNotifications', () => {
     })
   })
 
+<<<<<<< HEAD
+  it('passes notification targets through the Tauri plugin payload', async () => {
+=======
   it('passes notification targets through the desktop notification payload', async () => {
+>>>>>>> upstream/main
     notificationPluginMock.isPermissionGranted.mockResolvedValue(true)
     const target = { type: 'session' as const, sessionId: 'session-1', title: 'Build fix' }
 
@@ -153,7 +169,11 @@ describe('desktopNotifications', () => {
       body: 'Approve command execution',
       id: expect.any(Number),
       extra: {
+<<<<<<< HEAD
+        huboTarget: JSON.stringify(target),
+=======
         ccHahaTarget: JSON.stringify(target),
+>>>>>>> upstream/main
       },
     }))
   })
@@ -235,7 +255,11 @@ describe('desktopNotifications', () => {
     warnSpy.mockRestore()
   })
 
+<<<<<<< HEAD
+  it('does not fall back to the Tauri plugin when the macOS bridge fails', async () => {
+=======
   it('does not fall back to the generic notification bridge when the macOS bridge fails', async () => {
+>>>>>>> upstream/main
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
     Object.defineProperty(navigator, 'platform', {
       configurable: true,
@@ -343,6 +367,8 @@ describe('desktopNotifications', () => {
     expect(shellApiMock.open).not.toHaveBeenCalled()
   })
 
+<<<<<<< HEAD
+=======
   it('opens macOS notification settings through the native command before shell fallback', async () => {
     Object.defineProperty(navigator, 'platform', {
       configurable: true,
@@ -369,6 +395,7 @@ describe('desktopNotifications', () => {
     expect(shellApiMock.open).toHaveBeenCalledWith('x-apple.systempreferences:com.apple.preference.notifications')
   })
 
+>>>>>>> upstream/main
   it('reports and requests macOS notification permission through the native bridge', async () => {
     Object.defineProperty(navigator, 'platform', {
       configurable: true,
@@ -386,7 +413,11 @@ describe('desktopNotifications', () => {
     expect(notificationPluginMock.requestPermission).not.toHaveBeenCalled()
   })
 
+<<<<<<< HEAD
+  it('does not use the Tauri plugin permission fallback on macOS bridge errors', async () => {
+=======
   it('does not use the generic notification permission fallback on macOS bridge errors', async () => {
+>>>>>>> upstream/main
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
     Object.defineProperty(navigator, 'platform', {
       configurable: true,
@@ -460,7 +491,11 @@ describe('desktopNotifications', () => {
     expect(nativeRegistered).toBe(true)
     expect(pluginRegistered).toBe(true)
     nativeCallback({ payload: { target: JSON.stringify(sessionTarget) } })
+<<<<<<< HEAD
+    pluginCallback({ extra: { huboTarget: JSON.stringify(scheduledTarget) } })
+=======
     pluginCallback({ extra: { ccHahaTarget: JSON.stringify(scheduledTarget) } })
+>>>>>>> upstream/main
 
     expect(onTarget).toHaveBeenCalledWith(sessionTarget)
     expect(onTarget).toHaveBeenCalledWith(scheduledTarget)
@@ -482,7 +517,11 @@ describe('desktopNotifications', () => {
 
     await vi.waitFor(() => expect(sender).toHaveBeenCalledTimes(1))
     await vi.waitFor(() => expect(windowApiMock.requestUserAttention).toHaveBeenCalledTimes(1))
+<<<<<<< HEAD
+    expect(windowApiMock.requestUserAttention).toHaveBeenCalledWith(windowApiMock.UserAttentionType.Critical)
+=======
     expect(windowApiMock.requestUserAttention).toHaveBeenCalledWith()
+>>>>>>> upstream/main
   })
 
   it('throttles bursts within the same cooldown scope', async () => {

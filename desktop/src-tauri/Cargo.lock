@@ -481,6 +481,8 @@ dependencies = [
 ]
 
 [[package]]
+<<<<<<< HEAD
+=======
 name = "claude-code-desktop"
 version = "0.3.2"
 dependencies = [
@@ -502,6 +504,7 @@ dependencies = [
 ]
 
 [[package]]
+>>>>>>> upstream/main
 name = "combine"
 version = "4.6.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1657,6 +1660,30 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6dbf3de79e51f3d586ab4cb9d5c3e2c14aa28ed23d180cf89b4df0454a69cc87"
 
 [[package]]
+<<<<<<< HEAD
+name = "hubo-desktop"
+version = "1.0.0"
+dependencies = [
+ "anyhow",
+ "portable-pty",
+ "reqwest",
+ "serde",
+ "serde_json",
+ "tauri",
+ "tauri-build",
+ "tauri-plugin-dialog",
+ "tauri-plugin-notification",
+ "tauri-plugin-process",
+ "tauri-plugin-shell",
+ "tauri-plugin-single-instance",
+ "tauri-plugin-updater",
+ "tauri-runtime",
+ "tauri-runtime-wry",
+]
+
+[[package]]
+=======
+>>>>>>> upstream/main
 name = "hyper"
 version = "1.10.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"

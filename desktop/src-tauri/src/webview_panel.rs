@@ -4,6 +4,8 @@ use tauri::{AppHandle, Emitter, LogicalPosition, LogicalSize, Manager, Runtime, 
 const PREVIEW_LABEL: &str = "preview";
 
 const PREVIEW_INIT_SCRIPT: &str = include_str!("../resources/preview-agent.js");
+<<<<<<< HEAD
+=======
 const PREVIEW_TAURI_BRIDGE_SCRIPT: &str = r#"
 window.__DESKTOP_PREVIEW_POST__ = function(raw) {
   var internals = window.__TAURI_INTERNALS__;
@@ -12,6 +14,7 @@ window.__DESKTOP_PREVIEW_POST__ = function(raw) {
   }
 };
 "#;
+>>>>>>> upstream/main
 
 #[derive(Default)]
 pub struct PreviewState(Mutex<PreviewInner>);
@@ -69,9 +72,14 @@ pub async fn preview_open<R: Runtime>(
     let main = app
         .get_window(crate::MAIN_WINDOW_LABEL)
         .ok_or_else(|| "main window not found".to_string())?;
+<<<<<<< HEAD
+    let builder = WebviewBuilder::new(PREVIEW_LABEL, WebviewUrl::External(target))
+        .initialization_script_for_all_frames(PREVIEW_INIT_SCRIPT);
+=======
     let init_script = format!("{PREVIEW_TAURI_BRIDGE_SCRIPT}\n{PREVIEW_INIT_SCRIPT}");
     let builder = WebviewBuilder::new(PREVIEW_LABEL, WebviewUrl::External(target))
         .initialization_script_for_all_frames(init_script);
+>>>>>>> upstream/main
     main.add_child(
         builder,
         LogicalPosition::new(bounds.x, bounds.y),

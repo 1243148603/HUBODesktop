@@ -64,7 +64,11 @@ type LarkClient = Lark.Client
 const DEFAULT_IM_CARD_REQUEST_TIMEOUT_MS = 15_000
 
 function getImCardRequestTimeoutMs(): number {
+<<<<<<< HEAD
+  const raw = process.env.HUBO_IM_CARD_REQUEST_TIMEOUT_MS
+=======
   const raw = process.env.CC_HAHA_IM_CARD_REQUEST_TIMEOUT_MS
+>>>>>>> upstream/main
   const parsed = raw ? Number(raw) : DEFAULT_IM_CARD_REQUEST_TIMEOUT_MS
   return Number.isFinite(parsed) && parsed > 0
     ? parsed
@@ -189,7 +193,10 @@ export async function sendCardAsMessage(
   chatId: string,
   cardId: string,
   replyToMessageId?: string,
+<<<<<<< HEAD
+=======
   uuid?: string,
+>>>>>>> upstream/main
 ): Promise<string> {
   const content = JSON.stringify({
     type: 'card',
@@ -200,7 +207,11 @@ export async function sendCardAsMessage(
     const resp = await withImCardRequestTimeout('im.message.reply', () =>
       client.im.message.reply({
         path: { message_id: replyToMessageId },
+<<<<<<< HEAD
+        data: { content, msg_type: 'interactive' },
+=======
         data: { content, msg_type: 'interactive', uuid },
+>>>>>>> upstream/main
       }),
     )
     const messageId = resp.data?.message_id
@@ -222,7 +233,10 @@ export async function sendCardAsMessage(
         receive_id: chatId,
         msg_type: 'interactive',
         content,
+<<<<<<< HEAD
+=======
         uuid,
+>>>>>>> upstream/main
       },
     }),
   )

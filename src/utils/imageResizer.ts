@@ -162,6 +162,8 @@ interface CompressedImageResult {
   originalSize: number
 }
 
+<<<<<<< HEAD
+=======
 type ResizeDimensions = {
   width: number
   height: number
@@ -172,6 +174,7 @@ const IMAGE_PROMPT_READABLE_LONG_EDGE = 1568
 const READABLE_JPEG_QUALITIES = [85, 75] as const
 const FALLBACK_JPEG_QUALITIES = [65] as const
 
+>>>>>>> upstream/main
 /**
  * Extracted from FileReadTool's readImage function
  * Resizes image buffer to meet size and dimension constraints
@@ -236,6 +239,162 @@ export async function maybeResizeAndDownsampleImageBuffer(
       }
     }
 
+<<<<<<< HEAD
+    const needsDimensionResize =
+      width > IMAGE_MAX_WIDTH || height > IMAGE_MAX_HEIGHT
+    const isPng = normalizedMediaType === 'png'
+
+    // If dimensions are within limits but file is too large, try compression first
+    // This preserves full resolution when possible
+    if (!needsDimensionResize && originalSize > IMAGE_TARGET_RAW_SIZE) {
+      // For PNGs, try PNG compression first to preserve transparency
+      if (isPng) {
+        // Create fresh sharp instance for each compression attempt
+        const pngCompressed = await sharp(imageBuffer)
+          .png({ compressionLevel: 9, palette: true })
+          .toBuffer()
+        if (pngCompressed.length <= IMAGE_TARGET_RAW_SIZE) {
+          return {
+            buffer: pngCompressed,
+            mediaType: 'png',
+            dimensions: {
+              originalWidth,
+              originalHeight,
+              displayWidth: width,
+              displayHeight: height,
+            },
+          }
+        }
+      }
+      // Try JPEG compression (lossy but much smaller)
+      for (const quality of [80, 60, 40, 20]) {
+        // Create fresh sharp instance for each attempt
+        const compressedBuffer = await sharp(imageBuffer)
+          .jpeg({ quality })
+          .toBuffer()
+        if (compressedBuffer.length <= IMAGE_TARGET_RAW_SIZE) {
+          return {
+            buffer: compressedBuffer,
+            mediaType: 'jpeg',
+            dimensions: {
+              originalWidth,
+              originalHeight,
+              displayWidth: width,
+              displayHeight: height,
+            },
+          }
+        }
+      }
+      // Quality reduction alone wasn't enough, fall through to resize
+    }
+
+    // Constrain dimensions if needed
+    if (width > IMAGE_MAX_WIDTH) {
+      height = Math.round((height * IMAGE_MAX_WIDTH) / width)
+      width = IMAGE_MAX_WIDTH
+    }
+
+    if (height > IMAGE_MAX_HEIGHT) {
+      width = Math.round((width * IMAGE_MAX_HEIGHT) / height)
+      height = IMAGE_MAX_HEIGHT
+    }
+
+    // IMPORTANT: Always create fresh sharp(imageBuffer) instances for each operation.
+    // The native image-processor-napi module doesn't properly apply format conversions
+    // when reusing a sharp instance after calling toBuffer(). This caused a bug where
+    // all compression attempts (PNG, JPEG at various qualities) returned identical sizes.
+    logForDebugging(`Resizing to ${width}x${height}`)
+    const resizedImageBuffer = await sharp(imageBuffer)
+      .resize(width, height, {
+        fit: 'inside',
+        withoutEnlargement: true,
+      })
+      .toBuffer()
+
+    // If still too large after resize, try compression
+    if (resizedImageBuffer.length > IMAGE_TARGET_RAW_SIZE) {
+      // For PNGs, try PNG compression first to preserve transparency
+      if (isPng) {
+        const pngCompressed = await sharp(imageBuffer)
+          .resize(width, height, {
+            fit: 'inside',
+            withoutEnlargement: true,
+          })
+          .png({ compressionLevel: 9, palette: true })
+          .toBuffer()
+        if (pngCompressed.length <= IMAGE_TARGET_RAW_SIZE) {
+          return {
+            buffer: pngCompressed,
+            mediaType: 'png',
+            dimensions: {
+              originalWidth,
+              originalHeight,
+              displayWidth: width,
+              displayHeight: height,
+            },
+          }
+        }
+      }
+
+      // Try JPEG with progressively lower quality
+      for (const quality of [80, 60, 40, 20]) {
+        const compressedBuffer = await sharp(imageBuffer)
+          .resize(width, height, {
+            fit: 'inside',
+            withoutEnlargement: true,
+          })
+          .jpeg({ quality })
+          .toBuffer()
+        if (compressedBuffer.length <= IMAGE_TARGET_RAW_SIZE) {
+          return {
+            buffer: compressedBuffer,
+            mediaType: 'jpeg',
+            dimensions: {
+              originalWidth,
+              originalHeight,
+              displayWidth: width,
+              displayHeight: height,
+            },
+          }
+        }
+      }
+      // If still too large, resize smaller and compress aggressively
+      const smallerWidth = Math.min(width, 1000)
+      const smallerHeight = Math.round(
+        (height * smallerWidth) / Math.max(width, 1),
+      )
+      logForDebugging('Still too large, compressing with JPEG')
+      const compressedBuffer = await sharp(imageBuffer)
+        .resize(smallerWidth, smallerHeight, {
+          fit: 'inside',
+          withoutEnlargement: true,
+        })
+        .jpeg({ quality: 20 })
+        .toBuffer()
+      logForDebugging(`JPEG compressed buffer size: ${compressedBuffer.length}`)
+      return {
+        buffer: compressedBuffer,
+        mediaType: 'jpeg',
+        dimensions: {
+          originalWidth,
+          originalHeight,
+          displayWidth: smallerWidth,
+          displayHeight: smallerHeight,
+        },
+      }
+    }
+
+    return {
+      buffer: resizedImageBuffer,
+      mediaType: normalizedMediaType,
+      dimensions: {
+        originalWidth,
+        originalHeight,
+        displayWidth: width,
+        displayHeight: height,
+      },
+    }
+=======
     const hardDims = constrainDimensions(
       width,
       height,
@@ -329,6 +488,7 @@ export async function maybeResizeAndDownsampleImageBuffer(
       `Unable to compress image (${formatFileSize(originalSize)}) below the 5MB API base64 limit without over-compressing it. ` +
         `Please resize the image manually or use a smaller image.`,
     )
+>>>>>>> upstream/main
   } catch (error) {
     // Log the error and emit analytics event
     logError(error as Error)
@@ -381,6 +541,8 @@ export async function maybeResizeAndDownsampleImageBuffer(
   }
 }
 
+<<<<<<< HEAD
+=======
 function constrainDimensions(
   width: number,
   height: number,
@@ -652,6 +814,7 @@ export async function downsampleImageBufferToVisionTokenBudget(
   )
 }
 
+>>>>>>> upstream/main
 export interface ImageBlockWithDimensions {
   block: ImageBlockParam
   dimensions?: ImageDimensions

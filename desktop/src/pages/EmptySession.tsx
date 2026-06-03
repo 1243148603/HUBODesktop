@@ -1,6 +1,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { ApiError } from '../api/client'
+<<<<<<< HEAD
+=======
 import { agentsApi } from '../api/agents'
+>>>>>>> upstream/main
 import { skillsApi } from '../api/skills'
 import { useTranslation } from '../i18n'
 import { useSessionStore } from '../stores/sessionStore'
@@ -19,8 +22,12 @@ import { ContextUsageIndicator } from '../components/chat/ContextUsageIndicator'
 import { FileSearchMenu, type FileSearchMenuHandle } from '../components/chat/FileSearchMenu'
 import { LocalSlashCommandPanel, type LocalSlashCommandName } from '../components/chat/LocalSlashCommandPanel'
 import { useMobileViewport } from '../hooks/useMobileViewport'
+<<<<<<< HEAD
+import { isTauriRuntime } from '../lib/desktopRuntime'
+=======
 import { isDesktopRuntime } from '../lib/desktopRuntime'
 import { publicAssetPath } from '../lib/publicAsset'
+>>>>>>> upstream/main
 import {
   filesToComposerAttachments,
   selectNativeFileAttachments,
@@ -29,8 +36,11 @@ import {
 import { useComposerFileDrop } from '../components/chat/useComposerFileDrop'
 import { shouldSubmitOnEnter } from '../components/chat/sendShortcut'
 import {
+<<<<<<< HEAD
+=======
   appendAgentSlashCommands,
   buildAgentSlashCommands,
+>>>>>>> upstream/main
   getLocalizedFallbackCommands,
   filterSlashCommands,
   findSlashToken,
@@ -101,7 +111,10 @@ export function EmptySession() {
   const [slashFilter, setSlashFilter] = useState('')
   const [slashSelectedIndex, setSlashSelectedIndex] = useState(0)
   const [slashCommands, setSlashCommands] = useState<SlashCommandOption[]>([])
+<<<<<<< HEAD
+=======
   const [agentSlashCommands, setAgentSlashCommands] = useState<SlashCommandOption[]>([])
+>>>>>>> upstream/main
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const panelRef = useRef<HTMLDivElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -124,7 +137,11 @@ export function EmptySession() {
     ? `${draftRuntimeSelection.providerId ?? 'official'}:${draftRuntimeSelection.modelId}:${draftRuntimeSelection.effortLevel ?? 'auto'}`
     : undefined
   const draftModelLabel = draftRuntimeSelection?.modelId ?? currentModel?.name ?? currentModel?.id
+<<<<<<< HEAD
+  const isMobileComposer = useMobileViewport() && !isTauriRuntime()
+=======
   const isMobileComposer = useMobileViewport() && !isDesktopRuntime()
+>>>>>>> upstream/main
 
   useEffect(() => {
     textareaRef.current?.focus()
@@ -193,9 +210,13 @@ export function EmptySession() {
   useEffect(() => {
     let cancelled = false
 
+<<<<<<< HEAD
+    skillsApi.list(workDir || undefined)
+=======
     const cwd = workDir || undefined
 
     skillsApi.list(cwd)
+>>>>>>> upstream/main
       .then(({ skills }) => {
         if (cancelled) return
         setSlashCommands(
@@ -218,6 +239,11 @@ export function EmptySession() {
     }
   }, [workDir, lastPluginReloadSummary])
 
+<<<<<<< HEAD
+  const allSlashCommands = useMemo(
+    () => mergeSlashCommands(slashCommands, getLocalizedFallbackCommands(t)),
+    [slashCommands, t],
+=======
   useEffect(() => {
     let cancelled = false
     const cwd = workDir || undefined
@@ -244,6 +270,7 @@ export function EmptySession() {
       agentSlashCommands,
     ),
     [agentSlashCommands, slashCommands, t],
+>>>>>>> upstream/main
   )
 
   const handleWorkDirChange = (newWorkDir: string) => {
@@ -415,11 +442,17 @@ export function EmptySession() {
         return
       }
       if (event.key === 'Enter' || event.key === 'Tab') {
+<<<<<<< HEAD
+        if (
+          event.key === 'Enter' &&
+          exactSlashCommand &&
+=======
         const selected = filteredCommands[slashSelectedIndex]
         if (
           event.key === 'Enter' &&
           exactSlashCommand &&
           selected?.name.toLowerCase() === exactSlashCommand.name.toLowerCase() &&
+>>>>>>> upstream/main
           slashFilter.trim().toLowerCase() === exactSlashCommand.name.toLowerCase() &&
           shouldSubmitOnEnter(event, chatSendBehavior)
         ) {
@@ -428,6 +461,10 @@ export function EmptySession() {
           return
         }
         event.preventDefault()
+<<<<<<< HEAD
+        const selected = filteredCommands[slashSelectedIndex]
+=======
+>>>>>>> upstream/main
         if (selected) selectSlashCommand(selected.name)
         return
       }
@@ -503,9 +540,15 @@ export function EmptySession() {
   })
 
   const openAttachmentPicker = useCallback(() => {
+<<<<<<< HEAD
+    if (!isTauriRuntime()) {
+      fileInputRef.current?.click()
+      setPlusMenuOpen(false)
+=======
     setPlusMenuOpen(false)
     if (!isDesktopRuntime()) {
       fileInputRef.current?.click()
+>>>>>>> upstream/main
       return
     }
 
@@ -519,6 +562,10 @@ export function EmptySession() {
         }
         fileInputRef.current?.click()
       })
+<<<<<<< HEAD
+      .finally(() => setPlusMenuOpen(false))
+=======
+>>>>>>> upstream/main
   }, [])
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -570,8 +617,13 @@ export function EmptySession() {
           isMobileComposer ? 'max-w-[300px]' : 'max-w-md'
         }`}>
           <img
+<<<<<<< HEAD
+            src="/app-icon.png"
+            alt="HUBO"
+=======
             src={publicAssetPath('app-icon.png')}
             alt="Claude Code Haha"
+>>>>>>> upstream/main
             className={isMobileComposer ? 'mb-4 h-16 w-16' : 'mb-6 h-24 w-24'}
           />
           <h1

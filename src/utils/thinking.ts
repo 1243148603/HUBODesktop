@@ -181,5 +181,9 @@ export function shouldEnableThinkingByDefault(): boolean {
 }
 
 export function shouldSendExplicitDisabledThinking(): boolean {
+<<<<<<< HEAD
+  return isEnvTruthy(process.env.HUBO_SEND_DISABLED_THINKING)
+=======
   return isEnvTruthy(process.env.CC_HAHA_SEND_DISABLED_THINKING)
+>>>>>>> upstream/main
 }

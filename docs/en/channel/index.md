@@ -25,7 +25,11 @@ A deep dive into the design and implementation of Claude Code's Channel system f
 
 ## Illustrations
 
+<<<<<<< HEAD
+All illustrations use a dark background (#1a1a2e) with HUBO orange-blue accents (#FF7A00).
+=======
 All illustrations use a dark background (#1a1a2e) with Claude Code Haha orange-blue accents (#FF7A00).
+>>>>>>> upstream/main
 
 | Image | Description | Document |
 |-------|-------------|----------|
@@ -77,7 +81,14 @@ All illustrations use a dark background (#1a1a2e) with Claude Code Haha orange-b
 
 ## Related Resources
 
+<<<<<<< HEAD
+- [HUBO Home](/en/)
+- [Agent Framework Deep Dive](/en/agent/03-agent-framework)
+- [Skills System Documentation](/en/skills/01-usage-guide)
+- [GitHub Issues](https://github.com/NanmiCoder/hubo/issues)
+=======
 - [Claude Code Haha Home](/en/)
 - [Agent Framework Deep Dive](/en/agent/03-agent-framework)
 - [Skills System Documentation](/en/skills/01-usage-guide)
 - [GitHub Issues](https://github.com/NanmiCoder/cc-haha/issues)
+>>>>>>> upstream/main

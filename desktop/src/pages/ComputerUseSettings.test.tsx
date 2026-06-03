@@ -4,7 +4,10 @@ import '@testing-library/jest-dom'
 
 import { ComputerUseSettings } from './ComputerUseSettings'
 import { useSettingsStore } from '../stores/settingsStore'
+<<<<<<< HEAD
+=======
 import { browserHost } from '../lib/desktopHost/browserHost'
+>>>>>>> upstream/main
 
 const computerUseApiMock = vi.hoisted(() => ({
   getStatus: vi.fn(),
@@ -71,7 +74,10 @@ describe('ComputerUseSettings', () => {
     computerUseApiMock.setAuthorizedApps.mockReset()
     computerUseApiMock.runSetup.mockReset()
     computerUseApiMock.openSettings.mockReset()
+<<<<<<< HEAD
+=======
     Reflect.deleteProperty(window, 'desktopHost')
+>>>>>>> upstream/main
 
     computerUseApiMock.getStatus.mockResolvedValue(readyStatus)
     computerUseApiMock.getAuthorizedApps.mockResolvedValue(enabledConfig)
@@ -128,6 +134,8 @@ describe('ComputerUseSettings', () => {
     expect(computerUseApiMock.getStatus).toHaveBeenCalledTimes(2)
   })
 
+<<<<<<< HEAD
+=======
   it('selects a custom Python interpreter through the injected desktop host', async () => {
     const open = vi.fn().mockResolvedValue('/opt/python/bin/python3')
     window.desktopHost = {
@@ -185,6 +193,7 @@ describe('ComputerUseSettings', () => {
     expect(computerUseApiMock.setAuthorizedApps).not.toHaveBeenCalled()
   })
 
+>>>>>>> upstream/main
   it('keeps the user-selected enablement when a stale refresh resolves later', async () => {
     const staleRefresh = deferred<typeof enabledConfig>()
     computerUseApiMock.getStatus.mockResolvedValue({

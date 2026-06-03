@@ -21,7 +21,11 @@ async function listFiles(dir: string) {
 
 describe('persistent storage upgrade migrations', () => {
   beforeEach(async () => {
+<<<<<<< HEAD
+    tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'hubo-persistence-'))
+=======
     tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'cc-haha-persistence-'))
+>>>>>>> upstream/main
     process.env.CLAUDE_CONFIG_DIR = tempDir
     resetPersistentStorageMigrationsForTests()
   })
@@ -33,10 +37,17 @@ describe('persistent storage upgrade migrations', () => {
   })
 
   test('migrates legacy providers index and writes a backup before changing it', async () => {
+<<<<<<< HEAD
+    const huboDir = path.join(tempDir, 'hubo')
+    await fs.mkdir(huboDir, { recursive: true })
+    await fs.writeFile(
+      path.join(huboDir, 'providers.json'),
+=======
     const ccHahaDir = path.join(tempDir, 'cc-haha')
     await fs.mkdir(ccHahaDir, { recursive: true })
     await fs.writeFile(
       path.join(ccHahaDir, 'providers.json'),
+>>>>>>> upstream/main
       JSON.stringify({
         activeProviderId: 'provider-1',
         rootFutureField: { keep: true },
@@ -56,9 +67,15 @@ describe('persistent storage upgrade migrations', () => {
     const report = await ensurePersistentStorageUpgraded()
 
     expect(report.failures).toEqual([])
+<<<<<<< HEAD
+    expect(report.migratedEntries).toContain('hubo/providers.json')
+
+    const migrated = JSON.parse(await fs.readFile(path.join(huboDir, 'providers.json'), 'utf-8')) as {
+=======
     expect(report.migratedEntries).toContain('cc-haha/providers.json')
 
     const migrated = JSON.parse(await fs.readFile(path.join(ccHahaDir, 'providers.json'), 'utf-8')) as {
+>>>>>>> upstream/main
       schemaVersion?: number
       activeId?: string | null
       activeProviderId?: string
@@ -71,7 +88,11 @@ describe('persistent storage upgrade migrations', () => {
     expect(migrated.rootFutureField).toEqual({ keep: true })
     expect(migrated.providers?.[0]?.extraFutureField).toBe('keep-me')
 
+<<<<<<< HEAD
+    const backups = (await listFiles(huboDir)).filter((file) => file.startsWith('providers.json.bak-before-migration-'))
+=======
     const backups = (await listFiles(ccHahaDir)).filter((file) => file.startsWith('providers.json.bak-before-migration-'))
+>>>>>>> upstream/main
     expect(backups.length).toBe(1)
 
     const service = new ProviderService()
@@ -80,7 +101,11 @@ describe('persistent storage upgrade migrations', () => {
     expect(activeId).toBe('provider-1')
 
     await service.updateProvider('provider-1', { name: 'Renamed Provider' })
+<<<<<<< HEAD
+    const rewritten = JSON.parse(await fs.readFile(path.join(huboDir, 'providers.json'), 'utf-8')) as {
+=======
     const rewritten = JSON.parse(await fs.readFile(path.join(ccHahaDir, 'providers.json'), 'utf-8')) as {
+>>>>>>> upstream/main
       rootFutureField?: unknown
       providers?: Array<Record<string, unknown>>
     }
@@ -88,7 +113,11 @@ describe('persistent storage upgrade migrations', () => {
     expect(rewritten.providers?.[0]?.extraFutureField).toBe('keep-me')
   })
 
+<<<<<<< HEAD
+  test('imports legacy root providers config into hubo storage without deleting the source', async () => {
+=======
   test('imports legacy root providers config into cc-haha storage without deleting the source', async () => {
+>>>>>>> upstream/main
     await fs.writeFile(
       path.join(tempDir, 'providers.json'),
       JSON.stringify({
@@ -115,14 +144,23 @@ describe('persistent storage upgrade migrations', () => {
     const report = await ensurePersistentStorageUpgraded()
 
     expect(report.failures).toEqual([])
+<<<<<<< HEAD
+    expect(report.migratedEntries).toContain('providers.json -> hubo/providers.json')
+    expect(report.migratedEntries).toContain('providers.json -> hubo/settings.json')
+=======
     expect(report.migratedEntries).toContain('providers.json -> cc-haha/providers.json')
     expect(report.migratedEntries).toContain('providers.json -> cc-haha/settings.json')
+>>>>>>> upstream/main
     expect(JSON.parse(await fs.readFile(path.join(tempDir, 'providers.json'), 'utf-8'))).toMatchObject({
       version: 1,
       activeModel: 'legacy-sonnet',
     })
 
+<<<<<<< HEAD
+    const migrated = JSON.parse(await fs.readFile(path.join(tempDir, 'hubo', 'providers.json'), 'utf-8')) as {
+=======
     const migrated = JSON.parse(await fs.readFile(path.join(tempDir, 'cc-haha', 'providers.json'), 'utf-8')) as {
+>>>>>>> upstream/main
       activeId?: string | null
       providers?: Array<{
         id?: string
@@ -146,7 +184,11 @@ describe('persistent storage upgrade migrations', () => {
       },
     })
 
+<<<<<<< HEAD
+    const managedSettings = JSON.parse(await fs.readFile(path.join(tempDir, 'hubo', 'settings.json'), 'utf-8')) as {
+=======
     const managedSettings = JSON.parse(await fs.readFile(path.join(tempDir, 'cc-haha', 'settings.json'), 'utf-8')) as {
+>>>>>>> upstream/main
       env?: Record<string, string>
     }
     expect(managedSettings.env).toMatchObject({
@@ -161,9 +203,15 @@ describe('persistent storage upgrade migrations', () => {
     expect(providers[0]?.models.main).toBe('legacy-sonnet')
   })
 
+<<<<<<< HEAD
+  test('does not overwrite current hubo provider storage with a legacy root config', async () => {
+    const huboDir = path.join(tempDir, 'hubo')
+    await fs.mkdir(huboDir, { recursive: true })
+=======
   test('does not overwrite current cc-haha provider storage with a legacy root config', async () => {
     const ccHahaDir = path.join(tempDir, 'cc-haha')
     await fs.mkdir(ccHahaDir, { recursive: true })
+>>>>>>> upstream/main
     await fs.writeFile(
       path.join(tempDir, 'providers.json'),
       JSON.stringify({
@@ -181,7 +229,11 @@ describe('persistent storage upgrade migrations', () => {
       'utf-8',
     )
     await fs.writeFile(
+<<<<<<< HEAD
+      path.join(huboDir, 'providers.json'),
+=======
       path.join(ccHahaDir, 'providers.json'),
+>>>>>>> upstream/main
       JSON.stringify({
         schemaVersion: CURRENT_PROVIDER_INDEX_SCHEMA_VERSION,
         activeId: null,
@@ -193,8 +245,13 @@ describe('persistent storage upgrade migrations', () => {
     const report = await ensurePersistentStorageUpgraded()
 
     expect(report.failures).toEqual([])
+<<<<<<< HEAD
+    expect(report.migratedEntries).not.toContain('providers.json -> hubo/providers.json')
+    const current = JSON.parse(await fs.readFile(path.join(huboDir, 'providers.json'), 'utf-8')) as {
+=======
     expect(report.migratedEntries).not.toContain('providers.json -> cc-haha/providers.json')
     const current = JSON.parse(await fs.readFile(path.join(ccHahaDir, 'providers.json'), 'utf-8')) as {
+>>>>>>> upstream/main
       activeId?: string | null
       providers?: unknown[]
     }
@@ -221,24 +278,43 @@ describe('persistent storage upgrade migrations', () => {
   })
 
   test('quarantines malformed managed settings instead of blocking startup', async () => {
+<<<<<<< HEAD
+    const huboDir = path.join(tempDir, 'hubo')
+    await fs.mkdir(huboDir, { recursive: true })
+    await fs.writeFile(path.join(huboDir, 'settings.json'), '{"env":', 'utf-8')
+=======
     const ccHahaDir = path.join(tempDir, 'cc-haha')
     await fs.mkdir(ccHahaDir, { recursive: true })
     await fs.writeFile(path.join(ccHahaDir, 'settings.json'), '{"env":', 'utf-8')
+>>>>>>> upstream/main
 
     const report = await ensurePersistentStorageUpgraded()
 
     expect(report.failures).toEqual([])
+<<<<<<< HEAD
+    expect(report.migratedEntries).toContain('hubo/settings.json')
+    expect(JSON.parse(await fs.readFile(path.join(huboDir, 'settings.json'), 'utf-8'))).toEqual({})
+    const quarantined = (await listFiles(huboDir)).filter((file) => file.startsWith('settings.json.invalid-'))
+=======
     expect(report.migratedEntries).toContain('cc-haha/settings.json')
     expect(JSON.parse(await fs.readFile(path.join(ccHahaDir, 'settings.json'), 'utf-8'))).toEqual({})
     const quarantined = (await listFiles(ccHahaDir)).filter((file) => file.startsWith('settings.json.invalid-'))
+>>>>>>> upstream/main
     expect(quarantined.length).toBe(1)
   })
 
   test('upgrades existing DeepSeek managed env to follow global thinking settings', async () => {
+<<<<<<< HEAD
+    const huboDir = path.join(tempDir, 'hubo')
+    await fs.mkdir(huboDir, { recursive: true })
+    await fs.writeFile(
+      path.join(huboDir, 'settings.json'),
+=======
     const ccHahaDir = path.join(tempDir, 'cc-haha')
     await fs.mkdir(ccHahaDir, { recursive: true })
     await fs.writeFile(
       path.join(ccHahaDir, 'settings.json'),
+>>>>>>> upstream/main
       JSON.stringify({
         env: {
           ANTHROPIC_BASE_URL: 'https://api.deepseek.com/anthropic',
@@ -247,7 +323,11 @@ describe('persistent storage upgrade migrations', () => {
           ANTHROPIC_DEFAULT_HAIKU_MODEL: 'deepseek-v4-flash',
           ANTHROPIC_DEFAULT_SONNET_MODEL: 'deepseek-v4-pro',
           ANTHROPIC_DEFAULT_OPUS_MODEL: 'deepseek-v4-pro',
+<<<<<<< HEAD
+          HUBO_SEND_DISABLED_THINKING: '1',
+=======
           CC_HAHA_SEND_DISABLED_THINKING: '1',
+>>>>>>> upstream/main
           USER_CUSTOM_ENV: 'keep-me',
         },
       }, null, 2),
@@ -257,12 +337,21 @@ describe('persistent storage upgrade migrations', () => {
     const report = await ensurePersistentStorageUpgraded()
 
     expect(report.failures).toEqual([])
+<<<<<<< HEAD
+    expect(report.migratedEntries).toContain('hubo/settings.json')
+
+    const migrated = JSON.parse(await fs.readFile(path.join(huboDir, 'settings.json'), 'utf-8')) as {
+      env?: Record<string, string>
+    }
+    expect(migrated.env?.HUBO_SEND_DISABLED_THINKING).toBeUndefined()
+=======
     expect(report.migratedEntries).toContain('cc-haha/settings.json')
 
     const migrated = JSON.parse(await fs.readFile(path.join(ccHahaDir, 'settings.json'), 'utf-8')) as {
       env?: Record<string, string>
     }
     expect(migrated.env?.CC_HAHA_SEND_DISABLED_THINKING).toBeUndefined()
+>>>>>>> upstream/main
     expect(migrated.env?.ANTHROPIC_DEFAULT_HAIKU_MODEL_SUPPORTED_CAPABILITIES).toBe(
       'thinking,effort,adaptive_thinking,max_effort',
     )
@@ -274,7 +363,11 @@ describe('persistent storage upgrade migrations', () => {
     )
     expect(migrated.env?.USER_CUSTOM_ENV).toBe('keep-me')
 
+<<<<<<< HEAD
+    const backups = (await listFiles(huboDir)).filter((file) => file.startsWith('settings.json.bak-before-migration-'))
+=======
     const backups = (await listFiles(ccHahaDir)).filter((file) => file.startsWith('settings.json.bak-before-migration-'))
+>>>>>>> upstream/main
     expect(backups.length).toBe(1)
   })
 })

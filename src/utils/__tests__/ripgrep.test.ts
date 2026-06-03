@@ -22,12 +22,20 @@ describe('isUsableBuiltinRipgrepPath', () => {
 
   test('rejects missing paths', () => {
     expect(
+<<<<<<< HEAD
+      isUsableBuiltinRipgrepPath(join(tmpdir(), 'missing-hubo-rg')),
+=======
       isUsableBuiltinRipgrepPath(join(tmpdir(), 'missing-cc-haha-rg')),
+>>>>>>> upstream/main
     ).toBe(false)
   })
 
   test('accepts real filesystem paths', async () => {
+<<<<<<< HEAD
+    const filePath = join(tmpdir(), `hubo-rg-${Date.now()}`)
+=======
     const filePath = join(tmpdir(), `cc-haha-rg-${Date.now()}`)
+>>>>>>> upstream/main
     await writeFile(filePath, '')
     tempFiles.push(filePath)
 

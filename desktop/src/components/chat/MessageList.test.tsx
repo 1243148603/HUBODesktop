@@ -57,6 +57,9 @@ function findTextNodeContaining(container: Element, text: string) {
   throw new Error(`Unable to find text node containing ${text}`)
 }
 
+<<<<<<< HEAD
+async function selectMessageText(element: Element, text: string) {
+=======
 async function waitForSelectionMenuUpdate() {
   await act(async () => {
     await Promise.resolve()
@@ -74,6 +77,7 @@ function prepareMessageTextSelection(
   text: string,
   rect: Partial<DOMRect> = {},
 ) {
+>>>>>>> upstream/main
   const textNode = findTextNodeContaining(element, text)
   const startOffset = textNode.textContent?.indexOf(text) ?? -1
   const range = document.createRange()
@@ -81,6 +85,16 @@ function prepareMessageTextSelection(
   range.setEnd(textNode, startOffset + text.length)
   Object.assign(range, {
     getBoundingClientRect: () => ({
+<<<<<<< HEAD
+      left: 160,
+      top: 80,
+      right: 280,
+      bottom: 98,
+      width: 120,
+      height: 18,
+      x: 160,
+      y: 80,
+=======
       left: rect.left ?? 160,
       top: rect.top ?? 80,
       right: rect.right ?? 280,
@@ -89,6 +103,7 @@ function prepareMessageTextSelection(
       height: rect.height ?? 18,
       x: rect.x ?? rect.left ?? 160,
       y: rect.y ?? rect.top ?? 80,
+>>>>>>> upstream/main
       toJSON: () => ({}),
     }),
   })
@@ -111,6 +126,12 @@ function prepareMessageTextSelection(
   window.getSelection()?.removeAllRanges()
   window.getSelection()?.addRange(range)
 
+<<<<<<< HEAD
+  await act(async () => {
+    fireEvent.mouseUp(element, { clientX: 260, clientY: 104 })
+    await Promise.resolve()
+  })
+=======
   return selectableRoot ?? element
 }
 
@@ -209,6 +230,7 @@ async function selectAcrossMessageText(
     await Promise.resolve()
   })
   await waitForSelectionMenuUpdate()
+>>>>>>> upstream/main
 }
 
 describe('MessageList nested tool calls', () => {
@@ -1764,6 +1786,8 @@ describe('MessageList nested tool calls', () => {
     expect(window.getSelection()?.toString()).toBe('')
   })
 
+<<<<<<< HEAD
+=======
   it('shows the selected-message action when text selection ends outside the message', async () => {
     useChatStore.setState({
       sessions: {
@@ -1962,6 +1986,7 @@ describe('MessageList nested tool calls', () => {
     expect(screen.getByRole('button', { name: 'Add to chat' })).toBeTruthy()
   })
 
+>>>>>>> upstream/main
   it('adds selected assistant reply text to the composer context', async () => {
     useChatStore.setState({
       sessions: {
@@ -1980,11 +2005,15 @@ describe('MessageList nested tool calls', () => {
 
     const assistantText = screen.getByText(/First inspect the file tree/)
     await selectMessageText(assistantText, 'quote the selected lines')
+<<<<<<< HEAD
+    fireEvent.click(screen.getByRole('button', { name: 'Add to chat' }))
+=======
     const floatingAddButton = screen.getByRole('button', { name: 'Add to chat' })
 
     expect(floatingAddButton.closest('[data-chat-selectable-message]')).toBeNull()
 
     fireEvent.click(floatingAddButton)
+>>>>>>> upstream/main
 
     expect(useWorkspaceChatContextStore.getState().referencesBySession[ACTIVE_TAB]).toMatchObject([
       {
@@ -2027,6 +2056,8 @@ describe('MessageList nested tool calls', () => {
     expect(window.getSelection()?.toString()).toBe('')
   })
 
+<<<<<<< HEAD
+=======
   it('dismisses the selected-message action when the message list scrolls', async () => {
     useChatStore.setState({
       sessions: {
@@ -2057,6 +2088,7 @@ describe('MessageList nested tool calls', () => {
     expect(window.getSelection()?.toString()).toBe('')
   })
 
+>>>>>>> upstream/main
   it('keeps only the latest selected-message action when selecting across messages', async () => {
     useChatStore.setState({
       sessions: {

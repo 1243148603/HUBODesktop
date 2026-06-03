@@ -2,19 +2,31 @@
 layout: home
 
 hero:
+<<<<<<< HEAD
+  name: HUBO
+=======
   name: Claude Code Haha
+>>>>>>> upstream/main
   text: 本地可运行的 Claude Code
   tagline: 基于泄露源码修复，支持接入任意 Anthropic 兼容 API（MiniMax、OpenRouter 等）
   image:
     src: /images/logo-horizontal.png
+<<<<<<< HEAD
+    alt: HUBO
+=======
     alt: Claude Code Haha
+>>>>>>> upstream/main
   actions:
     - theme: brand
       text: 快速开始
       link: /guide/quick-start
     - theme: alt
       text: GitHub
+<<<<<<< HEAD
+      link: https://github.com/NanmiCoder/hubo
+=======
       link: https://github.com/NanmiCoder/cc-haha
+>>>>>>> upstream/main
 
 features:
   - icon: "\U0001F5A5"
@@ -46,6 +58,10 @@ features:
     link: /features/computer-use
   - icon: "\U0001F5A5"
     title: 桌面端
+<<<<<<< HEAD
+    details: 基于 Tauri 2 + React 的图形化客户端，多标签、多会话、IM 适配器接入，支持 macOS 和 Windows
+=======
     details: 基于 Electron + React 的图形化客户端，多标签、多会话、IM 适配器接入，支持 macOS、Windows 和 Linux
+>>>>>>> upstream/main
     link: /desktop/
 ---

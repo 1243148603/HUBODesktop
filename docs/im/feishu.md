@@ -60,7 +60,11 @@
 - `/new`：开启新对话
 - `/clear`：清空当前会话上下文
 
+<<<<<<< HEAD
+## 3. 在 HUBO 桌面端填写
+=======
 ## 3. 在 Claude Code Haha 桌面端填写
+>>>>>>> upstream/main
 
 ### 3.1 填写 App ID / App Secret
 
@@ -84,7 +88,11 @@
 
 ![在飞书里发配对码](../images/im/feishu/13-send-code-in-feishu.png)
 
+<<<<<<< HEAD
+看到配对成功提示后，就可以用飞书在手机上远程驱动桌面端 HUBO 了：
+=======
 看到配对成功提示后，就可以用飞书在手机上远程驱动桌面端 Claude Code Haha 了：
+>>>>>>> upstream/main
 
 ![配对成功](../images/im/feishu/14-pair-success.png)
 

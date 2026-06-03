@@ -16,8 +16,13 @@ BASE_URL="http://127.0.0.1:${API_PORT}"
 WEB_URL="http://127.0.0.1:${WEB_PORT}/?serverUrl=${BASE_URL}"
 
 RUN_ID="$(date +%s)-$RANDOM"
+<<<<<<< HEAD
+SESSION_NAME="hubo-context-live-${RUN_ID}"
+ARTIFACT_DIR="${ARTIFACT_DIR:-$(mktemp -d "/tmp/hubo-context-live-${RUN_ID}-XXXX")}"
+=======
 SESSION_NAME="cc-haha-context-live-${RUN_ID}"
 ARTIFACT_DIR="${ARTIFACT_DIR:-$(mktemp -d "/tmp/cc-haha-context-live-${RUN_ID}-XXXX")}"
+>>>>>>> upstream/main
 PROJECT_DIR="${ARTIFACT_DIR}/project"
 SERVER_LOG="${ARTIFACT_DIR}/server.log"
 WEB_LOG="${ARTIFACT_DIR}/web.log"
@@ -207,7 +212,11 @@ TAB_STATE="{\"openTabs\":[{\"sessionId\":\"${SESSION_ID}\",\"title\":\"${UNIQUE_
 
 "${AB[@]}" open "${WEB_URL}" >>"${BROWSER_LOG}" 2>&1
 "${AB[@]}" wait 1200 >>"${BROWSER_LOG}" 2>&1
+<<<<<<< HEAD
+"${AB[@]}" eval "localStorage.setItem('hubo-locale', 'en'); localStorage.setItem('hubo-open-tabs', '${TAB_STATE}'); location.reload();" >>"${BROWSER_LOG}" 2>&1
+=======
 "${AB[@]}" eval "localStorage.setItem('cc-haha-locale', 'en'); localStorage.setItem('cc-haha-open-tabs', '${TAB_STATE}'); location.reload();" >>"${BROWSER_LOG}" 2>&1
+>>>>>>> upstream/main
 "${AB[@]}" wait 1800 >>"${BROWSER_LOG}" 2>&1
 
 "${AB[@]}" fill '#sidebar-search' "${UNIQUE_TITLE}" >>"${BROWSER_LOG}" 2>&1

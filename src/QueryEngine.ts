@@ -69,7 +69,10 @@ import {
 import { loadAllPluginsCacheOnly } from './utils/plugins/pluginLoader.js'
 import {
   type ProcessUserInputContext,
+<<<<<<< HEAD
+=======
   type ProcessUserInputBaseResult,
+>>>>>>> upstream/main
   processUserInput,
 } from './utils/processUserInput/processUserInput.js'
 import { fetchSystemPromptParts } from './utils/queryContext.js'
@@ -416,7 +419,11 @@ export class QueryEngine {
       allowedTools,
       model: modelFromUserInput,
       resultText,
+<<<<<<< HEAD
+    } = await processUserInput({
+=======
     }: ProcessUserInputBaseResult = await processUserInput({
+>>>>>>> upstream/main
       input: prompt,
       mode: 'prompt',
       setToolJSX: () => {},

@@ -1,21 +1,33 @@
+<<<<<<< HEAD
+import { appendFileSync, cpSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+=======
 import { appendFileSync, cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+>>>>>>> upstream/main
 import { mkdtemp } from 'node:fs/promises'
 import { createServer } from 'node:net'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
+<<<<<<< HEAD
+=======
 import treeKill from 'tree-kill'
+>>>>>>> upstream/main
 import { changedFiles, writeDiffPatch } from '../baseline/execute'
 import type { BaselineTarget, LaneResult } from '../types'
 
 const FIXTURE = 'scripts/quality-gate/desktop-smoke/fixtures/chat-edit'
+<<<<<<< HEAD
+=======
 const AGENT_BROWSER_HOME = join(process.env.HOME ?? '', '.agent-browser')
 const LOOPBACK_PROXY_BYPASS = '127.0.0.1,localhost,::1,[::1]'
+>>>>>>> upstream/main
 const PROMPT = [
   'Run the tests in this project, fix the failing greeting implementation, and rerun the tests.',
   'Only edit src/greeting.ts. Do not edit package.json or tests.',
   'When the tests pass, briefly say done.',
 ].join(' ')
 
+<<<<<<< HEAD
+=======
 type DesktopSmokeStage = 'open' | 'eval' | 'reload' | 'wait' | 'screenshot' | 'fill' | 'press' | 'verify'
 
 type DesktopSmokeFailureContext = {
@@ -32,6 +44,7 @@ type DesktopSmokeFailureContext = {
   vitePort: number
 }
 
+>>>>>>> upstream/main
 export function resolveDesktopSmokeRuntimeSelection(target: BaselineTarget | undefined) {
   if (!target) return null
   if (!target.providerId && target.modelId === 'current' && target.label === 'current-runtime') {
@@ -43,6 +56,8 @@ export function resolveDesktopSmokeRuntimeSelection(target: BaselineTarget | und
   }
 }
 
+<<<<<<< HEAD
+=======
 function mergeProxyBypass(value: string | undefined) {
   const entries = new Set(
     (value ?? '')
@@ -179,6 +194,7 @@ async function runBrowserStep(
   }
 }
 
+>>>>>>> upstream/main
 async function getPort(): Promise<number> {
   return await new Promise((resolve, reject) => {
     const server = createServer()
@@ -298,7 +314,11 @@ async function waitForVerifiedProject(
   const deadline = Date.now() + timeoutMs
   let lastVerificationError = 'project verification has not run yet'
   while (Date.now() < deadline) {
+<<<<<<< HEAD
+    const body = await runLoggedCommand(['agent-browser', 'get', 'text', '#content-area'], {
+=======
     const body = await runLoggedCommand(agentBrowserCommand(['get', 'text', '#content-area']), {
+>>>>>>> upstream/main
       cwd: rootDir,
       env: browserEnv,
       logPath: browserLogPath,
@@ -389,6 +409,11 @@ export async function executeDesktopSmoke(
   const baseUrl = `http://127.0.0.1:${serverPort}`
   const appUrl = `http://127.0.0.1:${vitePort}`
   const sessionName = `quality-gate-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
+<<<<<<< HEAD
+  const browserEnv = {
+    AGENT_BROWSER_SESSION: sessionName,
+    AGENT_BROWSER_PROFILE: browserProfileDir,
+=======
   const browserEnv = buildDesktopSmokeBrowserEnv(sessionName, browserProfileDir)
   const browserStepContext = {
     sessionName,
@@ -401,6 +426,7 @@ export async function executeDesktopSmoke(
     baseUrl,
     serverPort,
     vitePort,
+>>>>>>> upstream/main
   }
 
   const server = Bun.spawn(['bun', 'run', 'src/server/index.ts', '--host', '127.0.0.1', '--port', String(serverPort)], {
@@ -449,60 +475,112 @@ export async function executeDesktopSmoke(
       ? { source: 'explicit-target', ...runtimeSelection }
       : { source: 'default-runtime' }, null, 2) + '\n')
 
+<<<<<<< HEAD
+    await runLoggedCommand(['agent-browser', 'open', appUrl], {
+=======
     await runBrowserStep('open', ['open', appUrl], {
+>>>>>>> upstream/main
       cwd: rootDir,
       env: browserEnv,
       logPath: browserLogPath,
       timeoutMs: 30_000,
+<<<<<<< HEAD
+    })
+    const browserSetup = [
+      `localStorage.setItem('hubo-open-tabs', ${JSON.stringify(JSON.stringify({
+=======
     }, browserStepContext)
     const browserSetup = [
       `localStorage.setItem('cc-haha-open-tabs', ${JSON.stringify(JSON.stringify({
+>>>>>>> upstream/main
         openTabs: [{ sessionId: session.sessionId, title: 'Desktop Smoke', type: 'session' }],
         activeTabId: session.sessionId,
       }))})`,
       runtimeSelection
+<<<<<<< HEAD
+        ? `localStorage.setItem('hubo-session-runtime', ${JSON.stringify(JSON.stringify({
+          [session.sessionId]: runtimeSelection,
+        }))})`
+        : `localStorage.removeItem('hubo-session-runtime')`,
+    ]
+    await runLoggedCommand([
+      'agent-browser',
+      'eval',
+      browserSetup.join(';'),
+    ], {
+=======
         ? `localStorage.setItem('cc-haha-session-runtime', ${JSON.stringify(JSON.stringify({
           [session.sessionId]: runtimeSelection,
         }))})`
         : `localStorage.removeItem('cc-haha-session-runtime')`,
     ]
     await runBrowserStep('eval', ['eval', browserSetup.join(';')], {
+>>>>>>> upstream/main
       cwd: rootDir,
       env: browserEnv,
       logPath: browserLogPath,
       timeoutMs: 15_000,
+<<<<<<< HEAD
+    })
+    await runLoggedCommand(['agent-browser', 'reload'], {
+=======
     }, browserStepContext)
     await runBrowserStep('reload', ['reload'], {
+>>>>>>> upstream/main
       cwd: rootDir,
       env: browserEnv,
       logPath: browserLogPath,
       timeoutMs: 30_000,
+<<<<<<< HEAD
+    })
+    await runLoggedCommand(['agent-browser', 'wait', 'textarea'], {
+=======
     }, browserStepContext)
     await runBrowserStep('wait', ['wait', 'textarea'], {
+>>>>>>> upstream/main
       cwd: rootDir,
       env: browserEnv,
       logPath: browserLogPath,
       timeoutMs: 30_000,
+<<<<<<< HEAD
+    })
+    await runLoggedCommand(['agent-browser', 'screenshot', join(artifactDir, 'initial.png')], {
+=======
     }, browserStepContext)
     await runBrowserStep('screenshot', ['screenshot', join(artifactDir, 'initial.png')], {
+>>>>>>> upstream/main
       cwd: rootDir,
       env: browserEnv,
       logPath: browserLogPath,
       timeoutMs: 20_000,
       allowFailure: true,
+<<<<<<< HEAD
+    })
+    await runLoggedCommand(['agent-browser', 'fill', 'textarea', PROMPT], {
+=======
     }, browserStepContext)
     await runBrowserStep('fill', ['fill', 'textarea', PROMPT], {
+>>>>>>> upstream/main
       cwd: rootDir,
       env: browserEnv,
       logPath: browserLogPath,
       timeoutMs: 20_000,
+<<<<<<< HEAD
+    })
+    await runLoggedCommand(['agent-browser', 'press', 'Enter'], {
+=======
     }, browserStepContext)
     await runBrowserStep('press', ['press', 'Enter'], {
+>>>>>>> upstream/main
       cwd: rootDir,
       env: browserEnv,
       logPath: browserLogPath,
       timeoutMs: 15_000,
+<<<<<<< HEAD
+    })
+=======
     }, browserStepContext)
+>>>>>>> upstream/main
 
     await waitForVerifiedProject(
       browserEnv,
@@ -513,13 +591,21 @@ export async function executeDesktopSmoke(
       artifactDir,
       360_000,
     )
+<<<<<<< HEAD
+    await runLoggedCommand(['agent-browser', 'screenshot', join(artifactDir, 'final.png')], {
+=======
     await runBrowserStep('screenshot', ['screenshot', join(artifactDir, 'final.png')], {
+>>>>>>> upstream/main
       cwd: rootDir,
       env: browserEnv,
       logPath: browserLogPath,
       timeoutMs: 20_000,
       allowFailure: true,
+<<<<<<< HEAD
+    })
+=======
     }, browserStepContext)
+>>>>>>> upstream/main
 
     return {
       id: resultId,
@@ -543,17 +629,24 @@ export async function executeDesktopSmoke(
         appendFileSync(serverLogPath, `\n[quality-gate] Failed to restore permission mode: ${error instanceof Error ? error.message : String(error)}\n`)
       })
     }
+<<<<<<< HEAD
+    await runLoggedCommand(['agent-browser', 'close'], {
+=======
     await runLoggedCommand(agentBrowserCommand(['close']), {
+>>>>>>> upstream/main
       cwd: rootDir,
       env: browserEnv,
       logPath: browserLogPath,
       timeoutMs: 10_000,
       allowFailure: true,
     }).catch(() => {})
+<<<<<<< HEAD
+=======
     await cleanupAgentBrowserSession(sessionName, browserLogPath)
     cleanupBrowserProfileProcesses(browserProfileDir, browserLogPath)
     rmSync(browserProfileDir, { recursive: true, force: true })
     appendFileSync(browserLogPath, `\n[quality-gate] Removed browser profile ${browserProfileDir}\n`)
+>>>>>>> upstream/main
     server.kill()
     vite.kill()
     rmSync(workRoot, { recursive: true, force: true })

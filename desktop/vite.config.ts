@@ -6,7 +6,10 @@ import path from 'path'
 const host = process.env.TAURI_DEV_HOST
 
 export default defineConfig({
+<<<<<<< HEAD
+=======
   base: './',
+>>>>>>> upstream/main
   plugins: [react(), tailwindcss()],
   build: {
     // Vite 8 defaults to baseline-widely-available (safari16.4+), which

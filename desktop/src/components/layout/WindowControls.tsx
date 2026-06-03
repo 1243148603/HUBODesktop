@@ -1,4 +1,22 @@
 import { useState, useEffect } from 'react'
+<<<<<<< HEAD
+
+const isTauri = typeof window !== 'undefined' && ('__TAURI_INTERNALS__' in window || '__TAURI__' in window)
+const isWindows = typeof navigator !== 'undefined' && /Win/.test(navigator.platform)
+
+/** Whether to render custom window controls (Windows + Tauri only) */
+export const showWindowControls = isTauri && isWindows
+
+export function WindowControls() {
+  const [maximized, setMaximized] = useState(false)
+  const [win, setWin] = useState<{
+    minimize: () => Promise<void>
+    toggleMaximize: () => Promise<void>
+    close: () => Promise<void>
+    isMaximized: () => Promise<boolean>
+    onResized: (handler: () => void) => Promise<() => void>
+  } | null>(null)
+=======
 import { getDesktopHost } from '../../lib/desktopHost'
 import type { DesktopHost } from '../../lib/desktopHost'
 
@@ -10,10 +28,26 @@ export const showWindowControls = isWindows && getDesktopHost().capabilities.win
 export function WindowControls() {
   const [maximized, setMaximized] = useState(false)
   const [win, setWin] = useState<DesktopHost['window'] | null>(null)
+>>>>>>> upstream/main
 
   useEffect(() => {
     if (!showWindowControls) return
     let unlisten: (() => void) | undefined
+<<<<<<< HEAD
+
+    import('@tauri-apps/api/window')
+      .then(async ({ getCurrentWindow }) => {
+        const w = getCurrentWindow()
+        setWin(w as any)
+        setMaximized(await w.isMaximized())
+        unlisten = await w.onResized(async () => {
+          setMaximized(await w.isMaximized())
+        })
+      })
+      .catch(() => {})
+
+    return () => { unlisten?.() }
+=======
     let cancelled = false
 
     const w = getDesktopHost().window
@@ -37,6 +71,7 @@ export function WindowControls() {
       cancelled = true
       unlisten?.()
     }
+>>>>>>> upstream/main
   }, [])
 
   const runWindowAction = (action: () => Promise<void>) => {

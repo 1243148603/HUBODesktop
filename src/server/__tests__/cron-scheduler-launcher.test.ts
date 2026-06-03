@@ -22,7 +22,11 @@ const originalClaudeCodeEntrypoint = process.env.CLAUDE_CODE_ENTRYPOINT
 const originalHome = process.env.HOME
 const originalShell = process.env.SHELL
 const originalZdotdir = process.env.ZDOTDIR
+<<<<<<< HEAD
+const originalDisableTerminalShellEnv = process.env.HUBO_DISABLE_TERMINAL_SHELL_ENV
+=======
 const originalDisableTerminalShellEnv = process.env.CC_HAHA_DISABLE_TERMINAL_SHELL_ENV
+>>>>>>> upstream/main
 
 const isWindows = process.platform === 'win32'
 const unixOnly = isWindows ? it.skip : it
@@ -102,9 +106,15 @@ function restoreEnv(): void {
     delete process.env.ZDOTDIR
   }
   if (originalDisableTerminalShellEnv) {
+<<<<<<< HEAD
+    process.env.HUBO_DISABLE_TERMINAL_SHELL_ENV = originalDisableTerminalShellEnv
+  } else {
+    delete process.env.HUBO_DISABLE_TERMINAL_SHELL_ENV
+=======
     process.env.CC_HAHA_DISABLE_TERMINAL_SHELL_ENV = originalDisableTerminalShellEnv
   } else {
     delete process.env.CC_HAHA_DISABLE_TERMINAL_SHELL_ENV
+>>>>>>> upstream/main
   }
   resetTerminalShellEnvironmentCacheForTests()
 }
@@ -115,7 +125,11 @@ describe('cron scheduler launcher resolution', () => {
   beforeEach(async () => {
     tmpDir = await createTmpDir()
     process.env.CLAUDE_CONFIG_DIR = path.join(tmpDir, 'config')
+<<<<<<< HEAD
+    process.env.HUBO_DISABLE_TERMINAL_SHELL_ENV = '1'
+=======
     process.env.CC_HAHA_DISABLE_TERMINAL_SHELL_ENV = '1'
+>>>>>>> upstream/main
     resetTerminalShellEnvironmentCacheForTests()
   })
 
@@ -125,7 +139,11 @@ describe('cron scheduler launcher resolution', () => {
   })
 
   it('uses the bundled sidecar launcher when one is configured', () => {
+<<<<<<< HEAD
+    const sidecarPath = path.join(tmpDir, 'hubo-sidecar')
+=======
     const sidecarPath = path.join(tmpDir, 'claude-sidecar')
+>>>>>>> upstream/main
     const appRoot = path.join(tmpDir, 'app-root')
 
     const args = buildCronCliArgs(['--print'], {
@@ -146,7 +164,11 @@ describe('cron scheduler launcher resolution', () => {
     ])
   })
 
+<<<<<<< HEAD
+  it('prefers an explicit HUBO_ROOT when it points at a source checkout', async () => {
+=======
   it('prefers an explicit CC_HAHA_ROOT when it points at a source checkout', async () => {
+>>>>>>> upstream/main
     const sourceRoot = path.join(tmpDir, 'source')
     await createSourceRoot(sourceRoot)
 
@@ -154,7 +176,11 @@ describe('cron scheduler launcher resolution', () => {
       resolveCronProjectRoot({
         cwd: path.join(tmpDir, 'other'),
         moduleDir: path.join(tmpDir, 'broken', 'src', 'server', 'services'),
+<<<<<<< HEAD
+        env: { HUBO_ROOT: sourceRoot },
+=======
         env: { CC_HAHA_ROOT: sourceRoot },
+>>>>>>> upstream/main
       }),
     ).toBe(sourceRoot)
   })
@@ -177,7 +203,11 @@ describe('cron scheduler launcher resolution', () => {
   unixOnly('executeTask launches the configured desktop sidecar instead of source bun', async () => {
     const binDir = path.join(tmpDir, 'bin')
     const appRoot = path.join(tmpDir, 'app-root')
+<<<<<<< HEAD
+    const sidecarPath = path.join(tmpDir, 'hubo-sidecar')
+=======
     const sidecarPath = path.join(tmpDir, 'claude-sidecar')
+>>>>>>> upstream/main
     const sidecarArgsPath = path.join(tmpDir, 'sidecar.args')
     const bunArgsPath = path.join(tmpDir, 'bun.args')
 
@@ -248,7 +278,11 @@ describe('cron scheduler launcher resolution', () => {
 
   unixOnly('executeTask passes provider-scoped model runtime to the sidecar', async () => {
     const appRoot = path.join(tmpDir, 'app-root')
+<<<<<<< HEAD
+    const sidecarPath = path.join(tmpDir, 'hubo-sidecar')
+=======
     const sidecarPath = path.join(tmpDir, 'claude-sidecar')
+>>>>>>> upstream/main
     const sidecarArgsPath = path.join(tmpDir, 'sidecar.args')
     const sidecarEnvPath = path.join(tmpDir, 'sidecar.env')
 
@@ -332,7 +366,11 @@ describe('cron scheduler launcher resolution', () => {
 
   unixOnly('executeTask launches scheduled tasks with full permissions', async () => {
     const appRoot = path.join(tmpDir, 'app-root')
+<<<<<<< HEAD
+    const sidecarPath = path.join(tmpDir, 'hubo-sidecar')
+=======
     const sidecarPath = path.join(tmpDir, 'claude-sidecar')
+>>>>>>> upstream/main
     const sidecarArgsPath = path.join(tmpDir, 'sidecar.args')
 
     await fs.mkdir(appRoot, { recursive: true })
@@ -400,7 +438,11 @@ describe('cron scheduler launcher resolution', () => {
 
   unixOnly('executeTask inherits exported terminal shell variables', async () => {
     const appRoot = path.join(tmpDir, 'app-root')
+<<<<<<< HEAD
+    const sidecarPath = path.join(tmpDir, 'hubo-sidecar')
+=======
     const sidecarPath = path.join(tmpDir, 'claude-sidecar')
+>>>>>>> upstream/main
     const sidecarEnvPath = path.join(tmpDir, 'sidecar.env')
     const shellPath = path.join(tmpDir, 'zsh')
     const nodeBin = path.join(tmpDir, 'node-bin')
@@ -453,7 +495,11 @@ describe('cron scheduler launcher resolution', () => {
     )
     await fs.chmod(sidecarPath, 0o755)
 
+<<<<<<< HEAD
+    delete process.env.HUBO_DISABLE_TERMINAL_SHELL_ENV
+=======
     delete process.env.CC_HAHA_DISABLE_TERMINAL_SHELL_ENV
+>>>>>>> upstream/main
     process.env.HOME = tmpDir
     process.env.SHELL = shellPath
     process.env.PATH = '/usr/bin:/bin'

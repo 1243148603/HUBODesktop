@@ -1,5 +1,8 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+<<<<<<< HEAD
+=======
 import { browserHost } from '../lib/desktopHost/browserHost'
+>>>>>>> upstream/main
 
 const check = vi.fn()
 const relaunch = vi.fn()
@@ -17,6 +20,8 @@ vi.mock('@tauri-apps/api/core', () => ({
   invoke,
 }))
 
+<<<<<<< HEAD
+=======
 function installElectronUpdateHost() {
   window.desktopHost = {
     ...browserHost,
@@ -36,15 +41,23 @@ function installElectronUpdateHost() {
   }
 }
 
+>>>>>>> upstream/main
 describe('updateStore', () => {
   beforeEach(() => {
     check.mockReset()
     relaunch.mockReset()
     invoke.mockReset()
     window.localStorage.clear()
+<<<<<<< HEAD
+    Object.defineProperty(window, '__TAURI_INTERNALS__', {
+      configurable: true,
+      value: {},
+    })
+=======
     installElectronUpdateHost()
     Reflect.deleteProperty(window, '__TAURI_INTERNALS__')
     Reflect.deleteProperty(window, '__TAURI__')
+>>>>>>> upstream/main
   })
 
   it('stores available update metadata after a successful check', async () => {
@@ -74,6 +87,8 @@ describe('updateStore', () => {
     expect(useUpdateStore.getState().shouldPrompt).toBe(true)
   })
 
+<<<<<<< HEAD
+=======
   it('checks, installs, and relaunches through an injected desktop host', async () => {
     Reflect.deleteProperty(window, '__TAURI_INTERNALS__')
     const download = vi.fn(async (onEvent?: (event: unknown) => void) => {
@@ -124,6 +139,7 @@ describe('updateStore', () => {
     expect(relaunch).not.toHaveBeenCalled()
   })
 
+>>>>>>> upstream/main
   it('does not show the global prompt while a background download is still running', async () => {
     let finishDownload!: () => void
     const download = vi.fn(
@@ -229,7 +245,11 @@ describe('updateStore', () => {
     useUpdateStore.getState().dismissPrompt()
 
     expect(useUpdateStore.getState().shouldPrompt).toBe(false)
+<<<<<<< HEAD
+    expect(window.localStorage.getItem('hubo-dismissed-update-version')).toBe('0.2.0')
+=======
     expect(window.localStorage.getItem('cc-haha-dismissed-update-version')).toBe('0.2.0')
+>>>>>>> upstream/main
 
     await useUpdateStore.getState().checkForUpdates({ silent: true })
 

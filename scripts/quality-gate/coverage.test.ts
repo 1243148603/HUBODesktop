@@ -1,9 +1,13 @@
 import { describe, expect, test } from 'bun:test'
+<<<<<<< HEAD
+import {
+=======
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import {
   collectServerTestFiles,
+>>>>>>> upstream/main
   evaluateChangedLineCoverage,
   evaluateThresholds,
   parseChangedLinesFromDiff,
@@ -207,6 +211,8 @@ describe('coverage gate helpers', () => {
     expect(failures).toEqual(['desktop: coverage command exited with 1'])
   })
 
+<<<<<<< HEAD
+=======
   test('collects non-quarantined server tests when review windows have expired', () => {
     const root = mkdtempSync(join(tmpdir(), 'cc-haha-coverage-'))
     try {
@@ -235,6 +241,7 @@ describe('coverage gate helpers', () => {
     }
   })
 
+>>>>>>> upstream/main
   test('does not require every suite to exist in the ratchet baseline', () => {
     const failures = evaluateThresholds([
       {

@@ -2,7 +2,11 @@ import { describe, expect, test } from 'bun:test'
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
+<<<<<<< HEAD
+import { lanesForMode } from './modes'
+=======
 import { currentPackageSmokePlatform, currentReleaseArtifactsDir, lanesForMode } from './modes'
+>>>>>>> upstream/main
 import { renderJUnitReport, renderMarkdownReport } from './reporter'
 import { runQualityGate, runQualityGateLanes } from './runner'
 import type { LaneDefinition, QualityGateReport } from './types'
@@ -36,6 +40,10 @@ describe('quality gate modes', () => {
   })
 
   test('release mode composes PR, baseline, and native lanes', () => {
+<<<<<<< HEAD
+    const lanes = lanesForMode('release').map((lane) => lane.id)
+    expect(lanes).toContain('policy-checks')
+=======
     const laneDefinitions = lanesForMode('release')
     const lanes = laneDefinitions.map((lane) => lane.id)
     const packageSmokePlatform = currentPackageSmokePlatform()
@@ -44,11 +52,18 @@ describe('quality gate modes', () => {
     expect(lanes).toContain('server-checks')
     expect(lanes).toContain('adapter-checks')
     expect(lanes).toContain('docs-checks')
+>>>>>>> upstream/main
     expect(lanes).toContain('persistence-upgrade')
     expect(lanes).toContain('quarantine')
     expect(lanes).toContain('coverage')
     expect(lanes).toContain('baseline:failing-unit:current-runtime')
     expect(lanes).toContain('provider-smoke:current-runtime')
+<<<<<<< HEAD
+    expect(lanes).toContain('desktop-smoke:agent-browser-chat:current-runtime')
+    expect(lanes).toContain('native-checks')
+  })
+
+=======
     expect(lanes).not.toContain('desktop-smoke:agent-browser-chat:current-runtime')
     if (packageSmokePlatform) {
       expect(lanes).toContain(`desktop-package-smoke:${packageSmokePlatform}`)
@@ -75,6 +90,7 @@ describe('quality gate modes', () => {
     expect(currentReleaseArtifactsDir('freebsd', 'x64')).toBeNull()
   })
 
+>>>>>>> upstream/main
   test('baseline mode expands cases across explicit provider/model targets', () => {
     const lanes = lanesForMode('baseline', [
       { providerId: 'provider-a', modelId: 'model-a', label: 'provider-a-model-a' },

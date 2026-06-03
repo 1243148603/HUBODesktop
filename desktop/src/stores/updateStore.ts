@@ -1,6 +1,11 @@
 import { create } from 'zustand'
+<<<<<<< HEAD
+import type { Update } from '@tauri-apps/plugin-updater'
+import { isTauriRuntime } from '../lib/desktopRuntime'
+=======
 import { getDesktopHost } from '../lib/desktopHost'
 import type { DesktopHost, DesktopUpdate } from '../lib/desktopHost'
+>>>>>>> upstream/main
 import type { UpdateProxySettings } from '../types/settings'
 import { useSettingsStore } from './settingsStore'
 
@@ -20,7 +25,11 @@ type CheckOptions = {
   autoDownload?: boolean
 }
 
+<<<<<<< HEAD
+const DISMISSED_UPDATE_VERSION_KEY = 'hubo-dismissed-update-version'
+=======
 const DISMISSED_UPDATE_VERSION_KEY = 'cc-haha-dismissed-update-version'
+>>>>>>> upstream/main
 
 type UpdateStore = {
   status: UpdateStatus
@@ -33,13 +42,21 @@ type UpdateStore = {
   checkedAt: number | null
   shouldPrompt: boolean
   initialize: () => Promise<void>
+<<<<<<< HEAD
+  checkForUpdates: (options?: CheckOptions) => Promise<Update | null>
+=======
   checkForUpdates: (options?: CheckOptions) => Promise<DesktopUpdate | null>
+>>>>>>> upstream/main
   downloadUpdate: () => Promise<void>
   installUpdate: () => Promise<void>
   dismissPrompt: () => void
 }
 
+<<<<<<< HEAD
+let pendingUpdate: Update | null = null
+=======
 let pendingUpdate: DesktopUpdate | null = null
+>>>>>>> upstream/main
 let pendingUpdateProxyKey: string | null = null
 let pendingUpdateDownloaded = false
 let downloadPromise: Promise<void> | null = null
@@ -86,12 +103,16 @@ function getUpdateCheckOptions() {
   return proxy ? { proxy } : undefined
 }
 
+<<<<<<< HEAD
+async function setPendingUpdate(next: Update | null, proxyKey: string | null) {
+=======
 function getUpdateHost(): DesktopHost | null {
   const host = getDesktopHost()
   return host.capabilities.updates ? host : null
 }
 
 async function setPendingUpdate(next: DesktopUpdate | null, proxyKey: string | null) {
+>>>>>>> upstream/main
   const previous = pendingUpdate
   pendingUpdate = next
   pendingUpdateProxyKey = next ? proxyKey : null
@@ -129,7 +150,11 @@ export const useUpdateStore = create<UpdateStore>((set, get) => ({
   shouldPrompt: false,
 
   initialize: async () => {
+<<<<<<< HEAD
+    if (!isTauriRuntime()) return
+=======
     if (!getUpdateHost()) return
+>>>>>>> upstream/main
     if (!startupCheckPromise) {
       startupCheckPromise = (async () => {
         await new Promise((resolve) => setTimeout(resolve, 5000))
@@ -143,8 +168,12 @@ export const useUpdateStore = create<UpdateStore>((set, get) => ({
   },
 
   checkForUpdates: async ({ silent = false, autoDownload = true } = {}) => {
+<<<<<<< HEAD
+    if (!isTauriRuntime()) return null
+=======
     const host = getUpdateHost()
     if (!host) return null
+>>>>>>> upstream/main
     if (downloadPromise && get().status === 'downloading' && pendingUpdate) return pendingUpdate
 
     set((state) => ({
@@ -154,8 +183,14 @@ export const useUpdateStore = create<UpdateStore>((set, get) => ({
     }))
 
     try {
+<<<<<<< HEAD
+      const { check } = await import('@tauri-apps/plugin-updater')
+      const updateProxyKey = getUpdateProxyKey()
+      const update = await check(getUpdateCheckOptions())
+=======
       const updateProxyKey = getUpdateProxyKey()
       const update = await host.updates.check(getUpdateCheckOptions())
+>>>>>>> upstream/main
       await setPendingUpdate(update, updateProxyKey)
 
       const checkedAt = Date.now()
@@ -219,7 +254,11 @@ export const useUpdateStore = create<UpdateStore>((set, get) => ({
   },
 
   downloadUpdate: async () => {
+<<<<<<< HEAD
+    if (!isTauriRuntime()) return
+=======
     if (!getUpdateHost()) return
+>>>>>>> upstream/main
 
     let update = pendingUpdate
     if (update && pendingUpdateProxyKey !== getUpdateProxyKey()) {
@@ -337,8 +376,12 @@ export const useUpdateStore = create<UpdateStore>((set, get) => ({
   },
 
   installUpdate: async () => {
+<<<<<<< HEAD
+    if (!isTauriRuntime()) return
+=======
     const host = getUpdateHost()
     if (!host) return
+>>>>>>> upstream/main
 
     let update = pendingUpdate
     if (update && pendingUpdateProxyKey !== getUpdateProxyKey()) {
@@ -358,6 +401,12 @@ export const useUpdateStore = create<UpdateStore>((set, get) => ({
       }
       if (!pendingUpdateDownloaded) return
 
+<<<<<<< HEAD
+      const { invoke } = await import('@tauri-apps/api/core')
+      const { relaunch } = await import('@tauri-apps/plugin-process')
+
+=======
+>>>>>>> upstream/main
       set((state) => ({
         ...state,
         status: 'installing',
@@ -367,7 +416,11 @@ export const useUpdateStore = create<UpdateStore>((set, get) => ({
       }))
 
       prepareInstallAttempted = true
+<<<<<<< HEAD
+      await invoke('prepare_for_update_install')
+=======
       await host.updates.prepareInstall()
+>>>>>>> upstream/main
       await update.install()
 
       set((state) => ({
@@ -376,11 +429,20 @@ export const useUpdateStore = create<UpdateStore>((set, get) => ({
         progressPercent: 100,
       }))
 
+<<<<<<< HEAD
+      await relaunch()
+    } catch (error) {
+      if (prepareInstallAttempted) {
+        try {
+          const { invoke } = await import('@tauri-apps/api/core')
+          await invoke('cancel_update_install')
+=======
       await host.updates.relaunch()
     } catch (error) {
       if (prepareInstallAttempted) {
         try {
           await host.updates.cancelInstall()
+>>>>>>> upstream/main
         } catch {
           // Best effort: keep the update prompt recoverable even if native reset fails.
         }

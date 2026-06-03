@@ -17,7 +17,11 @@ import {
 import { useTranslation } from '../../i18n'
 import { DirectoryPicker } from './DirectoryPicker'
 import { useMobileViewport } from '../../hooks/useMobileViewport'
+<<<<<<< HEAD
+import { isTauriRuntime } from '../../lib/desktopRuntime'
+=======
 import { isDesktopRuntime } from '../../lib/desktopRuntime'
+>>>>>>> upstream/main
 import { MobileBottomSheet } from './MobileBottomSheet'
 
 type Props = {
@@ -59,7 +63,11 @@ export function RepositoryLaunchControls({
   placement = 'standalone',
 }: Props) {
   const t = useTranslation()
+<<<<<<< HEAD
+  const isMobileBrowser = useMobileViewport() && !isTauriRuntime()
+=======
   const isMobileBrowser = useMobileViewport() && !isDesktopRuntime()
+>>>>>>> upstream/main
   const isComposerPlacement = placement === 'composer' && !isMobileBrowser
   const [context, setContext] = useState<RepositoryContextResult | null>(null)
   const [loading, setLoading] = useState(false)

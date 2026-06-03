@@ -21,7 +21,10 @@ import { openaiResponsesStreamToAnthropic } from './streaming/openaiResponsesStr
 import type { AnthropicRequest } from './transform/types.js'
 import { getProxyFetchOptions } from '../../utils/proxy.js'
 import { getManualNetworkProxyUrl, loadNetworkSettings } from '../services/networkSettings.js'
+<<<<<<< HEAD
+=======
 import { normalizeModelStringForAPI } from '../../utils/model/model.js'
+>>>>>>> upstream/main
 
 const providerService = new ProviderService()
 
@@ -128,10 +131,14 @@ export async function handleProxyRequest(req: Request, url: URL): Promise<Respon
     )
   }
 
+<<<<<<< HEAD
+  body = ensureClaudeCodeAttribution(body)
+=======
   body = ensureClaudeCodeAttribution({
     ...body,
     model: normalizeModelStringForAPI(body.model),
   })
+>>>>>>> upstream/main
 
   const isStream = body.stream === true
   const baseUrl = config.baseUrl.replace(/\/+$/, '')

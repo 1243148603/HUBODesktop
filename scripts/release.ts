@@ -1,6 +1,10 @@
 #!/usr/bin/env bun
 /**
+<<<<<<< HEAD
+ * Release script for HUBO Desktop
+=======
  * Release script for Claude Code Haha Desktop
+>>>>>>> upstream/main
  *
  * Usage:
  *   bun run scripts/release.ts patch       # 0.1.0 → 0.1.1
@@ -22,6 +26,27 @@ const VERSION_FILES = [
       return content.replace(/"version":\s*"[^"]*"/, `"version": "${version}"`)
     },
   },
+<<<<<<< HEAD
+  {
+    path: path.join(root, 'desktop/src-tauri/tauri.conf.json'),
+    update(content: string, version: string) {
+      return content.replace(/"version":\s*"[^"]*"/, `"version": "${version}"`)
+    },
+  },
+  {
+    path: path.join(root, 'desktop/src-tauri/Cargo.toml'),
+    update(content: string, version: string) {
+      return content.replace(/^version\s*=\s*"[^"]*"/m, `version = "${version}"`)
+    },
+  },
+]
+
+function getCurrentVersion(): string {
+  const tauriConf = JSON.parse(
+    readFileSync(path.join(root, 'desktop/src-tauri/tauri.conf.json'), 'utf-8'),
+  )
+  return tauriConf.version
+=======
 ]
 
 function getCurrentVersion(): string {
@@ -29,6 +54,7 @@ function getCurrentVersion(): string {
     readFileSync(path.join(root, 'desktop/package.json'), 'utf-8'),
   )
   return desktopPackage.version
+>>>>>>> upstream/main
 }
 
 function getReleaseNotesPath(version: string): string {
@@ -110,12 +136,25 @@ for (const file of VERSION_FILES) {
   console.log(`  Updated: ${path.relative(root, file.path)}`)
 }
 
+<<<<<<< HEAD
+// Regenerate Cargo.lock
+console.log('\n  Updating Cargo.lock...')
+await run(['cargo', 'generate-lockfile'], path.join(root, 'desktop/src-tauri'))
+
+=======
+>>>>>>> upstream/main
 // Git commit + tag
 console.log('  Creating git commit...')
 await run([
   'git',
   'add',
   'desktop/package.json',
+<<<<<<< HEAD
+  'desktop/src-tauri/tauri.conf.json',
+  'desktop/src-tauri/Cargo.toml',
+  'desktop/src-tauri/Cargo.lock',
+=======
+>>>>>>> upstream/main
   path.relative(root, releaseNotesPath),
 ])
 await run(['git', 'commit', '-m', `release: v${next}`])

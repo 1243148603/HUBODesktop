@@ -75,18 +75,30 @@ describe('ensureDesktopCliLauncherInstalled', () => {
   })
 
   unixOnly('installs a launcher wrapper in the user bin dir and configures PATH', async () => {
+<<<<<<< HEAD
+    const sourcePath = join(tempSourceDir, 'hubo-sidecar')
+=======
     const sourcePath = join(tempSourceDir, 'claude-sidecar')
+>>>>>>> upstream/main
     await writeFile(sourcePath, '#!/bin/sh\necho desktop-sidecar\n', 'utf8')
     await chmod(sourcePath, 0o755)
     process.env.CLAUDE_CLI_PATH = sourcePath
 
     const status = await ensureDesktopCliLauncherInstalled()
+<<<<<<< HEAD
+    const launcherPath = join(tempHome, '.local', 'bin', 'hubo')
+=======
     const launcherPath = join(tempHome, '.local', 'bin', 'claude-haha')
+>>>>>>> upstream/main
     const shellConfigPath = join(tempHome, '.zshrc')
 
     expect(status.supported).toBe(true)
     expect(status.installed).toBe(true)
+<<<<<<< HEAD
+    expect(status.command).toBe('hubo')
+=======
     expect(status.command).toBe('claude-haha')
+>>>>>>> upstream/main
     expect(status.launcherPath).toBe(launcherPath)
     expect(status.availableInNewTerminals).toBe(true)
     expect(status.needsTerminalRestart).toBe(true)
@@ -102,7 +114,11 @@ describe('ensureDesktopCliLauncherInstalled', () => {
   })
 
   unixOnly('pins portable config dir in the installed launcher wrapper', async () => {
+<<<<<<< HEAD
+    const sourcePath = join(tempSourceDir, 'hubo-sidecar')
+=======
     const sourcePath = join(tempSourceDir, 'claude-sidecar')
+>>>>>>> upstream/main
     const portableDir = join(tempHome, 'portable-config')
     await writeFile(sourcePath, '#!/bin/sh\necho desktop-sidecar\n', 'utf8')
     await chmod(sourcePath, 0o755)
@@ -111,15 +127,26 @@ describe('ensureDesktopCliLauncherInstalled', () => {
 
     await ensureDesktopCliLauncherInstalled()
 
+<<<<<<< HEAD
+    const launcher = await readFile(join(tempHome, '.local', 'bin', 'hubo'), 'utf8')
+=======
     const launcher = await readFile(join(tempHome, '.local', 'bin', 'claude-haha'), 'utf8')
+>>>>>>> upstream/main
     expect(launcher).toContain(`export CLAUDE_CONFIG_DIR='${portableDir}'`)
   })
 
   it('uses a Windows cmd launcher so portable env can be injected', () => {
+<<<<<<< HEAD
+    expect(getDesktopCliCommandName('win32')).toBe('hubo.cmd')
+
+    process.env.CLAUDE_CONFIG_DIR = 'C:\\Portable\\ClaudeConfig'
+    const wrapper = buildWindowsLauncherWrapper('C:\\Apps\\hubo\\hubo-sidecar.exe')
+=======
     expect(getDesktopCliCommandName('win32')).toBe('claude-haha.cmd')
 
     process.env.CLAUDE_CONFIG_DIR = 'C:\\Portable\\ClaudeConfig'
     const wrapper = buildWindowsLauncherWrapper('C:\\Apps\\cc-haha\\claude-sidecar.exe')
+>>>>>>> upstream/main
 
     expect(wrapper).toContain('set "CLAUDE_CONFIG_DIR=C:\\Portable\\ClaudeConfig"')
     expect(wrapper).toContain(
@@ -136,6 +163,10 @@ describe('ensureDesktopCliLauncherInstalled', () => {
 
     expect(status.supported).toBe(false)
     expect(status.installed).toBe(false)
+<<<<<<< HEAD
+    expect(status.command).toBe('hubo')
+=======
     expect(status.command).toBe('claude-haha')
+>>>>>>> upstream/main
   })
 })

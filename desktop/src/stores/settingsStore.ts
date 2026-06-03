@@ -21,7 +21,11 @@ import {
   type UpdateProxySettings,
   type WebSearchSettings,
 } from '../types/settings'
+<<<<<<< HEAD
+import { isTauriRuntime } from '../lib/desktopRuntime'
+=======
 import { getDesktopHost } from '../lib/desktopHost'
+>>>>>>> upstream/main
 import type { Locale } from '../i18n'
 import {
   APP_ZOOM_CONTROL_STEP,
@@ -34,7 +38,11 @@ import {
 } from '../lib/appZoom'
 import { useUIStore } from './uiStore'
 
+<<<<<<< HEAD
+const LOCALE_STORAGE_KEY = 'hubo-locale'
+=======
 const LOCALE_STORAGE_KEY = 'cc-haha-locale'
+>>>>>>> upstream/main
 export const UI_ZOOM_MIN = MIN_APP_ZOOM
 export const UI_ZOOM_MAX = MAX_APP_ZOOM
 export const UI_ZOOM_STEP = APP_ZOOM_CONTROL_STEP
@@ -440,17 +448,28 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
   },
 
   fetchAppMode: async () => {
+<<<<<<< HEAD
+    if (!isTauriRuntime()) return
+    try {
+      const { invoke } = await import('@tauri-apps/api/core')
+      const result: AppModeConfig = await invoke('get_app_mode')
+=======
     const host = getDesktopHost()
     if (!host.isDesktop) return
     try {
       const result: AppModeConfig = await host.appMode.get()
+>>>>>>> upstream/main
       set({ appMode: result })
     } catch { /* silently ignore - not in Tauri or command unavailable */ }
   },
 
   setAppMode: async (mode, portableDir) => {
+<<<<<<< HEAD
+    if (!isTauriRuntime()) return
+=======
     const host = getDesktopHost()
     if (!host.isDesktop) return
+>>>>>>> upstream/main
     const prev = get().appMode
     const newMode: AppModeConfig = {
       ...prev,
@@ -465,7 +484,12 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
     }
     set({ appMode: newMode, appModeRequiresRestart: true })
     try {
+<<<<<<< HEAD
+      const { invoke } = await import('@tauri-apps/api/core')
+      await invoke('set_app_mode', {
+=======
       await host.appMode.set({
+>>>>>>> upstream/main
         mode,
         portableDir: newMode.portableDir || null,
       })

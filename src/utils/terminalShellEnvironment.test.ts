@@ -75,7 +75,11 @@ describe('terminal shell environment', () => {
     const merged = mergeTerminalShellEnvironment(
       {
         PATH: '/usr/bin:/bin',
+<<<<<<< HEAD
+        HUBO_DESKTOP_SERVER_URL: 'http://127.0.0.1:3456',
+=======
         CC_HAHA_DESKTOP_SERVER_URL: 'http://127.0.0.1:3456',
+>>>>>>> upstream/main
         TOOL_HOME: '/base/tool',
       },
       {
@@ -88,7 +92,11 @@ describe('terminal shell environment', () => {
     expect(merged.PATH).toBe('/opt/homebrew/bin:/usr/bin:/bin')
     expect(merged.NVM_DIR).toBe('/Users/test/.nvm')
     expect(merged.TOOL_HOME).toBe('/base/tool')
+<<<<<<< HEAD
+    expect(merged.HUBO_DESKTOP_SERVER_URL).toBe('http://127.0.0.1:3456')
+=======
     expect(merged.CC_HAHA_DESKTOP_SERVER_URL).toBe('http://127.0.0.1:3456')
+>>>>>>> upstream/main
   })
 
   it('can be disabled for deterministic tests and controlled environments', async () => {
@@ -96,7 +104,11 @@ describe('terminal shell environment', () => {
       HOME: tmpDir,
       SHELL: path.join(tmpDir, 'zsh'),
       PATH: '/usr/bin:/bin',
+<<<<<<< HEAD
+      HUBO_DISABLE_TERMINAL_SHELL_ENV: '1',
+=======
       CC_HAHA_DISABLE_TERMINAL_SHELL_ENV: '1',
+>>>>>>> upstream/main
     })
 
     expect(env).toBeNull()

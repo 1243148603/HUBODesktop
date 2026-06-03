@@ -1,4 +1,20 @@
 {
+<<<<<<< HEAD
+  "name": "hubo-desktop",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "bun run build:preview-agent && node ./node_modules/typescript/bin/tsc -b && node ./node_modules/vite/bin/vite.js build",
+    "build:preview-agent": "bun run ./scripts/build-preview-agent.ts",
+    "build:sidecars": "bun run ./scripts/build-sidecars.ts",
+    "build:cli-standalone": "bun run ./scripts/build-cli-standalone.ts",
+    "build:macos-arm64": "bash ./scripts/build-macos-arm64.sh",
+    "build:windows-x64": "powershell -ExecutionPolicy Bypass -File ./scripts/build-windows-x64.ps1",
+    "preview": "vite preview",
+    "tauri": "tauri",
+=======
   "name": "claude-code-desktop",
   "private": true,
   "version": "0.3.2",
@@ -85,6 +101,7 @@
     "electron:package:dir": "bun run clean:electron-output && bun run electron:build && bunx electron-builder --dir --publish never",
     "check:electron": "node ./node_modules/typescript/bin/tsc -p electron/tsconfig.json && bun test electron && bun run build:electron",
     "preview": "vite preview",
+>>>>>>> upstream/main
     "test": "vitest",
     "test:ui": "vitest --ui",
     "lint": "node ./node_modules/typescript/bin/tsc --noEmit"
@@ -95,13 +112,19 @@
     "@xterm/addon-fit": "^0.11.0",
     "@xterm/xterm": "^6.0.0",
     "dompurify": "^3.3.3",
+<<<<<<< HEAD
+=======
     "electron-updater": "^6.8.3",
+>>>>>>> upstream/main
     "html2canvas": "^1.4.1",
     "katex": "^0.16.45",
     "lucide-react": "^0.469.0",
     "marked": "^15.0.7",
     "mermaid": "^11.14.0",
+<<<<<<< HEAD
+=======
     "node-pty": "^1.1.0",
+>>>>>>> upstream/main
     "prism-react-renderer": "^2.4.1",
     "qrcode": "^1.5.4",
     "react": "^18.3.1",
@@ -116,17 +139,35 @@
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.1.0",
+<<<<<<< HEAD
+=======
     "@types/node": "^25.9.1",
+>>>>>>> upstream/main
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
     "@vitejs/plugin-react": "^6.0.1",
     "@vitest/coverage-v8": "3.2.4",
+<<<<<<< HEAD
+=======
     "electron": "^42.3.0",
     "electron-builder": "^26.8.1",
+>>>>>>> upstream/main
     "jsdom": "^25.0.1",
     "tailwindcss": "^4.0.0",
     "typescript": "^5.9.3",
     "vite": "^8.0.10",
     "vitest": "^3.0.4"
+<<<<<<< HEAD
+  },
+  "optionalDependencies": {
+    "@tauri-apps/api": "^2.3.0",
+    "@tauri-apps/cli": "^2.3.1",
+    "@tauri-apps/plugin-dialog": "^2.2.1",
+    "@tauri-apps/plugin-notification": "^2.2.1",
+    "@tauri-apps/plugin-process": "^2.2.1",
+    "@tauri-apps/plugin-shell": "^2.2.1",
+    "@tauri-apps/plugin-updater": "^2.2.1"
+=======
+>>>>>>> upstream/main
   }
 }

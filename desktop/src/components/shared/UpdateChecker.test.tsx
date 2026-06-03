@@ -1,15 +1,28 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+<<<<<<< HEAD
+import { render, screen } from '@testing-library/react'
+import '@testing-library/jest-dom'
+
+import { UpdateChecker } from './UpdateChecker'
+=======
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom'
 
 import { UpdateChecker } from './UpdateChecker'
 import { browserHost } from '../../lib/desktopHost/browserHost'
+>>>>>>> upstream/main
 import { useSettingsStore } from '../../stores/settingsStore'
 import { useUpdateStore } from '../../stores/updateStore'
 
 describe('UpdateChecker', () => {
   beforeEach(() => {
     useSettingsStore.setState({ locale: 'en' })
+<<<<<<< HEAD
+    Object.defineProperty(window, '__TAURI__', {
+      value: {},
+      configurable: true,
+    })
+=======
     Reflect.deleteProperty(window, '__TAURI__')
     window.desktopHost = {
       ...browserHost,
@@ -20,11 +33,16 @@ describe('UpdateChecker', () => {
         updates: true,
       },
     }
+>>>>>>> upstream/main
 
     useUpdateStore.setState({
       status: 'available',
       availableVersion: '0.1.5',
+<<<<<<< HEAD
+      releaseNotes: '# HUBO v0.1.5\n\n[Release notes](https://example.com/releases/v0.1.5)',
+=======
       releaseNotes: '# Claude Code Haha v0.1.5\n\n[Release notes](https://example.com/releases/v0.1.5)',
+>>>>>>> upstream/main
       progressPercent: 0,
       downloadedBytes: 0,
       totalBytes: null,
@@ -45,13 +63,19 @@ describe('UpdateChecker', () => {
 
     expect(screen.getByText('Update ready')).toBeInTheDocument()
     expect(screen.getByText('v0.1.5 has been downloaded. Restart when you are ready to use it.')).toBeInTheDocument()
+<<<<<<< HEAD
+    expect(screen.getByRole('heading', { name: 'HUBO v0.1.5' })).toBeInTheDocument()
+=======
     expect(screen.getByRole('heading', { name: 'Claude Code Haha v0.1.5' })).toBeInTheDocument()
+>>>>>>> upstream/main
 
     const link = screen.getByRole('link', { name: 'Release notes' })
     expect(link).toHaveAttribute('href', 'https://example.com/releases/v0.1.5')
     expect(link).toHaveAttribute('target', '_blank')
   })
 
+<<<<<<< HEAD
+=======
   it('renders the update prompt in Electron desktop runtime', () => {
     window.desktopHost = {
       ...browserHost,
@@ -70,11 +94,16 @@ describe('UpdateChecker', () => {
     expect(screen.getByText('Install and restart')).toBeInTheDocument()
   })
 
+>>>>>>> upstream/main
   it('shows downloaded bytes when the updater does not provide total size', () => {
     useUpdateStore.setState({
       status: 'downloading',
       availableVersion: '0.1.5',
+<<<<<<< HEAD
+      releaseNotes: '# HUBO v0.1.5',
+=======
       releaseNotes: '# Claude Code Haha v0.1.5',
+>>>>>>> upstream/main
       progressPercent: 0,
       downloadedBytes: 1536,
       totalBytes: null,
@@ -120,6 +149,8 @@ describe('UpdateChecker', () => {
     expect(screen.getByText('Update failed: installer failed')).toBeInTheDocument()
     expect(screen.getByText('Install and restart')).toBeInTheDocument()
   })
+<<<<<<< HEAD
+=======
 
   it('drives the Electron mock-feed check/download/install flow without leaving the prompt stuck', async () => {
     Reflect.deleteProperty(window, '__TAURI__')
@@ -189,4 +220,5 @@ describe('UpdateChecker', () => {
     })
     expect(screen.queryByText('Update ready')).not.toBeInTheDocument()
   })
+>>>>>>> upstream/main
 })

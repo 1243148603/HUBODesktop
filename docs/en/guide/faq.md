@@ -16,7 +16,11 @@ If your model provider only supports the OpenAI protocol, you need a proxy like 
 ## Q: `Cannot find package 'bundle'`
 
 ```
+<<<<<<< HEAD
+error: Cannot find package 'bundle' from '.../hubo/src/entrypoints/cli.tsx'
+=======
 error: Cannot find package 'bundle' from '.../claude-code-haha/src/entrypoints/cli.tsx'
+>>>>>>> upstream/main
 ```
 
 **Cause**: Your Bun version is too old and doesn't support the required `bun:bundle` built-in module.

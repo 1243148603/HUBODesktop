@@ -4,7 +4,11 @@ import { join } from 'node:path'
 import { tmpdir } from 'node:os'
 import { createOpenTargetService } from '../services/openTargetService.js'
 
+<<<<<<< HEAD
+async function makeDir(prefix = 'hubo-open-target-') {
+=======
 async function makeDir(prefix = 'cc-haha-open-target-') {
+>>>>>>> upstream/main
   return mkdtemp(join(tmpdir(), prefix))
 }
 
@@ -213,7 +217,11 @@ describe('openTargetService', () => {
   })
 
   it('launches command-first targets with argument arrays and the path as one argument', async () => {
+<<<<<<< HEAD
+    const dir = await makeDir('hubo open-target-')
+=======
     const dir = await makeDir('cc-haha open-target-')
+>>>>>>> upstream/main
     const { service, launched } = createService('linux', {
       commands: { code: true },
     })

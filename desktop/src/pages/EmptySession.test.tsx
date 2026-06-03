@@ -9,7 +9,10 @@ const mocks = vi.hoisted(() => ({
   getMessages: vi.fn(),
   getSlashCommands: vi.fn(),
   listSkills: vi.fn(),
+<<<<<<< HEAD
+=======
   listAgents: vi.fn(),
+>>>>>>> upstream/main
   search: vi.fn(),
   browse: vi.fn(),
   getTasksForList: vi.fn(),
@@ -42,12 +45,15 @@ vi.mock('../api/skills', () => ({
   },
 }))
 
+<<<<<<< HEAD
+=======
 vi.mock('../api/agents', () => ({
   agentsApi: {
     list: mocks.listAgents,
   },
 }))
 
+>>>>>>> upstream/main
 vi.mock('../api/filesystem', () => ({
   filesystemApi: {
     search: mocks.search,
@@ -78,7 +84,10 @@ vi.mock('../hooks/useMobileViewport', () => ({
 
 vi.mock('../lib/desktopRuntime', () => ({
   isTauriRuntime: () => mocks.isTauriRuntime,
+<<<<<<< HEAD
+=======
   isDesktopRuntime: () => mocks.isTauriRuntime,
+>>>>>>> upstream/main
 }))
 
 vi.mock('@tauri-apps/plugin-dialog', () => ({
@@ -208,7 +217,10 @@ describe('EmptySession', () => {
     mocks.getMessages.mockResolvedValue({ messages: [] })
     mocks.getSlashCommands.mockResolvedValue({ commands: [] })
     mocks.listSkills.mockResolvedValue({ skills: [] })
+<<<<<<< HEAD
+=======
     mocks.listAgents.mockResolvedValue({ activeAgents: [], allAgents: [] })
+>>>>>>> upstream/main
     mocks.search.mockResolvedValue({
       currentPath: '/workspace/project',
       parentPath: null,
@@ -221,7 +233,10 @@ describe('EmptySession', () => {
 
   afterEach(() => {
     cleanup()
+<<<<<<< HEAD
+=======
     Reflect.deleteProperty(window, 'desktopHost')
+>>>>>>> upstream/main
     useSessionStore.setState(initialSessionState, true)
     useChatStore.setState(initialChatState, true)
     useTabStore.setState(initialTabState, true)
@@ -322,6 +337,8 @@ describe('EmptySession', () => {
     })
   })
 
+<<<<<<< HEAD
+=======
   it('offers active agents as slash entries that insert /agent with the selected type', async () => {
     mocks.listAgents.mockResolvedValue({
       activeAgents: [
@@ -390,6 +407,7 @@ describe('EmptySession', () => {
     expect(mocks.wsSend).not.toHaveBeenCalled()
   })
 
+>>>>>>> upstream/main
   it('integrates repository launch controls into the desktop composer panel', async () => {
     render(<EmptySession />)
 
@@ -496,6 +514,8 @@ describe('EmptySession', () => {
 
   it('uses native desktop file paths for draft attachments', async () => {
     mocks.isTauriRuntime = true
+<<<<<<< HEAD
+=======
     window.desktopHost = {
       kind: 'electron',
       isDesktop: true,
@@ -517,6 +537,7 @@ describe('EmptySession', () => {
         onDragDropEvent: vi.fn().mockResolvedValue(mocks.webviewUnlisten),
       },
     } as any
+>>>>>>> upstream/main
     mocks.dialogOpen.mockResolvedValueOnce([
       'C:\\Users\\Nanmi\\Desktop\\huge-a.log',
       '/Users/nanmi/tmp/huge-b.zip',

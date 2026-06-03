@@ -63,8 +63,13 @@ describe('DingTalk AI Card streaming', () => {
   })
 
   it('times out a hung card streaming request', async () => {
+<<<<<<< HEAD
+    const previousTimeout = process.env.HUBO_IM_CARD_REQUEST_TIMEOUT_MS
+    process.env.HUBO_IM_CARD_REQUEST_TIMEOUT_MS = '20'
+=======
     const previousTimeout = process.env.CC_HAHA_IM_CARD_REQUEST_TIMEOUT_MS
     process.env.CC_HAHA_IM_CARD_REQUEST_TIMEOUT_MS = '20'
+>>>>>>> upstream/main
     globalThis.fetch = mock(async (url: string | URL | Request, init?: RequestInit) => {
       calls.push({
         url: String(url),
@@ -92,9 +97,15 @@ describe('DingTalk AI Card streaming', () => {
       )
     } finally {
       if (previousTimeout === undefined) {
+<<<<<<< HEAD
+        delete process.env.HUBO_IM_CARD_REQUEST_TIMEOUT_MS
+      } else {
+        process.env.HUBO_IM_CARD_REQUEST_TIMEOUT_MS = previousTimeout
+=======
         delete process.env.CC_HAHA_IM_CARD_REQUEST_TIMEOUT_MS
       } else {
         process.env.CC_HAHA_IM_CARD_REQUEST_TIMEOUT_MS = previousTimeout
+>>>>>>> upstream/main
       }
     }
   })

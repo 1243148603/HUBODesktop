@@ -2,7 +2,11 @@
 
 
 ```text
+<<<<<<< HEAD
+bin/hubo          # Entry script
+=======
 bin/claude-haha          # Entry script
+>>>>>>> upstream/main
 preload.ts               # Bun preload (sets MACRO globals)
 .env.example             # Environment variable template
 src/

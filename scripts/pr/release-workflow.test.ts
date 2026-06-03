@@ -2,6 +2,14 @@ import { describe, expect, test } from 'bun:test'
 import { readFileSync } from 'node:fs'
 
 describe('release desktop workflow', () => {
+<<<<<<< HEAD
+  test('build job runs directly without quality preflight dependency', () => {
+    const workflow = readFileSync('.github/workflows/release-desktop.yml', 'utf8')
+
+    expect(workflow).not.toContain('quality-preflight:')
+    expect(workflow).not.toContain('run: bun run quality:gate --mode pr')
+    expect(workflow).not.toContain('needs: quality-preflight')
+=======
   function readReleaseWorkflow() {
     return readFileSync('.github/workflows/release-desktop.yml', 'utf8')
   }
@@ -18,6 +26,7 @@ describe('release desktop workflow', () => {
     expect(workflow).toContain('quality-preflight:')
     expect(workflow).toContain('run: bun run verify')
     expect(workflow).toContain('- quality-preflight')
+>>>>>>> upstream/main
     expect(workflow).toContain('name: Build (${{ matrix.label }})')
   })
 
@@ -27,15 +36,28 @@ describe('release desktop workflow', () => {
       '.github/workflows/release-desktop.yml',
     ]) {
       const workflow = readFileSync(workflowPath, 'utf8')
+<<<<<<< HEAD
+      for (const stepName of ['Build sidecars', 'Build Tauri app']) {
+        const step = workflow.match(
+          new RegExp(`- name: ${stepName}[\\s\\S]*?(?:\\n\\s{6}- name:|\\n\\s*# ──|\\n\\s*with:|$)`),
+=======
       for (const stepName of ['Build sidecars']) {
         const step = workflow.match(
           new RegExp(`- name: ${stepName}[\\s\\S]*?(?:\\n\\s{6}- name:|\\n\\s*with:|$)`),
+>>>>>>> upstream/main
         )?.[0]
 
         expect(step, `${workflowPath} ${stepName}`).toContain(
           'BUN_INSTALL_CACHE_DIR: ${{ runner.temp }}/bun-install-cache',
         )
         expect(step, `${workflowPath} ${stepName}`).toContain(
+<<<<<<< HEAD
+          'TAURI_ENV_TARGET_TRIPLE: ${{ matrix.rust_target }}',
+        )
+      }
+    }
+  })
+=======
           'SIDECAR_TARGET_TRIPLE: ${{ matrix.target_triple }}',
         )
       }
@@ -287,4 +309,5 @@ describe('release desktop workflow', () => {
     expect(desktopPackage.build.win?.publish).toBeUndefined()
     expect(desktopPackage.build.linux?.publish).toBeUndefined()
   })
+>>>>>>> upstream/main
 })

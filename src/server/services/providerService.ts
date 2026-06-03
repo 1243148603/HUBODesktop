@@ -1,8 +1,13 @@
 /**
  * Provider Service — preset-based provider configuration
  *
+<<<<<<< HEAD
+ * Storage: ~/.claude/hubo/providers.json (lightweight index)
+ * Active provider env vars written to ~/.claude/hubo/settings.json
+=======
  * Storage: ~/.claude/cc-haha/providers.json (lightweight index)
  * Active provider env vars written to ~/.claude/cc-haha/settings.json
+>>>>>>> upstream/main
  * (isolated from the original Claude Code's ~/.claude/settings.json)
  */
 
@@ -21,7 +26,11 @@ import {
   OPENAI_OFFICIAL_PROVIDER,
   isOpenAIOfficialProviderId,
 } from './openaiOfficialProvider.js'
+<<<<<<< HEAD
+import { huboOpenAIOAuthService } from './huboOpenAIOAuthService.js'
+=======
 import { hahaOpenAIOAuthService } from './hahaOpenAIOAuthService.js'
+>>>>>>> upstream/main
 import {
   CURRENT_PROVIDER_INDEX_SCHEMA_VERSION,
   ensurePersistentStorageUpgraded,
@@ -41,7 +50,10 @@ import {
   loadNetworkSettings,
   type NetworkSettings,
 } from './networkSettings.js'
+<<<<<<< HEAD
+=======
 import { normalizeModelStringForAPI } from '../../utils/model/model.js'
+>>>>>>> upstream/main
 import type {
   SavedProvider,
   ProvidersIndex,
@@ -75,12 +87,21 @@ export class ProviderService {
     return process.env.CLAUDE_CONFIG_DIR || path.join(os.homedir(), '.claude')
   }
 
+<<<<<<< HEAD
+  private getCcHuboDir(): string {
+    return path.join(this.getConfigDir(), 'hubo')
+  }
+
+  private getIndexPath(): string {
+    return path.join(this.getCcHuboDir(), 'providers.json')
+=======
   private getCcHahaDir(): string {
     return path.join(this.getConfigDir(), 'cc-haha')
   }
 
   private getIndexPath(): string {
     return path.join(this.getCcHahaDir(), 'providers.json')
+>>>>>>> upstream/main
   }
 
   private async readIndex(): Promise<ProvidersIndex> {
@@ -311,13 +332,27 @@ export class ProviderService {
 
   /**
    * Check whether any usable auth exists:
+<<<<<<< HEAD
+   *  1. A hubo provider is active → has auth
+=======
    *  1. A cc-haha provider is active → has auth
+>>>>>>> upstream/main
    *  2. Original ~/.claude/settings.json has ANTHROPIC_AUTH_TOKEN or ANTHROPIC_API_KEY → has auth
    *  3. process.env already has ANTHROPIC_API_KEY / ANTHROPIC_AUTH_TOKEN → has auth
    *  4. None of the above → needs setup
    */
   async checkAuthStatus(): Promise<{
     hasAuth: boolean
+<<<<<<< HEAD
+    source: 'hubo-provider' | 'openai-oauth' | 'original-settings' | 'env' | 'none'
+    activeProvider?: string
+  }> {
+    // 1. Check hubo active provider
+    const index = await this.readIndex()
+    if (index.activeId) {
+      if (isOpenAIOfficialProviderId(index.activeId)) {
+        const tokens = await huboOpenAIOAuthService.ensureFreshTokens()
+=======
     source: 'cc-haha-provider' | 'openai-oauth' | 'original-settings' | 'env' | 'none'
     activeProvider?: string
   }> {
@@ -326,6 +361,7 @@ export class ProviderService {
     if (index.activeId) {
       if (isOpenAIOfficialProviderId(index.activeId)) {
         const tokens = await hahaOpenAIOAuthService.ensureFreshTokens()
+>>>>>>> upstream/main
         if (tokens?.accessToken && tokens.refreshToken) {
           return {
             hasAuth: true,
@@ -346,7 +382,11 @@ export class ProviderService {
         const needsProxy = provider.apiFormat != null && provider.apiFormat !== 'anthropic'
         const authEnv = buildProviderAuthEnv(provider, presetDefaultEnv, needsProxy)
         if (Object.values(authEnv).some(value => value.length > 0)) {
+<<<<<<< HEAD
+          return { hasAuth: true, source: 'hubo-provider', activeProvider: provider.name }
+=======
           return { hasAuth: true, source: 'cc-haha-provider', activeProvider: provider.name }
+>>>>>>> upstream/main
         }
       }
     }
@@ -446,12 +486,19 @@ export class ProviderService {
     const format: ApiFormat = input.apiFormat ?? 'anthropic'
     const authStrategy = input.authStrategy ?? 'api_key'
     const base = input.baseUrl.replace(/\/+$/, '')
+<<<<<<< HEAD
+=======
     const modelId = normalizeModelStringForAPI(input.modelId)
+>>>>>>> upstream/main
     const networkSettings = await loadNetworkSettings()
 
     // ── Step 1: Basic connectivity ───────────────────────────
     // Directly call the upstream API to verify URL, key, and model.
+<<<<<<< HEAD
+    const step1 = await this.testConnectivity(base, input.apiKey, input.modelId, format, authStrategy, networkSettings)
+=======
     const step1 = await this.testConnectivity(base, input.apiKey, modelId, format, authStrategy, networkSettings)
+>>>>>>> upstream/main
 
     // If connectivity failed, no point running step 2
     if (!step1.success) {
@@ -465,7 +512,11 @@ export class ProviderService {
 
     // ── Step 2: Full proxy pipeline ──────────────────────────
     // Anthropic request → transform → upstream → transform back → validate
+<<<<<<< HEAD
+    const step2 = await this.testProxyPipeline(base, input.apiKey, input.modelId, format, networkSettings)
+=======
     const step2 = await this.testProxyPipeline(base, input.apiKey, modelId, format, networkSettings)
+>>>>>>> upstream/main
 
     return { connectivity: step1, proxy: step2 }
   }

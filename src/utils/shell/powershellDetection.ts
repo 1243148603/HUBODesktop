@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+import { realpath, stat } from 'fs/promises'
+import { getPlatform } from '../platform.js'
+import { which } from '../which.js'
+
+=======
 import { execFile } from 'child_process'
 import { realpath, stat } from 'fs/promises'
 import { win32 as pathWin32 } from 'path'
@@ -10,6 +16,7 @@ const WINDOWS_DEFAULT_PWSH_PATH = 'C:\\Program Files\\PowerShell\\7\\pwsh.exe'
 const WINDOWS_DEFAULT_POWERSHELL_PATH =
   'C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe'
 
+>>>>>>> upstream/main
 async function probePath(p: string): Promise<string | null> {
   try {
     return (await stat(p)).isFile() ? p : null
@@ -18,6 +25,8 @@ async function probePath(p: string): Promise<string | null> {
   }
 }
 
+<<<<<<< HEAD
+=======
 function basenameWithoutExe(candidate: string): string {
   return candidate
     .trim()
@@ -129,6 +138,7 @@ export async function resolvePowerShellPathOverride(
   return null
 }
 
+>>>>>>> upstream/main
 /**
  * Attempts to find PowerShell on the system via PATH.
  * Prefers pwsh (PowerShell Core 7+), falls back to powershell (5.1).
@@ -141,11 +151,14 @@ export async function resolvePowerShellPathOverride(
  * Windows/macOS, PATH is sufficient.
  */
 export async function findPowerShell(): Promise<string | null> {
+<<<<<<< HEAD
+=======
   const overridePath = await resolvePowerShellPathOverride()
   if (overridePath) {
     return overridePath
   }
 
+>>>>>>> upstream/main
   const pwshPath = await which('pwsh')
   if (pwshPath) {
     // Snap launcher hangs in subprocesses. Prefer the direct binary.

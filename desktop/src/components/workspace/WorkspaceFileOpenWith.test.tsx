@@ -2,11 +2,17 @@
 import '@testing-library/jest-dom'
 import { render, fireEvent } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
+<<<<<<< HEAD
+
+const openTarget = vi.hoisted(() => vi.fn())
+const shellOpen = vi.hoisted(() => vi.fn().mockResolvedValue(undefined))
+=======
 import { browserHost } from '../../lib/desktopHost/browserHost'
 
 const openTarget = vi.hoisted(() => vi.fn())
 const shellOpen = vi.hoisted(() => vi.fn().mockResolvedValue(undefined))
 const hostOpenPath = vi.hoisted(() => vi.fn().mockResolvedValue(undefined))
+>>>>>>> upstream/main
 
 vi.mock('../../stores/openTargetStore', () => ({
   useOpenTargetStore: (sel: (s: unknown) => unknown) =>
@@ -32,6 +38,8 @@ import { WorkspaceFileOpenWith } from './WorkspaceFileOpenWith'
 describe('WorkspaceFileOpenWith', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+<<<<<<< HEAD
+=======
     window.desktopHost = {
       ...browserHost,
       kind: 'electron',
@@ -45,6 +53,7 @@ describe('WorkspaceFileOpenWith', () => {
         openPath: hostOpenPath,
       },
     }
+>>>>>>> upstream/main
   })
 
   it('renders only IDE and file-manager items', () => {
@@ -80,6 +89,9 @@ describe('WorkspaceFileOpenWith', () => {
   it('does not call shell open from the file open-with menu', () => {
     render(<WorkspaceFileOpenWith absolutePath="/w/report.md" />)
     expect(shellOpen).not.toHaveBeenCalled()
+<<<<<<< HEAD
+=======
     expect(hostOpenPath).not.toHaveBeenCalled()
+>>>>>>> upstream/main
   })
 })

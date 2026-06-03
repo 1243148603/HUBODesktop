@@ -17,7 +17,10 @@ vi.mock('../../api/filesystem', () => ({
 import { DirectoryPicker } from './DirectoryPicker'
 import { sessionsApi } from '../../api/sessions'
 import { filesystemApi } from '../../api/filesystem'
+<<<<<<< HEAD
+=======
 import { browserHost } from '../../lib/desktopHost/browserHost'
+>>>>>>> upstream/main
 
 describe('DirectoryPicker', () => {
   let originalInnerWidth: number
@@ -28,7 +31,10 @@ describe('DirectoryPicker', () => {
 
   afterEach(() => {
     Object.defineProperty(window, 'innerWidth', { configurable: true, value: originalInnerWidth })
+<<<<<<< HEAD
+=======
     Reflect.deleteProperty(window, 'desktopHost')
+>>>>>>> upstream/main
     vi.restoreAllMocks()
   })
 
@@ -171,6 +177,8 @@ describe('DirectoryPicker', () => {
 
     errorSpy.mockRestore()
   })
+<<<<<<< HEAD
+=======
 
   it('uses the injected desktop host for native folder selection', async () => {
     vi.mocked(sessionsApi.getRecentProjects).mockResolvedValue({ projects: [] })
@@ -203,4 +211,5 @@ describe('DirectoryPicker', () => {
     })
     expect(filesystemApi.browse).not.toHaveBeenCalled()
   })
+>>>>>>> upstream/main
 })

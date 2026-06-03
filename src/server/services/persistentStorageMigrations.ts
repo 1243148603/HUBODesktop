@@ -280,16 +280,27 @@ function buildManagedSettingsForMigratedProvider(provider: JsonObject | undefine
 
 async function migrateLegacyRootProviders(
   configDir: string,
+<<<<<<< HEAD
+  huboDir: string,
+  report: MigrationReport,
+): Promise<void> {
+  const targetPath = path.join(huboDir, 'providers.json')
+=======
   ccHahaDir: string,
   report: MigrationReport,
 ): Promise<void> {
   const targetPath = path.join(ccHahaDir, 'providers.json')
+>>>>>>> upstream/main
   try {
     await fs.access(targetPath)
     return
   } catch (error) {
     if (errnoCode(error) !== 'ENOENT') {
+<<<<<<< HEAD
+      report.failures.push(`hubo/providers.json: ${error instanceof Error ? error.message : String(error)}`)
+=======
       report.failures.push(`cc-haha/providers.json: ${error instanceof Error ? error.message : String(error)}`)
+>>>>>>> upstream/main
       return
     }
   }
@@ -304,9 +315,15 @@ async function migrateLegacyRootProviders(
     if (!migrated) return
 
     await writeJsonFile(targetPath, migrated)
+<<<<<<< HEAD
+    report.migratedEntries.push('providers.json -> hubo/providers.json')
+
+    const settingsPath = path.join(huboDir, 'settings.json')
+=======
     report.migratedEntries.push('providers.json -> cc-haha/providers.json')
 
     const settingsPath = path.join(ccHahaDir, 'settings.json')
+>>>>>>> upstream/main
     const settings = await readJsonFile(settingsPath).catch(() => ({ missing: false, value: undefined, raw: '' }))
     if (!settings.missing) return
 
@@ -319,7 +336,11 @@ async function migrateLegacyRootProviders(
     )
     if (managedSettings) {
       await writeJsonFile(settingsPath, managedSettings)
+<<<<<<< HEAD
+      report.migratedEntries.push('providers.json -> hubo/settings.json')
+=======
       report.migratedEntries.push('providers.json -> cc-haha/settings.json')
+>>>>>>> upstream/main
     }
   } catch (error) {
     if (error instanceof SyntaxError) {
@@ -332,6 +353,15 @@ async function migrateLegacyRootProviders(
 
 async function runPersistentStorageMigrations(configDir: string): Promise<MigrationReport> {
   const report: MigrationReport = { migratedEntries: [], failures: [] }
+<<<<<<< HEAD
+  const huboDir = path.join(configDir, 'hubo')
+
+  await migrateLegacyRootProviders(configDir, huboDir, report)
+
+  await migrateJsonEntry(
+    path.join(huboDir, 'providers.json'),
+    'hubo/providers.json',
+=======
   const ccHahaDir = path.join(configDir, 'cc-haha')
 
   await migrateLegacyRootProviders(configDir, ccHahaDir, report)
@@ -339,12 +369,18 @@ async function runPersistentStorageMigrations(configDir: string): Promise<Migrat
   await migrateJsonEntry(
     path.join(ccHahaDir, 'providers.json'),
     'cc-haha/providers.json',
+>>>>>>> upstream/main
     report,
     migrateProvidersIndex,
   )
   await migrateJsonEntry(
+<<<<<<< HEAD
+    path.join(huboDir, 'settings.json'),
+    'hubo/settings.json',
+=======
     path.join(ccHahaDir, 'settings.json'),
     'cc-haha/settings.json',
+>>>>>>> upstream/main
     report,
     migrateManagedSettings,
   )

@@ -6,7 +6,10 @@ const repoRoot = path.resolve(desktopRoot, '..')
 const binariesDir = path.join(desktopRoot, 'src-tauri', 'binaries')
 
 const targetTriple =
+<<<<<<< HEAD
+=======
   process.env.SIDECAR_TARGET_TRIPLE ||
+>>>>>>> upstream/main
   process.env.TAURI_ENV_TARGET_TRIPLE ||
   process.env.CARGO_BUILD_TARGET ||
   (await detectHostTriple())
@@ -28,11 +31,19 @@ if (scanExit !== 0) {
 await mkdir(binariesDir, { recursive: true })
 
 // 单一合并 sidecar：server / cli 共享一份 bun runtime + 共享依赖代码。
+<<<<<<< HEAD
+// 调用方（Tauri lib.rs / conversationService）通过第一个 positional 参数
+// 选择 'server' 或 'cli' 模式，详见 desktop/sidecars/hubo-sidecar.ts。
+await compileExecutable({
+  entrypoint: path.join(desktopRoot, 'sidecars/hubo-sidecar.ts'),
+  outfileBase: path.join(binariesDir, `hubo-sidecar-${targetTriple}`),
+=======
 // 调用方（Electron sidecar manager / legacy Tauri host / conversationService）
 // 通过第一个 positional 参数选择 'server' 或 'cli' 模式，详见 desktop/sidecars/claude-sidecar.ts。
 await compileExecutable({
   entrypoint: path.join(desktopRoot, 'sidecars/claude-sidecar.ts'),
   outfileBase: path.join(binariesDir, `claude-sidecar-${targetTriple}`),
+>>>>>>> upstream/main
   productName: 'Claude Code Sidecar',
   bunTarget,
 })
@@ -40,6 +51,32 @@ await compileExecutable({
 console.log(`[build-sidecars] Built desktop sidecar for ${targetTriple} (${bunTarget})`)
 
 async function detectHostTriple() {
+<<<<<<< HEAD
+  const proc = Bun.spawn(['rustc', '-vV'], {
+    cwd: repoRoot,
+    stdout: 'pipe',
+    stderr: 'pipe',
+  })
+
+  const stdout = await new Response(proc.stdout).text()
+  const stderr = await new Response(proc.stderr).text()
+  const exitCode = await proc.exited
+
+  if (exitCode !== 0) {
+    throw new Error(`[build-sidecars] rustc -vV failed: ${stderr || stdout}`)
+  }
+
+  const hostLine = stdout
+    .split('\n')
+    .map((line) => line.trim())
+    .find((line) => line.startsWith('host: '))
+
+  if (!hostLine) {
+    throw new Error('[build-sidecars] Could not detect Rust host triple')
+  }
+
+  return hostLine.replace('host: ', '')
+=======
   const platform = process.platform
   const arch = process.arch
 
@@ -59,6 +96,7 @@ async function detectHostTriple() {
   }
 
   throw new Error(`[build-sidecars] Unsupported host platform/arch: ${platform}/${arch}`)
+>>>>>>> upstream/main
 }
 
 function mapTargetTripleToBun(triple: string) {
@@ -68,9 +106,13 @@ function mapTargetTripleToBun(triple: string) {
     case 'x86_64-apple-darwin':
       return 'bun-darwin-x64'
     case 'x86_64-pc-windows-msvc':
+<<<<<<< HEAD
+      return 'bun-windows-x64'
+=======
       // Prefer baseline on Windows x64 so older CPUs do not crash before the
       // desktop app can even start the local sidecar process.
       return 'bun-windows-x64-baseline'
+>>>>>>> upstream/main
     case 'aarch64-pc-windows-msvc':
       return 'bun-windows-arm64'
     case 'x86_64-unknown-linux-gnu':

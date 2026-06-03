@@ -7,12 +7,21 @@ if ! command -v agent-browser >/dev/null 2>&1; then
 fi
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+<<<<<<< HEAD
+ARTIFACT_DIR="${ARTIFACT_DIR:-/tmp/hubo-e2e-parallel-providers-$$}"
+CONFIG_DIR="${ARTIFACT_DIR}/config"
+PROJECT_A="${ARTIFACT_DIR}/project-a"
+PROJECT_B="${ARTIFACT_DIR}/project-b"
+SESSION_NAME_A="${SESSION_NAME_A:-hubo-provider-a-$$}"
+SESSION_NAME_B="${SESSION_NAME_B:-hubo-provider-b-$$}"
+=======
 ARTIFACT_DIR="${ARTIFACT_DIR:-/tmp/cc-haha-e2e-parallel-providers-$$}"
 CONFIG_DIR="${ARTIFACT_DIR}/config"
 PROJECT_A="${ARTIFACT_DIR}/project-a"
 PROJECT_B="${ARTIFACT_DIR}/project-b"
 SESSION_NAME_A="${SESSION_NAME_A:-cc-haha-provider-a-$$}"
 SESSION_NAME_B="${SESSION_NAME_B:-cc-haha-provider-b-$$}"
+>>>>>>> upstream/main
 RESPONSE_DELAY_MS="${RESPONSE_DELAY_MS:-15000}"
 
 pick_port() {
@@ -39,7 +48,11 @@ cleanup() {
 }
 trap cleanup EXIT
 
+<<<<<<< HEAD
+mkdir -p "${ARTIFACT_DIR}" "${CONFIG_DIR}/hubo" "${PROJECT_A}" "${PROJECT_B}"
+=======
 mkdir -p "${ARTIFACT_DIR}" "${CONFIG_DIR}/cc-haha" "${PROJECT_A}" "${PROJECT_B}"
+>>>>>>> upstream/main
 printf 'parallel provider A fixture\n' > "${PROJECT_A}/README.md"
 printf 'parallel provider B fixture\n' > "${PROJECT_B}/README.md"
 
@@ -49,8 +62,13 @@ import { join } from 'node:path'
 
 const configDir = process.env.CONFIG_DIR
 const upstream = `http://127.0.0.1:${process.env.UPSTREAM_PORT}`
+<<<<<<< HEAD
+mkdirSync(join(configDir, 'hubo'), { recursive: true })
+writeFileSync(join(configDir, 'hubo', 'providers.json'), JSON.stringify({
+=======
 mkdirSync(join(configDir, 'cc-haha'), { recursive: true })
 writeFileSync(join(configDir, 'cc-haha', 'providers.json'), JSON.stringify({
+>>>>>>> upstream/main
   schemaVersion: 1,
   activeId: 'parallel-provider-a',
   providers: [
@@ -264,11 +282,19 @@ setup_browser() {
 
   "${ab[@]}" open "${APP_URL}" >/dev/null
   "${ab[@]}" eval "
+<<<<<<< HEAD
+    localStorage.setItem('hubo-open-tabs', JSON.stringify({
+      openTabs: [{ sessionId: '${session_id}', title: '${title}', type: 'session' }],
+      activeTabId: '${session_id}',
+    }));
+    localStorage.setItem('hubo-session-runtime', JSON.stringify({
+=======
     localStorage.setItem('cc-haha-open-tabs', JSON.stringify({
       openTabs: [{ sessionId: '${session_id}', title: '${title}', type: 'session' }],
       activeTabId: '${session_id}',
     }));
     localStorage.setItem('cc-haha-session-runtime', JSON.stringify({
+>>>>>>> upstream/main
       ['${session_id}']: { providerId: '${provider_id}', modelId: '${model_id}' },
     }));
   " >/dev/null

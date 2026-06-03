@@ -16,7 +16,11 @@ type PresetsResponse = { presets: ProviderPreset[] }
 type TestResultResponse = { result: ProviderTestResult }
 type AuthStatusResponse = {
   hasAuth: boolean
+<<<<<<< HEAD
+  source: 'hubo-provider' | 'openai-oauth' | 'original-settings' | 'env' | 'none'
+=======
   source: 'cc-haha-provider' | 'openai-oauth' | 'original-settings' | 'env' | 'none'
+>>>>>>> upstream/main
   activeProvider?: string
 }
 

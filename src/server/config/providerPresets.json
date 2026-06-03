@@ -54,10 +54,17 @@
     "needsApiKey": true,
     "websiteUrl": "https://open.bigmodel.cn",
     "apiKeyUrl": "https://www.bigmodel.cn/invite?icode=d41B2qi8Z5xNwTGLNPPF3OZLO2QH3C0EBTSr%2BArzMw4%3D",
+<<<<<<< HEAD
+    "promoText": "智谱 GLM 为 hubo 用户准备了专属邀请福利，使用此链接注册后可领取新用户权益。",
+    "authStrategy": "auth_token",
+    "defaultEnv": {
+      "HUBO_SEND_DISABLED_THINKING": "1"
+=======
     "promoText": "智谱 GLM 为 cc-haha 用户准备了专属邀请福利，使用此链接注册后可领取新用户权益。",
     "authStrategy": "auth_token",
     "defaultEnv": {
       "CC_HAHA_SEND_DISABLED_THINKING": "1"
+>>>>>>> upstream/main
     },
     "modelContextWindows": {
       "glm-5.1": 200000,
@@ -81,7 +88,11 @@
     "apiKeyUrl": "https://platform.kimi.com/console/api-keys",
     "authStrategy": "auth_token",
     "defaultEnv": {
+<<<<<<< HEAD
+      "HUBO_SEND_DISABLED_THINKING": "1"
+=======
       "CC_HAHA_SEND_DISABLED_THINKING": "1"
+>>>>>>> upstream/main
     },
     "modelContextWindows": {
       "kimi-k2.6": 262144,
@@ -98,19 +109,36 @@
     "baseUrl": "https://api.minimaxi.com/anthropic",
     "apiFormat": "anthropic",
     "defaultModels": {
+<<<<<<< HEAD
+      "main": "MiniMax-M2.7",
+      "haiku": "MiniMax-M2.7",
+      "sonnet": "MiniMax-M2.7",
+      "opus": "MiniMax-M2.7"
+=======
       "main": "MiniMax-M3",
       "haiku": "MiniMax-M3",
       "sonnet": "MiniMax-M3",
       "opus": "MiniMax-M3"
+>>>>>>> upstream/main
     },
     "needsApiKey": true,
     "websiteUrl": "https://platform.minimaxi.com",
     "apiKeyUrl": "https://platform.minimaxi.com/subscribe/token-plan?code=1TG2Cseab2&source=link",
     "authStrategy": "auth_token",
     "modelContextWindows": {
+<<<<<<< HEAD
+      "MiniMax-M2.7": 204800,
+      "MiniMax-M2.7-highspeed": 204800,
+      "MiniMax-M2.5": 204800,
+      "MiniMax-M2.5-highspeed": 204800,
+      "MiniMax-M2.1": 204800,
+      "MiniMax-M2.1-highspeed": 204800,
+      "MiniMax-M2": 204800
+=======
       "MiniMax-M3": 1000000,
       "MiniMax-M2.7": 204800,
       "MiniMax-M2.7-highspeed": 204800
+>>>>>>> upstream/main
     }
   },
   {
@@ -127,7 +155,11 @@
     "needsApiKey": true,
     "websiteUrl": "https://jiekou.ai",
     "apiKeyUrl": "https://jiekou.ai/referral?invited_code=OBNU3K",
+<<<<<<< HEAD
+    "promoText": "接口AI为 hubo 的用户提供官方资源与稳定高性能体验，订阅包价格为官方 8 折；绑定 GitHub 后还可领取 3 美元优惠券。",
+=======
     "promoText": "接口AI为 cc-haha 的用户提供官方资源与稳定高性能体验，订阅包价格为官方 8 折；绑定 GitHub 后还可领取 3 美元优惠券。",
+>>>>>>> upstream/main
     "featured": true,
     "authStrategy": "auth_token",
     "defaultEnv": {
@@ -154,7 +186,11 @@
     "needsApiKey": true,
     "websiteUrl": "https://www.shengsuanyun.com",
     "apiKeyUrl": "https://www.shengsuanyun.com/?from=CH_LEJ88KWR",
+<<<<<<< HEAD
+    "promoText": "胜算云为 hubo 的用户提供了特别福利，使用此链接注册的新用户可获 10 元模力及首充 10% 赠送！",
+=======
     "promoText": "胜算云为 cc-haha 的用户提供了特别福利，使用此链接注册的新用户可获 10 元模力及首充 10% 赠送！",
+>>>>>>> upstream/main
     "featured": true,
     "authStrategy": "auth_token",
     "defaultEnv": {

@@ -194,7 +194,11 @@ bool cchh_send_user_notification(const char *title, const char *body, const char
 
         if (@available(macOS 10.14, *)) {
             UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc] init];
+<<<<<<< HEAD
+            content.title = title != NULL ? [NSString stringWithUTF8String:title] : @"HUBO";
+=======
             content.title = title != NULL ? [NSString stringWithUTF8String:title] : @"Claude Code Haha";
+>>>>>>> upstream/main
             if (body != NULL && strlen(body) > 0) {
                 content.body = [NSString stringWithUTF8String:body];
             }
@@ -229,7 +233,11 @@ bool cchh_send_user_notification(const char *title, const char *body, const char
         }
 
         NSUserNotification *notification = [[NSUserNotification alloc] init];
+<<<<<<< HEAD
+        notification.title = title != NULL ? [NSString stringWithUTF8String:title] : @"HUBO";
+=======
         notification.title = title != NULL ? [NSString stringWithUTF8String:title] : @"Claude Code Haha";
+>>>>>>> upstream/main
         if (body != NULL && strlen(body) > 0) {
             notification.informativeText = [NSString stringWithUTF8String:body];
         }

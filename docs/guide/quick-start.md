@@ -30,9 +30,15 @@ cp .env.example .env
 ### macOS / Linux
 
 ```bash
+<<<<<<< HEAD
+./bin/hubo                          # 交互 TUI 模式
+./bin/hubo -p "your prompt here"    # 无头模式
+./bin/hubo --help                   # 查看所有选项
+=======
 ./bin/claude-haha                          # 交互 TUI 模式
 ./bin/claude-haha -p "your prompt here"    # 无头模式
 ./bin/claude-haha --help                   # 查看所有选项
+>>>>>>> upstream/main
 ```
 
 ### Windows
@@ -44,7 +50,11 @@ cp .env.example .env
 bun --env-file=.env ./src/entrypoints/cli.tsx
 
 # 或在 Git Bash 中运行
+<<<<<<< HEAD
+./bin/hubo
+=======
 ./bin/claude-haha
+>>>>>>> upstream/main
 ```
 
 ## 4. 全局使用（可选）
@@ -52,7 +62,11 @@ bun --env-file=.env ./src/entrypoints/cli.tsx
 将 `bin/` 加入 PATH 后可在任意目录启动，详见 [全局使用指南](./global-usage.md)：
 
 ```bash
+<<<<<<< HEAD
+export PATH="$HOME/path/to/hubo/bin:$PATH"
+=======
 export PATH="$HOME/path/to/claude-code-haha/bin:$PATH"
+>>>>>>> upstream/main
 ```
 
 ## 5. 降级模式
@@ -60,5 +74,9 @@ export PATH="$HOME/path/to/claude-code-haha/bin:$PATH"
 如果 Ink TUI 出现问题，可以使用降级 Recovery CLI 模式：
 
 ```bash
+<<<<<<< HEAD
+CLAUDE_CODE_FORCE_RECOVERY_CLI=1 ./bin/hubo
+=======
 CLAUDE_CODE_FORCE_RECOVERY_CLI=1 ./bin/claude-haha
+>>>>>>> upstream/main
 ```

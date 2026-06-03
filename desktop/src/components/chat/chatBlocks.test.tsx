@@ -18,13 +18,20 @@ describe('chat blocks', () => {
     const { container } = render(<ThinkingBlock content="this is a long internal reasoning trace" isActive />)
 
     expect(screen.getByText(/Thinking/)).toBeTruthy()
+<<<<<<< HEAD
+    expect(container.textContent).toContain('this is a long internal reasoning trace')
+=======
     expect(container.textContent).not.toContain('this is a long internal reasoning trace')
+>>>>>>> upstream/main
     expect(container.querySelector('.thinking-cursor')).toBeNull()
   })
 
   it('does not animate inactive historical thinking blocks', () => {
     const { container } = render(<ThinkingBlock content="old reasoning" isActive={false} />)
 
+<<<<<<< HEAD
+    expect(container.querySelector('.thinking-inline-cursor')).toBeNull()
+=======
     fireEvent.click(screen.getByRole('button', { name: /Thinking/ }))
 
     expect(container.textContent).toContain('old reasoning')
@@ -56,6 +63,7 @@ describe('chat blocks', () => {
     expect(container.textContent).toContain('line-1')
     expect(container.textContent).toContain('line-11')
     expect(container.textContent).toContain('line-12')
+>>>>>>> upstream/main
   })
 
   it('shows tool previews only after expanding the tool block', () => {
@@ -165,7 +173,11 @@ describe('chat blocks', () => {
         toolName="mcp__computer-use__left_click"
         input={{ coordinate: [120, 220] }}
         result={{
+<<<<<<< HEAD
+          content: '"HUBO" is not in the allowed applications and is currently in front. Take a new screenshot — it may have appeared since your last one.',
+=======
           content: '"Claude Code Haha" is not in the allowed applications and is currently in front. Take a new screenshot — it may have appeared since your last one.',
+>>>>>>> upstream/main
           isError: true,
         }}
       />,

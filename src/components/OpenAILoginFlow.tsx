@@ -149,7 +149,11 @@ export function OpenAILoginFlow({
       setStatus({ state: 'success', warning })
       void sendNotification(
         {
+<<<<<<< HEAD
+          message: 'HUBO OpenAI login successful',
+=======
           message: 'Claude Code Haha OpenAI login successful',
+>>>>>>> upstream/main
           notificationType: 'auth_success',
         },
         terminal,

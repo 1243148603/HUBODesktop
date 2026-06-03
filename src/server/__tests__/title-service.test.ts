@@ -4,6 +4,11 @@ import * as os from 'os'
 import * as path from 'path'
 import { OPENAI_CODEX_API_ENDPOINT } from '../../services/openaiAuth/client.js'
 import { ProviderService } from '../services/providerService.js'
+<<<<<<< HEAD
+import { deriveTitle, generateTitle, parseGeneratedTitleText, saveAiTitle } from '../services/titleService.js'
+import { sessionService } from '../services/sessionService.js'
+import { huboOpenAIOAuthService } from '../services/huboOpenAIOAuthService.js'
+=======
 import {
   deriveTitle,
   generateTitle,
@@ -13,6 +18,7 @@ import {
 } from '../services/titleService.js'
 import { sessionService } from '../services/sessionService.js'
 import { hahaOpenAIOAuthService } from '../services/hahaOpenAIOAuthService.js'
+>>>>>>> upstream/main
 
 describe('titleService', () => {
   let tmpDir: string
@@ -28,12 +34,20 @@ describe('titleService', () => {
 
   afterEach(async () => {
     globalThis.fetch = originalFetch
+<<<<<<< HEAD
+    huboOpenAIOAuthService.dispose()
+=======
     hahaOpenAIOAuthService.dispose()
+>>>>>>> upstream/main
     restoreEnv('CLAUDE_CONFIG_DIR', originalConfigDir)
     await fs.rm(tmpDir, { recursive: true, force: true })
   })
 
+<<<<<<< HEAD
+  test('sends disabled thinking for opted-in providers when desktop thinking is off', async () => {
+=======
   test('sends disabled thinking for title generation by default', async () => {
+>>>>>>> upstream/main
     let requestBody: Record<string, unknown> | null = null
     const server = Bun.serve({
       hostname: '127.0.0.1',
@@ -48,9 +62,19 @@ describe('titleService', () => {
 
     try {
       const providerId = 'zhipu-test'
+<<<<<<< HEAD
+      await fs.mkdir(path.join(tmpDir, 'hubo'), { recursive: true })
+      await fs.writeFile(
+        path.join(tmpDir, 'settings.json'),
+        JSON.stringify({ alwaysThinkingEnabled: false }, null, 2),
+      )
+      await fs.writeFile(
+        path.join(tmpDir, 'hubo', 'providers.json'),
+=======
       await fs.mkdir(path.join(tmpDir, 'cc-haha'), { recursive: true })
       await fs.writeFile(
         path.join(tmpDir, 'cc-haha', 'providers.json'),
+>>>>>>> upstream/main
         JSON.stringify({
           activeId: providerId,
           providers: [
@@ -79,6 +103,9 @@ describe('titleService', () => {
     }
   })
 
+<<<<<<< HEAD
+  test('sends disabled thinking for DeepSeek title generation when desktop thinking is off', async () => {
+=======
   test('retries title generation without thinking when the provider rejects it', async () => {
     const requestBodies: Array<Record<string, unknown>> = []
     const server = Bun.serve({
@@ -132,6 +159,7 @@ describe('titleService', () => {
   })
 
   test('sends disabled thinking for DeepSeek title generation', async () => {
+>>>>>>> upstream/main
     let requestBody: Record<string, unknown> | null = null
     const server = Bun.serve({
       hostname: '127.0.0.1',
@@ -146,9 +174,19 @@ describe('titleService', () => {
 
     try {
       const providerId = 'deepseek-test'
+<<<<<<< HEAD
+      await fs.mkdir(path.join(tmpDir, 'hubo'), { recursive: true })
+      await fs.writeFile(
+        path.join(tmpDir, 'settings.json'),
+        JSON.stringify({ alwaysThinkingEnabled: false }, null, 2),
+      )
+      await fs.writeFile(
+        path.join(tmpDir, 'hubo', 'providers.json'),
+=======
       await fs.mkdir(path.join(tmpDir, 'cc-haha'), { recursive: true })
       await fs.writeFile(
         path.join(tmpDir, 'cc-haha', 'providers.json'),
+>>>>>>> upstream/main
         JSON.stringify({
           activeId: providerId,
           providers: [
@@ -206,9 +244,15 @@ describe('titleService', () => {
 
     try {
       const providerId = 'title-clean-test'
+<<<<<<< HEAD
+      await fs.mkdir(path.join(tmpDir, 'hubo'), { recursive: true })
+      await fs.writeFile(
+        path.join(tmpDir, 'hubo', 'providers.json'),
+=======
       await fs.mkdir(path.join(tmpDir, 'cc-haha'), { recursive: true })
       await fs.writeFile(
         path.join(tmpDir, 'cc-haha', 'providers.json'),
+>>>>>>> upstream/main
         JSON.stringify({
           activeId: providerId,
           providers: [
@@ -236,15 +280,25 @@ describe('titleService', () => {
         '<command-args>@website 重新设计首页</command-args>',
       ].join('\n'))).resolves.toBe('Redesign website')
 
+<<<<<<< HEAD
+      expect(requestBody?.messages?.[0]?.content).toBe('/frontend-design @website 重新设计首页')
+=======
       const titlePrompt = String(requestBody?.messages?.[0]?.content ?? '')
       expect(titlePrompt).toContain('/frontend-design @website 重新设计首页')
       expect(titlePrompt).toContain('<conversation>')
       expect(titlePrompt).not.toContain('<command-message>')
+>>>>>>> upstream/main
     } finally {
       server.stop(true)
     }
   })
 
+<<<<<<< HEAD
+  test('generates titles when ChatGPT Official OAuth is active', async () => {
+    const providerService = new ProviderService()
+    await providerService.activateProvider('openai-official')
+    await huboOpenAIOAuthService.saveTokens({
+=======
   test('keeps generated titles in the first user message language', async () => {
     const requestBodies: Array<{
       messages?: Array<{ content?: string }>
@@ -331,6 +385,7 @@ describe('titleService', () => {
     const providerService = new ProviderService()
     await providerService.activateProvider('openai-official')
     await hahaOpenAIOAuthService.saveTokens({
+>>>>>>> upstream/main
       accessToken: 'access-for-title',
       refreshToken: 'refresh-for-title',
       expiresAt: Date.now() + 60 * 60_000,

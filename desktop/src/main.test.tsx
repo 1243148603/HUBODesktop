@@ -33,8 +33,13 @@ describe('desktop bootstrap', () => {
   afterEach(() => {
     cleanup()
     document.body.innerHTML = ''
+<<<<<<< HEAD
+    delete window.__HUBO_BOOTSTRAPPED__
+    delete window.__HUBO_SHOW_STARTUP_ERROR__
+=======
     delete window.__CC_HAHA_BOOTSTRAPPED__
     delete window.__CC_HAHA_SHOW_STARTUP_ERROR__
+>>>>>>> upstream/main
     vi.restoreAllMocks()
     vi.clearAllMocks()
   })
@@ -49,7 +54,11 @@ describe('desktop bootstrap', () => {
 
     expect(await screen.findByText('Auto boot app')).toBeInTheDocument()
     expect(mocks.runDesktopPersistenceMigrations).toHaveBeenCalledTimes(1)
+<<<<<<< HEAD
+    expect(window.__HUBO_BOOTSTRAPPED__).toBe(true)
+=======
     expect(window.__CC_HAHA_BOOTSTRAPPED__).toBe(true)
+>>>>>>> upstream/main
   })
 
   it('surfaces bootstrap failures in the root element', async () => {
@@ -70,7 +79,11 @@ describe('desktop bootstrap', () => {
     const root = document.createElement('div')
     const showStartupError = vi.fn()
     const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {})
+<<<<<<< HEAD
+    window.__HUBO_SHOW_STARTUP_ERROR__ = showStartupError
+=======
     window.__CC_HAHA_SHOW_STARTUP_ERROR__ = showStartupError
+>>>>>>> upstream/main
 
     await bootstrapDesktopApp(root, async () => {
       throw new Error('module failed')

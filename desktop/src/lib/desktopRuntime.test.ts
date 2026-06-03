@@ -23,13 +23,19 @@ import {
   H5_SERVER_URL_STORAGE_KEY,
   H5_TOKEN_STORAGE_KEY,
   initializeDesktopServerUrl,
+<<<<<<< HEAD
+=======
   isBrowserH5Runtime,
   isDesktopRuntime,
+>>>>>>> upstream/main
   isLoopbackHostname,
   requiresH5AuthForServerUrl,
   saveAndVerifyH5Connection,
 } from './desktopRuntime'
+<<<<<<< HEAD
+=======
 import { browserHost } from './desktopHost/browserHost'
+>>>>>>> upstream/main
 
 function healthOkResponse() {
   return Response.json({ status: 'ok' })
@@ -45,9 +51,12 @@ describe('desktopRuntime browser H5 bootstrap', () => {
     vi.useRealTimers()
     window.localStorage.clear()
     window.history.pushState({}, '', '/')
+<<<<<<< HEAD
+=======
     Reflect.deleteProperty(window, 'desktopHost')
     Reflect.deleteProperty(window, '__TAURI_INTERNALS__')
     Reflect.deleteProperty(window, '__TAURI__')
+>>>>>>> upstream/main
     globalThis.fetch = originalFetch
   })
 
@@ -125,6 +134,8 @@ describe('desktopRuntime browser H5 bootstrap', () => {
     })
   })
 
+<<<<<<< HEAD
+=======
   it('uses an injected desktop host server URL before browser fallback', async () => {
     const serverUrl = 'http://127.0.0.1:59231'
     window.desktopHost = {
@@ -185,6 +196,7 @@ describe('desktopRuntime browser H5 bootstrap', () => {
     consoleError.mockRestore()
   })
 
+>>>>>>> upstream/main
   it('does not treat a Vite SPA fallback response as a desktop server healthcheck', async () => {
     vi.useFakeTimers()
     globalThis.fetch = vi.fn().mockResolvedValue(

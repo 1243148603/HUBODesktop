@@ -234,7 +234,11 @@ export function readActiveProviderManagedEnv(
   options?: { serverPort?: number },
 ): Record<string, string> | null {
   try {
+<<<<<<< HEAD
+    const raw = fs.readFileSync(path.join(configDir, 'hubo', 'providers.json'), 'utf-8')
+=======
     const raw = fs.readFileSync(path.join(configDir, 'cc-haha', 'providers.json'), 'utf-8')
+>>>>>>> upstream/main
     const index = normalizeProvidersIndex(JSON.parse(raw))
     if (!index?.activeId) return null
 

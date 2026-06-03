@@ -1507,7 +1507,11 @@ describe('SessionService', () => {
   })
 
   it('should throw when workDir does not exist', async () => {
+<<<<<<< HEAD
+    expect(service.createSession('/tmp/definitely-missing-hubo')).rejects.toThrow(
+=======
     expect(service.createSession('/tmp/definitely-missing-claude-code-haha')).rejects.toThrow(
+>>>>>>> upstream/main
       'Working directory does not exist'
     )
   })

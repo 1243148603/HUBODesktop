@@ -97,7 +97,11 @@ function totalForDate(
 describe('activity stats token accounting', () => {
   beforeEach(async () => {
     originalConfigDir = process.env.CLAUDE_CONFIG_DIR
+<<<<<<< HEAD
+    tmpConfigDir = await mkdtemp(join(tmpdir(), 'hubo-stats-'))
+=======
     tmpConfigDir = await mkdtemp(join(tmpdir(), 'cc-haha-stats-'))
+>>>>>>> upstream/main
     process.env.CLAUDE_CONFIG_DIR = tmpConfigDir
   })
 

@@ -98,6 +98,8 @@ describe('network settings', () => {
       https_proxy: 'http://127.0.0.1:7890',
     })
   })
+<<<<<<< HEAD
+=======
 
   it('preserves authenticated manual proxy URLs for provider requests', () => {
     const settings = normalizeNetworkSettings({
@@ -115,4 +117,5 @@ describe('network settings', () => {
       HTTPS_PROXY: 'https://user:p%40ss@proxy.example.com:8443',
     })
   })
+>>>>>>> upstream/main
 })

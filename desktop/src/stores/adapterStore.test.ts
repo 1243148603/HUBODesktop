@@ -1,5 +1,8 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+<<<<<<< HEAD
+=======
 import { browserHost } from '../lib/desktopHost/browserHost'
+>>>>>>> upstream/main
 
 describe('adapterStore IM pairing behavior', () => {
   const adaptersApi = {
@@ -19,6 +22,8 @@ describe('adapterStore IM pairing behavior', () => {
     adaptersApi.updateConfig.mockImplementation(async (patch) => patch)
     vi.doMock('../api/adapters', () => ({ adaptersApi }))
     vi.doMock('@tauri-apps/api/core', () => ({ invoke: vi.fn() }))
+<<<<<<< HEAD
+=======
     Reflect.deleteProperty(window, 'desktopHost')
     Reflect.deleteProperty(window, '__TAURI_INTERNALS__')
     Reflect.deleteProperty(window, '__TAURI__')
@@ -73,6 +78,7 @@ describe('adapterStore IM pairing behavior', () => {
     expect(adaptersApi.updateConfig).toHaveBeenCalledWith({ telegram: { botToken: 'token' } })
 
     warn.mockRestore()
+>>>>>>> upstream/main
   })
 
   it('removes a WeChat paired user without clearing the bound account', async () => {

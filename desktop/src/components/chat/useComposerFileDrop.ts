@@ -1,5 +1,9 @@
 import { useCallback, useEffect, useRef, useState, type DragEvent, type RefObject } from 'react'
+<<<<<<< HEAD
+import { isTauriRuntime } from '../../lib/desktopRuntime'
+=======
 import { getDesktopHost } from '../../lib/desktopHost'
+>>>>>>> upstream/main
 import {
   dataTransferHasFiles,
   dataTransferToComposerAttachments,
@@ -7,11 +11,26 @@ import {
   type ComposerAttachment,
 } from '../../lib/composerAttachments'
 
+<<<<<<< HEAD
+type TauriDropPosition = {
+=======
 type DesktopDropPosition = {
+>>>>>>> upstream/main
   x: number
   y: number
 }
 
+<<<<<<< HEAD
+type TauriDragDropPayload =
+  | { type: 'enter'; paths: string[]; position: TauriDropPosition }
+  | { type: 'over'; position: TauriDropPosition }
+  | { type: 'drop'; paths: string[]; position: TauriDropPosition }
+  | { type: 'leave' }
+  | { type: 'cancel' }
+
+type TauriDragDropEvent = {
+  payload: TauriDragDropPayload
+=======
 type DesktopDragDropPayload =
   | { type: 'enter'; paths: string[]; position: DesktopDropPosition }
   | { type: 'over'; position: DesktopDropPosition }
@@ -21,6 +40,7 @@ type DesktopDragDropPayload =
 
 type DesktopDragDropEvent = {
   payload: DesktopDragDropPayload
+>>>>>>> upstream/main
 }
 
 type UseComposerFileDropOptions = {
@@ -30,7 +50,11 @@ type UseComposerFileDropOptions = {
   onError?: (error: unknown) => void
 }
 
+<<<<<<< HEAD
+function isPointInsideElement(element: HTMLElement | null, position: TauriDropPosition): boolean {
+=======
 function isPointInsideElement(element: HTMLElement | null, position: DesktopDropPosition): boolean {
+>>>>>>> upstream/main
   if (!element) return false
   const rect = element.getBoundingClientRect()
   return (
@@ -66,12 +90,44 @@ export function useComposerFileDrop({
   }, [onError])
 
   useEffect(() => {
+<<<<<<< HEAD
+    if (!isTauriRuntime()) return
+=======
     const host = getDesktopHost()
     if (!host.isDesktop) return
+>>>>>>> upstream/main
 
     let disposed = false
     let unlisten: (() => void) | undefined
 
+<<<<<<< HEAD
+    void import('@tauri-apps/api/webview')
+      .then(({ getCurrentWebview }) =>
+        getCurrentWebview().onDragDropEvent((event) => {
+          if (disposed) return
+
+          const payload = event.payload as TauriDragDropEvent['payload']
+          if (payload.type === 'cancel' || payload.type === 'leave') {
+            dragDepthRef.current = 0
+            setIsDragActive(false)
+            return
+          }
+
+          const isInside = isPointInsideElement(panelRef.current, payload.position)
+          if (payload.type === 'enter' || payload.type === 'over') {
+            setIsDragActive(!disabledRef.current && isInside)
+            return
+          }
+
+          dragDepthRef.current = 0
+          setIsDragActive(false)
+          if (disabledRef.current || !isInside) return
+
+          const attachments = pathsToComposerAttachments(payload.paths)
+          if (attachments.length > 0) onAttachmentsRef.current(attachments)
+        }),
+      )
+=======
     void host.webview
       .onDragDropEvent((event) => {
         if (disposed) return
@@ -96,6 +152,7 @@ export function useComposerFileDrop({
         const attachments = pathsToComposerAttachments(payload.paths)
         if (attachments.length > 0) onAttachmentsRef.current(attachments)
       })
+>>>>>>> upstream/main
       .then((nextUnlisten) => {
         if (disposed) {
           nextUnlisten()

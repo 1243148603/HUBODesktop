@@ -6,6 +6,8 @@ type ElementRef = {
 
 const VIEWPORT_MARGIN = 12
 
+<<<<<<< HEAD
+=======
 type SelectionRect = {
   left: number
   top: number
@@ -20,10 +22,13 @@ type SelectionGeometry = {
   isMultiLine: boolean
 }
 
+>>>>>>> upstream/main
 function clampValue(value: number, min: number, max: number) {
   return Math.max(min, Math.min(value, max))
 }
 
+<<<<<<< HEAD
+=======
 function isUsableRect(rect: SelectionRect | DOMRect) {
   return rect.width > 0 || rect.height > 0
 }
@@ -66,6 +71,7 @@ function getRangeSelectionGeometry(range: Range): SelectionGeometry | null {
   return null
 }
 
+>>>>>>> upstream/main
 export function clearWindowSelection() {
   window.getSelection()?.removeAllRanges()
 }
@@ -85,13 +91,29 @@ export function getSelectionPopoverPosition(
     fallbackPointer?: { clientX: number; clientY: number }
   },
 ) {
+<<<<<<< HEAD
+  const rect = typeof range.getBoundingClientRect === 'function'
+    ? range.getBoundingClientRect()
+    : null
+  const rootRect = root.getBoundingClientRect()
+  const hasUsableRangeRect = Boolean(rect && (rect.width > 0 || rect.height > 0))
+=======
   const geometry = getRangeSelectionGeometry(range)
   const rootRect = root.getBoundingClientRect()
+>>>>>>> upstream/main
   const pointerInsideRoot = fallbackPointer
     && fallbackPointer.clientX >= rootRect.left
     && fallbackPointer.clientX <= rootRect.right
     && fallbackPointer.clientY >= rootRect.top
     && fallbackPointer.clientY <= rootRect.bottom
+<<<<<<< HEAD
+  const fallbackLeft = pointerInsideRoot ? fallbackPointer.clientX - menuWidth / 2 : rootRect.left + 24
+  const fallbackTop = pointerInsideRoot ? fallbackPointer.clientY : rootRect.top + 24
+  const selectionLeft = hasUsableRangeRect ? rect!.left : fallbackLeft
+  const selectionRight = hasUsableRangeRect ? rect!.right : selectionLeft + menuWidth
+  const selectionTop = hasUsableRangeRect ? rect!.top : fallbackTop
+  const selectionBottom = hasUsableRangeRect ? rect!.bottom : selectionTop + menuHeight
+=======
   const fallbackX = pointerInsideRoot ? fallbackPointer.clientX : rootRect.left + 24
   const fallbackY = pointerInsideRoot ? fallbackPointer.clientY : rootRect.top + 24
   const selectionRect = geometry?.rect ?? {
@@ -102,12 +124,26 @@ export function getSelectionPopoverPosition(
     width: 0,
     height: 0,
   }
+>>>>>>> upstream/main
   const viewportWidth = window.innerWidth || document.documentElement.clientWidth || rootRect.right + VIEWPORT_MARGIN
   const viewportHeight = window.innerHeight || document.documentElement.clientHeight || rootRect.bottom + VIEWPORT_MARGIN
   const minX = VIEWPORT_MARGIN
   const maxX = Math.max(minX, viewportWidth - menuWidth - VIEWPORT_MARGIN)
   const minY = VIEWPORT_MARGIN
   const maxY = Math.max(minY, viewportHeight - menuHeight - VIEWPORT_MARGIN)
+<<<<<<< HEAD
+  const aboveY = selectionTop - menuHeight - offset
+  const belowY = selectionBottom + offset
+  const y = aboveY >= VIEWPORT_MARGIN || belowY + menuHeight > viewportHeight - VIEWPORT_MARGIN
+    ? aboveY
+    : belowY
+  const centerX = selectionLeft + (selectionRight - selectionLeft) / 2
+
+  return {
+    x: clampValue(centerX - menuWidth / 2, minX, maxX),
+    y: clampValue(y, minY, maxY),
+  }
+=======
   const clampPosition = (position: { x: number; y: number }) => ({
     x: clampValue(position.x, minX, maxX),
     y: clampValue(position.y, minY, maxY),
@@ -136,6 +172,7 @@ export function getSelectionPopoverPosition(
   if (below.y + menuHeight <= viewportHeight - VIEWPORT_MARGIN) return clampPosition(below)
 
   return clampPosition(above)
+>>>>>>> upstream/main
 }
 
 export function useSelectionPopoverDismiss({
@@ -150,11 +187,14 @@ export function useSelectionPopoverDismiss({
   useEffect(() => {
     if (!active) return
 
+<<<<<<< HEAD
+=======
     const dismiss = () => {
       onDismiss()
       clearWindowSelection()
     }
 
+>>>>>>> upstream/main
     const handlePointerDown = (event: PointerEvent) => {
       const popover = popoverRef.current
       const target = event.target
@@ -162,6 +202,14 @@ export function useSelectionPopoverDismiss({
         return
       }
 
+<<<<<<< HEAD
+      onDismiss()
+      clearWindowSelection()
+    }
+
+    document.addEventListener('pointerdown', handlePointerDown, true)
+    return () => document.removeEventListener('pointerdown', handlePointerDown, true)
+=======
       dismiss()
     }
 
@@ -175,5 +223,6 @@ export function useSelectionPopoverDismiss({
       document.removeEventListener('pointerdown', handlePointerDown, true)
       document.removeEventListener('scroll', handleScroll, true)
     }
+>>>>>>> upstream/main
   }, [active, onDismiss, popoverRef])
 }

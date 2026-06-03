@@ -14,7 +14,10 @@ const mocks = vi.hoisted(() => ({
   getMessages: vi.fn(),
   getGitInfo: vi.fn(),
   getSlashCommands: vi.fn(),
+<<<<<<< HEAD
+=======
   listAgents: vi.fn(),
+>>>>>>> upstream/main
   getRepositoryContext: vi.fn(),
   getRecentProjects: vi.fn(),
   search: vi.fn(),
@@ -38,12 +41,15 @@ vi.mock('../../api/sessions', () => ({
   },
 }))
 
+<<<<<<< HEAD
+=======
 vi.mock('../../api/agents', () => ({
   agentsApi: {
     list: mocks.listAgents,
   },
 }))
 
+>>>>>>> upstream/main
 vi.mock('../../api/filesystem', () => ({
   filesystemApi: {
     search: mocks.search,
@@ -61,6 +67,22 @@ vi.mock('../../api/websocket', () => ({
   },
 }))
 
+<<<<<<< HEAD
+vi.mock('@tauri-apps/plugin-dialog', () => ({
+  open: mocks.dialogOpen,
+}))
+
+vi.mock('@tauri-apps/api/webview', () => ({
+  getCurrentWebview: () => ({
+    onDragDropEvent: vi.fn(async (handler: (event: { payload: unknown }) => void) => {
+      mocks.webviewDragHandlers.push(handler)
+      return mocks.webviewUnlisten
+    }),
+  }),
+}))
+
+=======
+>>>>>>> upstream/main
 vi.mock('../../hooks/useMobileViewport', () => ({
   useMobileViewport: () => viewportMocks.isMobile,
 }))
@@ -79,7 +101,10 @@ import { useSessionStore } from '../../stores/sessionStore'
 import { useSettingsStore } from '../../stores/settingsStore'
 import { useTabStore } from '../../stores/tabStore'
 import { useWorkspaceChatContextStore } from '../../stores/workspaceChatContextStore'
+<<<<<<< HEAD
+=======
 import { browserHost } from '../../lib/desktopHost/browserHost'
+>>>>>>> upstream/main
 
 function okRepositoryContext() {
   return {
@@ -122,6 +147,11 @@ describe('ChatInput file mentions', () => {
   const initialTabState = useTabStore.getInitialState()
   const initialWorkspaceContextState = useWorkspaceChatContextStore.getInitialState()
 
+<<<<<<< HEAD
+  beforeEach(() => {
+    vi.clearAllMocks()
+    mocks.webviewDragHandlers.length = 0
+=======
   const installElectronFileHost = () => {
     window.desktopHost = {
       ...browserHost,
@@ -149,6 +179,7 @@ describe('ChatInput file mentions', () => {
     vi.clearAllMocks()
     mocks.webviewDragHandlers.length = 0
     Reflect.deleteProperty(window, 'desktopHost')
+>>>>>>> upstream/main
     delete (window as Window & { __TAURI_INTERNALS__?: unknown }).__TAURI_INTERNALS__
     viewportMocks.isMobile = false
     useSettingsStore.setState({ locale: 'en' })
@@ -204,7 +235,10 @@ describe('ChatInput file mentions', () => {
     mocks.list.mockResolvedValue({ sessions: [], total: 0 })
     mocks.getMessages.mockResolvedValue({ messages: [] })
     mocks.getSlashCommands.mockResolvedValue({ commands: [] })
+<<<<<<< HEAD
+=======
     mocks.listAgents.mockResolvedValue({ activeAgents: [], allAgents: [] })
+>>>>>>> upstream/main
   })
 
   it('keeps unsent composer drafts isolated when switching between session tabs', async () => {
@@ -336,6 +370,8 @@ describe('ChatInput file mentions', () => {
     })
   })
 
+<<<<<<< HEAD
+=======
   it('appends a delayed browser screenshot without clearing an unsent draft after remount', async () => {
     const { unmount } = render(<ChatInput compact />)
 
@@ -402,6 +438,7 @@ describe('ChatInput file mentions', () => {
     })
   })
 
+>>>>>>> upstream/main
   it('shows branch and worktree launch controls for an empty active Git session', async () => {
     useSessionStore.setState({
       sessions: [{
@@ -797,7 +834,14 @@ describe('ChatInput file mentions', () => {
   })
 
   it('uses native desktop file paths instead of inlining selected files', async () => {
+<<<<<<< HEAD
+    Object.defineProperty(window, '__TAURI_INTERNALS__', {
+      configurable: true,
+      value: {},
+    })
+=======
     installElectronFileHost()
+>>>>>>> upstream/main
     mocks.dialogOpen.mockResolvedValueOnce([
       '/Users/nanmi/tmp/large-a.log',
       'C:\\Users\\Nanmi\\Desktop\\large-b.zip',
@@ -841,7 +885,14 @@ describe('ChatInput file mentions', () => {
   })
 
   it('accepts native desktop file drops on the active session composer as path-only attachments', async () => {
+<<<<<<< HEAD
+    Object.defineProperty(window, '__TAURI_INTERNALS__', {
+      configurable: true,
+      value: {},
+    })
+=======
     installElectronFileHost()
+>>>>>>> upstream/main
 
     render(<ChatInput compact />)
 
@@ -1070,6 +1121,8 @@ describe('ChatInput file mentions', () => {
       expect(commandButtons[0]).toHaveTextContent('/superpowers:brainstorming')
     })
   })
+<<<<<<< HEAD
+=======
 
   it('offers active agents as slash entries that insert /agent with the selected type', async () => {
     mocks.listAgents.mockResolvedValue({
@@ -1151,4 +1204,5 @@ describe('ChatInput file mentions', () => {
       attachments: [],
     })
   })
+>>>>>>> upstream/main
 })

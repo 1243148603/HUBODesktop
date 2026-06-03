@@ -18,8 +18,11 @@ import { CronService, type CronTask } from '../services/cronService.js'
 
 let tmpDir: string
 const originalConfigDir = process.env.CLAUDE_CONFIG_DIR
+<<<<<<< HEAD
+=======
 const originalClaudeCliPath = process.env.CLAUDE_CLI_PATH
 const originalDisableTerminalShellEnv = process.env.CC_HAHA_DISABLE_TERMINAL_SHELL_ENV
+>>>>>>> upstream/main
 
 async function createTmpDir(): Promise<string> {
   const dir = path.join(
@@ -38,6 +41,8 @@ async function cleanupTmpDir(dir: string): Promise<void> {
   }
 }
 
+<<<<<<< HEAD
+=======
 async function createFakeCronCli(dir: string): Promise<string> {
   const cliPath = path.join(dir, 'fake-cron-cli.ts')
   await fs.writeFile(
@@ -51,6 +56,7 @@ async function createFakeCronCli(dir: string): Promise<string> {
   return cliPath
 }
 
+>>>>>>> upstream/main
 // ─── fieldMatches tests ────────────────────────────────────────────────────
 
 describe('fieldMatches', () => {
@@ -177,8 +183,11 @@ describe('CronScheduler', () => {
   beforeEach(async () => {
     tmpDir = await createTmpDir()
     process.env.CLAUDE_CONFIG_DIR = tmpDir
+<<<<<<< HEAD
+=======
     process.env.CLAUDE_CLI_PATH = await createFakeCronCli(tmpDir)
     process.env.CC_HAHA_DISABLE_TERMINAL_SHELL_ENV = '1'
+>>>>>>> upstream/main
     cronService = new CronService()
     scheduler = new CronScheduler(cronService)
   })
@@ -190,6 +199,8 @@ describe('CronScheduler', () => {
     } else {
       delete process.env.CLAUDE_CONFIG_DIR
     }
+<<<<<<< HEAD
+=======
     if (originalClaudeCliPath) {
       process.env.CLAUDE_CLI_PATH = originalClaudeCliPath
     } else {
@@ -200,6 +211,7 @@ describe('CronScheduler', () => {
     } else {
       delete process.env.CC_HAHA_DISABLE_TERMINAL_SHELL_ENV
     }
+>>>>>>> upstream/main
     await cleanupTmpDir(tmpDir)
   })
 
@@ -401,8 +413,11 @@ describe('Execution log trimming', () => {
   beforeEach(async () => {
     tmpDir = await createTmpDir()
     process.env.CLAUDE_CONFIG_DIR = tmpDir
+<<<<<<< HEAD
+=======
     process.env.CLAUDE_CLI_PATH = await createFakeCronCli(tmpDir)
     process.env.CC_HAHA_DISABLE_TERMINAL_SHELL_ENV = '1'
+>>>>>>> upstream/main
     cronService = new CronService()
     scheduler = new CronScheduler(cronService)
   })
@@ -414,6 +429,8 @@ describe('Execution log trimming', () => {
     } else {
       delete process.env.CLAUDE_CONFIG_DIR
     }
+<<<<<<< HEAD
+=======
     if (originalClaudeCliPath) {
       process.env.CLAUDE_CLI_PATH = originalClaudeCliPath
     } else {
@@ -424,6 +441,7 @@ describe('Execution log trimming', () => {
     } else {
       delete process.env.CC_HAHA_DISABLE_TERMINAL_SHELL_ENV
     }
+>>>>>>> upstream/main
     await cleanupTmpDir(tmpDir)
   })
 

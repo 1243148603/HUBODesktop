@@ -92,8 +92,13 @@ describe('ActivitySettings', () => {
       preferences: {
         schemaVersion: 2,
         profile: {
+<<<<<<< HEAD
+          displayName: 'hubo',
+          subtitle: 'github.com/NanmiCoder/hubo',
+=======
           displayName: 'cc-haha',
           subtitle: 'github.com/NanmiCoder/cc-haha',
+>>>>>>> upstream/main
           avatarFile: null,
           avatarUpdatedAt: null,
         },
@@ -130,8 +135,13 @@ describe('ActivitySettings', () => {
       preferences: {
         schemaVersion: 2,
         profile: {
+<<<<<<< HEAD
+          displayName: 'hubo',
+          subtitle: 'github.com/NanmiCoder/hubo',
+=======
           displayName: 'cc-haha',
           subtitle: 'github.com/NanmiCoder/cc-haha',
+>>>>>>> upstream/main
           avatarFile: 'profile/avatar.png',
           avatarUpdatedAt: '2026-05-09T12:00:00.000Z',
         },
@@ -149,8 +159,13 @@ describe('ActivitySettings', () => {
       preferences: {
         schemaVersion: 2,
         profile: {
+<<<<<<< HEAD
+          displayName: 'hubo',
+          subtitle: 'github.com/NanmiCoder/hubo',
+=======
           displayName: 'cc-haha',
           subtitle: 'github.com/NanmiCoder/cc-haha',
+>>>>>>> upstream/main
           avatarFile: null,
           avatarUpdatedAt: null,
         },
@@ -177,12 +192,21 @@ describe('ActivitySettings', () => {
 
     expect(getStatsMock).toHaveBeenCalledWith('all')
 
+<<<<<<< HEAD
+    expect(screen.getByText('hubo')).toBeInTheDocument()
+    expect(screen.getByAltText('hubo avatar')).toHaveAttribute('src', '/app-icon.png')
+    expect(screen.getByAltText('hubo avatar')).toHaveClass('scale-[1.28]')
+    expect(screen.getByRole('link', { name: 'github.com/NanmiCoder/hubo' })).toHaveAttribute(
+      'href',
+      'https://github.com/NanmiCoder/hubo',
+=======
     expect(screen.getByText('cc-haha')).toBeInTheDocument()
     expect(screen.getByAltText('cc-haha avatar')).toHaveAttribute('src', '/app-icon.png')
     expect(screen.getByAltText('cc-haha avatar')).toHaveClass('scale-[1.28]')
     expect(screen.getByRole('link', { name: 'github.com/NanmiCoder/cc-haha' })).toHaveAttribute(
       'href',
       'https://github.com/NanmiCoder/cc-haha',
+>>>>>>> upstream/main
     )
     expect(screen.getByText('Token Activity')).toBeInTheDocument()
     expect(screen.getByText('Total tokens')).toBeInTheDocument()
@@ -239,6 +263,8 @@ describe('ActivitySettings', () => {
     expect(editButton.closest('div')).toHaveClass('group/activity-profile')
   })
 
+<<<<<<< HEAD
+=======
   it('uses a balanced responsive summary grid instead of the loose medium-width layout', async () => {
     render(<ActivitySettings />)
 
@@ -263,6 +289,7 @@ describe('ActivitySettings', () => {
     expect(longestTaskValue).not.toHaveClass('break-words')
   })
 
+>>>>>>> upstream/main
   it('supports localized heatmap mode switches and persisted display name edits', async () => {
     useSettingsStore.setState({ locale: 'zh' })
     render(<ActivitySettings />)
@@ -352,7 +379,11 @@ describe('ActivitySettings', () => {
     await flushActivityLoad()
 
     expect(deleteProfileAvatarMock).toHaveBeenCalled()
+<<<<<<< HEAD
+    expect(screen.getByAltText('hubo avatar')).toHaveAttribute('src', '/app-icon.png')
+=======
     expect(screen.getByAltText('cc-haha avatar')).toHaveAttribute('src', '/app-icon.png')
+>>>>>>> upstream/main
   })
 
   it('shows localized duration details and the empty usage state', async () => {

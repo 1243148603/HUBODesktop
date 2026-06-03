@@ -14,7 +14,11 @@
 
 ### [架构设计](./02-architecture.md)
 
+<<<<<<< HEAD
+面向开发者的技术架构：三层架构（Tauri → Server → CLI）、WebSocket 协议、HTTP API、状态管理、协议代理、适配器桥接、目录结构。
+=======
 面向开发者的技术架构：三层架构（Electron Host → Server → CLI）、WebSocket 协议、HTTP API、状态管理、协议代理、适配器桥接、目录结构。
+>>>>>>> upstream/main
 
 ### [功能详解](./03-features.md)
 
@@ -28,6 +32,8 @@
 
 面向个人和团队的可选浏览器访问：开启 H5、生成 Token、配置允许来源、通过局域网或反向代理在手机上访问聊天界面。
 
+<<<<<<< HEAD
+=======
 ### [Tauri 迁移 Electron 调研索引](./07-electron-migration-research.md)
 
 桌面端从 Tauri 2 迁移到 Electron 的系统能力盘点、React 复用边界、目标架构、安全要求和迁移路径。
@@ -44,6 +50,7 @@
 
 本地浏览器可直接打开的验收 checklist，支持勾选进度、记录问题、导出 Markdown。
 
+>>>>>>> upstream/main
 ---
 
 ## 快速开始
@@ -59,8 +66,12 @@
 1. 阅读 [架构设计](./02-architecture.md) 理解三层架构
 2. 关键源码位置：
    - `desktop/src/` — React 前端
+<<<<<<< HEAD
+   - `desktop/src-tauri/` — Tauri Rust 后端
+=======
    - `desktop/electron/` — Electron main/preload/系统能力 host
    - `desktop/src-tauri/` — 历史资源目录，当前仅作为 sidecar、图标和 preview agent 的 Electron 打包输入
+>>>>>>> upstream/main
    - `desktop/sidecars/` — Sidecar 入口
    - `src/server/` — Express API 服务端
    - `adapters/` — IM 适配器
@@ -71,7 +82,11 @@
 
 | 概念 | 说明 |
 |------|------|
+<<<<<<< HEAD
+| **Tauri** | 跨平台桌面框架，Rust 管理窗口和 Sidecar 进程 |
+=======
 | **Electron Host** | 跨平台桌面壳层，管理窗口、系统能力、Sidecar 进程和更新 |
+>>>>>>> upstream/main
 | **Sidecar** | 随主进程启动的后台服务，运行 API 服务器 |
 | **Session** | 一次对话会话，绑定工作目录，通过 WebSocket 通信 |
 | **Tab** | 标签页，对应一个 Session 或特殊页面 |

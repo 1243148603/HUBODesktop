@@ -41,7 +41,11 @@ function makeRequest(
 }
 
 async function readDesktopUiFile(): Promise<Record<string, unknown>> {
+<<<<<<< HEAD
+  const raw = await fs.readFile(path.join(tmpDir, 'hubo', 'desktop-ui.json'), 'utf-8')
+=======
   const raw = await fs.readFile(path.join(tmpDir, 'cc-haha', 'desktop-ui.json'), 'utf-8')
+>>>>>>> upstream/main
   return JSON.parse(raw) as Record<string, unknown>
 }
 
@@ -58,8 +62,13 @@ describe('DesktopUiPreferencesService', () => {
     expect(result.preferences).toEqual({
       schemaVersion: 2,
       profile: {
+<<<<<<< HEAD
+        displayName: 'hubo',
+        subtitle: 'github.com/NanmiCoder/hubo',
+=======
         displayName: 'cc-haha',
         subtitle: 'github.com/NanmiCoder/cc-haha',
+>>>>>>> upstream/main
         avatarFile: null,
         avatarUpdatedAt: null,
       },
@@ -74,9 +83,15 @@ describe('DesktopUiPreferencesService', () => {
   })
 
   test('normalizes old schema files and preserves unknown fields when updating sidebar preferences', async () => {
+<<<<<<< HEAD
+    await fs.mkdir(path.join(tmpDir, 'hubo'), { recursive: true })
+    await fs.writeFile(
+      path.join(tmpDir, 'hubo', 'desktop-ui.json'),
+=======
     await fs.mkdir(path.join(tmpDir, 'cc-haha'), { recursive: true })
     await fs.writeFile(
       path.join(tmpDir, 'cc-haha', 'desktop-ui.json'),
+>>>>>>> upstream/main
       JSON.stringify({
         futureField: { keep: true },
         sidebar: {
@@ -101,8 +116,13 @@ describe('DesktopUiPreferencesService', () => {
       schemaVersion: 2,
       futureField: { keep: true },
       profile: {
+<<<<<<< HEAD
+        displayName: 'hubo',
+        subtitle: 'github.com/NanmiCoder/hubo',
+=======
         displayName: 'cc-haha',
         subtitle: 'github.com/NanmiCoder/cc-haha',
+>>>>>>> upstream/main
         avatarFile: null,
         avatarUpdatedAt: null,
       },
@@ -118,8 +138,13 @@ describe('DesktopUiPreferencesService', () => {
       schemaVersion: 2,
       futureField: { keep: true },
       profile: {
+<<<<<<< HEAD
+        displayName: 'hubo',
+        subtitle: 'github.com/NanmiCoder/hubo',
+=======
         displayName: 'cc-haha',
         subtitle: 'github.com/NanmiCoder/cc-haha',
+>>>>>>> upstream/main
         avatarFile: null,
         avatarUpdatedAt: null,
       },
@@ -135,6 +160,18 @@ describe('DesktopUiPreferencesService', () => {
   })
 
   test('quarantines corrupt desktop-ui.json and reports defaults as missing', async () => {
+<<<<<<< HEAD
+    await fs.mkdir(path.join(tmpDir, 'hubo'), { recursive: true })
+    await fs.writeFile(path.join(tmpDir, 'hubo', 'desktop-ui.json'), '{bad json', 'utf-8')
+
+    const service = new DesktopUiPreferencesService()
+    const result = await service.readPreferences()
+    const files = await fs.readdir(path.join(tmpDir, 'hubo'))
+
+    expect(result.exists).toBe(false)
+    expect(result.preferences.sidebar.hiddenProjects).toEqual([])
+    expect(result.preferences.profile.displayName).toBe('hubo')
+=======
     await fs.mkdir(path.join(tmpDir, 'cc-haha'), { recursive: true })
     await fs.writeFile(path.join(tmpDir, 'cc-haha', 'desktop-ui.json'), '{bad json', 'utf-8')
 
@@ -145,6 +182,7 @@ describe('DesktopUiPreferencesService', () => {
     expect(result.exists).toBe(false)
     expect(result.preferences.sidebar.hiddenProjects).toEqual([])
     expect(result.preferences.profile.displayName).toBe('cc-haha')
+>>>>>>> upstream/main
     expect(files.some((name) => name.startsWith('desktop-ui.json.invalid-'))).toBe(true)
   })
 
@@ -176,28 +214,45 @@ describe('DesktopUiPreferencesService', () => {
     expect(await readDesktopUiFile()).toEqual(after)
   })
 
+<<<<<<< HEAD
+  test('stores uploaded profile avatars under hubo profile storage', async () => {
+=======
   test('stores uploaded profile avatars under cc-haha profile storage', async () => {
+>>>>>>> upstream/main
     const service = new DesktopUiPreferencesService()
     const after = await service.updateProfileAvatar(new Uint8Array([137, 80, 78, 71]), 'image/png')
 
     expect(after.profile.avatarFile).toBe('profile/avatar.png')
     expect(typeof after.profile.avatarUpdatedAt).toBe('string')
 
+<<<<<<< HEAD
+    const avatar = await fs.readFile(path.join(tmpDir, 'hubo', 'profile', 'avatar.png'))
+=======
     const avatar = await fs.readFile(path.join(tmpDir, 'cc-haha', 'profile', 'avatar.png'))
+>>>>>>> upstream/main
     expect([...avatar]).toEqual([137, 80, 78, 71])
   })
 
   test('clears only managed profile avatar files', async () => {
     const service = new DesktopUiPreferencesService()
     await service.updateProfileAvatar(new Uint8Array([137, 80, 78, 71]), 'image/png')
+<<<<<<< HEAD
+    await fs.writeFile(path.join(tmpDir, 'hubo', 'profile', 'local-note.txt'), 'keep me', 'utf-8')
+=======
     await fs.writeFile(path.join(tmpDir, 'cc-haha', 'profile', 'local-note.txt'), 'keep me', 'utf-8')
+>>>>>>> upstream/main
 
     const after = await service.clearProfileAvatar()
 
     expect(after.profile.avatarFile).toBeNull()
     expect(after.profile.avatarUpdatedAt).toBeNull()
+<<<<<<< HEAD
+    await expect(fs.readFile(path.join(tmpDir, 'hubo', 'profile', 'avatar.png'))).rejects.toThrow()
+    await expect(fs.readFile(path.join(tmpDir, 'hubo', 'profile', 'local-note.txt'), 'utf-8')).resolves.toBe('keep me')
+=======
     await expect(fs.readFile(path.join(tmpDir, 'cc-haha', 'profile', 'avatar.png'))).rejects.toThrow()
     await expect(fs.readFile(path.join(tmpDir, 'cc-haha', 'profile', 'local-note.txt'), 'utf-8')).resolves.toBe('keep me')
+>>>>>>> upstream/main
   })
 
   test('rejects unsupported or oversized profile avatars', async () => {
@@ -212,7 +267,11 @@ describe('desktop UI preferences API', () => {
   beforeEach(setup)
   afterEach(teardown)
 
+<<<<<<< HEAD
+  test('persists sidebar preferences under hubo desktop-ui.json', async () => {
+=======
   test('persists sidebar preferences under cc-haha desktop-ui.json', async () => {
+>>>>>>> upstream/main
     const putReq = makeRequest('PUT', '/api/desktop-ui/preferences/sidebar', {
       projectOrder: ['/workspace/beta', '/workspace/alpha'],
       pinnedProjects: ['/workspace/beta'],
@@ -230,8 +289,13 @@ describe('desktop UI preferences API', () => {
       preferences: {
         schemaVersion: 2,
         profile: {
+<<<<<<< HEAD
+          displayName: 'hubo',
+          subtitle: 'github.com/NanmiCoder/hubo',
+=======
           displayName: 'cc-haha',
           subtitle: 'github.com/NanmiCoder/cc-haha',
+>>>>>>> upstream/main
           avatarFile: null,
           avatarUpdatedAt: null,
         },
@@ -255,8 +319,13 @@ describe('desktop UI preferences API', () => {
       preferences: {
         schemaVersion: 2,
         profile: {
+<<<<<<< HEAD
+          displayName: 'hubo',
+          subtitle: 'github.com/NanmiCoder/hubo',
+=======
           displayName: 'cc-haha',
           subtitle: 'github.com/NanmiCoder/cc-haha',
+>>>>>>> upstream/main
           avatarFile: null,
           avatarUpdatedAt: null,
         },

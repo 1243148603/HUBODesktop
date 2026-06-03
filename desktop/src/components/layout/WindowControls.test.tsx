@@ -1,15 +1,22 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+<<<<<<< HEAD
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+=======
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
+>>>>>>> upstream/main
 import '@testing-library/jest-dom'
 
 const minimize = vi.fn().mockResolvedValue(undefined)
 const toggleMaximize = vi.fn().mockResolvedValue(undefined)
 const close = vi.fn().mockResolvedValue(undefined)
+<<<<<<< HEAD
+=======
 const hostMinimize = vi.fn().mockResolvedValue(undefined)
 const hostToggleMaximize = vi.fn().mockResolvedValue(undefined)
 const hostClose = vi.fn().mockResolvedValue(undefined)
 const hostIsMaximized = vi.fn().mockResolvedValue(false)
 const hostOnResized = vi.fn().mockResolvedValue(() => {})
+>>>>>>> upstream/main
 const isMaximized = vi.fn().mockResolvedValue(false)
 const onResized = vi.fn().mockResolvedValue(() => {})
 
@@ -30,6 +37,15 @@ describe('WindowControls', () => {
     minimize.mockClear()
     toggleMaximize.mockClear()
     close.mockClear()
+<<<<<<< HEAD
+    isMaximized.mockClear()
+    onResized.mockClear()
+
+    Object.defineProperty(window, '__TAURI_INTERNALS__', {
+      configurable: true,
+      value: {},
+    })
+=======
     hostMinimize.mockClear()
     hostToggleMaximize.mockClear()
     hostClose.mockClear()
@@ -67,6 +83,7 @@ describe('WindowControls', () => {
         onNativeMenuNavigate: vi.fn().mockResolvedValue(() => {}),
       },
     } as any
+>>>>>>> upstream/main
     Object.defineProperty(navigator, 'platform', {
       configurable: true,
       value: 'Win32',
@@ -76,17 +93,24 @@ describe('WindowControls', () => {
 
   afterEach(() => {
     Reflect.deleteProperty(window, '__TAURI_INTERNALS__')
+<<<<<<< HEAD
+=======
     Reflect.deleteProperty(window, 'desktopHost')
+>>>>>>> upstream/main
     Object.defineProperty(navigator, 'platform', {
       configurable: true,
       value: originalPlatform,
     })
   })
 
+<<<<<<< HEAD
+  it('invokes Tauri window APIs for custom controls on Windows', async () => {
+=======
   it('invokes desktop host window APIs for custom controls on Windows', async () => {
     hostIsMaximized
       .mockResolvedValueOnce(false)
       .mockResolvedValueOnce(true)
+>>>>>>> upstream/main
     const { WindowControls } = await import('./WindowControls')
 
     render(<WindowControls />)
@@ -94,6 +118,18 @@ describe('WindowControls', () => {
     await waitFor(() => {
       expect(screen.getByRole('button', { name: 'Minimize window' })).toBeInTheDocument()
     })
+<<<<<<< HEAD
+
+    fireEvent.click(screen.getByRole('button', { name: 'Minimize window' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Maximize window' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Close window' }))
+
+    await waitFor(() => {
+      expect(minimize).toHaveBeenCalledTimes(1)
+      expect(toggleMaximize).toHaveBeenCalledTimes(1)
+      expect(close).toHaveBeenCalledTimes(1)
+    })
+=======
     await waitFor(() => expect(hostOnResized).toHaveBeenCalledTimes(1))
 
     const handleResize = hostOnResized.mock.calls[0]?.[0]
@@ -119,5 +155,6 @@ describe('WindowControls', () => {
     expect(minimize).not.toHaveBeenCalled()
     expect(toggleMaximize).not.toHaveBeenCalled()
     expect(close).not.toHaveBeenCalled()
+>>>>>>> upstream/main
   })
 })

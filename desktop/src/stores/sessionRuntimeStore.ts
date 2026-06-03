@@ -1,7 +1,11 @@
 import { create } from 'zustand'
 import type { RuntimeSelection } from '../types/runtime'
 
+<<<<<<< HEAD
+const STORAGE_KEY = 'hubo-session-runtime'
+=======
 const STORAGE_KEY = 'cc-haha-session-runtime'
+>>>>>>> upstream/main
 
 export const DRAFT_RUNTIME_SELECTION_KEY = '__draft__'
 
