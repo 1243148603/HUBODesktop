@@ -5,8 +5,20 @@ import path from 'path'
 
 const host = process.env.TAURI_DEV_HOST
 
+function healthCheckPlugin() {
+  return {
+    name: 'health-check',
+    configureServer(server: { middlewares: { use: (path: string, handler: (_req: unknown, res: { writeHead: (status: number, headers: Record<string, string>) => void; end: (body: string) => void }) => void) => void } }) {
+      server.middlewares.use('/health', (_req, res) => {
+        res.writeHead(200, { 'Content-Type': 'application/json' })
+        res.end(JSON.stringify({ status: 'ok' }))
+      })
+    },
+  }
+}
+
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [react(), tailwindcss(), healthCheckPlugin()],
   build: {
     // Vite 8 defaults to baseline-widely-available (safari16.4+), which
     // requires macOS 13+. Tauri on macOS 12 uses Safari 15 WebView.
