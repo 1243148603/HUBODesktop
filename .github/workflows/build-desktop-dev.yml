@@ -154,76 +154,21 @@ jobs:
         id: collect
         shell: bash
         run: |
-          BUNDLE_DIR="desktop/src-tauri/target/${{ matrix.rust_target }}/release/bundle"
-          FALLBACK_DIR="desktop/src-tauri/target/release/bundle"
-
-          # 优先使用带 target 的路径
-          if [ -d "$BUNDLE_DIR" ]; then
-            SEARCH_DIR="$BUNDLE_DIR"
-          else
-            SEARCH_DIR="$FALLBACK_DIR"
-          fi
-
-          STAGING="desktop/build-artifacts/ci-HUBO-v${{ steps.version.outputs.version }}-${{ matrix.artifact_name }}"
+          STAGING="desktop/build-artifacts/ci-Claude-Code-Haha-v${{ steps.version.outputs.version }}-${{ matrix.artifact_name }}"
           mkdir -p "$STAGING"
-
-          echo "Searching for artifacts in: $SEARCH_DIR"
-          if [ -d "$SEARCH_DIR" ]; then
-            find "$SEARCH_DIR" \
-              \( -type f \( \
-                -name "*.dmg" -o -name "*.msi" -o \
-                -name "*.deb" -o -name "*.AppImage" -o -name "*.zip" \
-              \) \) -o \
-              \( -type d -name "*.app" \) | while read -r f; do
-              base="$(basename "$f")"
-              bundle="artifact"
-              ext=""
-
-              case "$base" in
-                *.app)
-                  bundle="app"
-                  ext=".app"
-                  ;;
-                *.dmg)
-                  bundle="dmg"
-                  ext=".dmg"
-                  ;;
-                *.msi)
-                  bundle="msi"
-                  ext=".msi"
-                  ;;
-                *.deb)
-                  bundle="deb"
-                  ext=".deb"
-                  ;;
-                *.AppImage)
-                  bundle="appimage"
-                  ext=".AppImage"
-                  ;;
-                *.zip)
-                  bundle="zip"
-                  ext=".zip"
-                  ;;
-                *)
-                  ext=""
-                  ;;
-              esac
-
-              target="HUBO_${{ steps.version.outputs.version }}_${{ matrix.asset_platform }}_${{ matrix.asset_arch }}_${bundle}${ext}"
-              echo "  Copying: ${base} -> ${target}"
-              cp -R "$f" "$STAGING/$target"
+          find desktop/build-artifacts/electron -maxdepth 1 -type f \
+            \( -name "*.dmg" -o -name "*.exe" -o -name "*.deb" -o -name "*.AppImage" -o -name "*.zip" -o -name "*.blockmap" -o -name "*.yml" \) \
+            | while read -r artifact; do
+              cp -f "$artifact" "$STAGING/"
             done
-          fi
-
           echo "staging_dir=$STAGING" >> "$GITHUB_OUTPUT"
-          echo "=== Collected artifacts ==="
-          ls -lh "$STAGING/" 2>/dev/null || echo "(empty)"
+          ls -lh "$STAGING/" 2>/dev/null || true
 
       # ── 上传为 GitHub Artifact ───────────────────────────────
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: HUBO-v${{ steps.version.outputs.version }}-${{ matrix.artifact_name }}
+          name: Claude-Code-Haha-v${{ steps.version.outputs.version }}-${{ matrix.artifact_name }}
           path: ${{ steps.collect.outputs.staging_dir }}
           retention-days: 7
           if-no-files-found: warn
