@@ -35,10 +35,7 @@ import { isNonCustomOpusModel } from '../../utils/model/model.js'
 import { disableKeepAlive } from '../../utils/proxy.js'
 import { sleep } from '../../utils/sleep.js'
 import type { ThinkingConfig } from '../../utils/thinking.js'
-<<<<<<< HEAD
 import { getFeatureValue_CACHED_MAY_BE_STALE } from '../analytics/growthbook.js'
-=======
->>>>>>> upstream/main
 import {
   type AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
   logEvent,
@@ -219,7 +216,6 @@ export async function* withRetry<T>(
       // - Vertex-specific auth errors (credential refresh failures, 401)
       // - ECONNRESET/EPIPE: stale keep-alive socket; disable pooling and reconnect
       const isStaleConnection = isStaleConnectionError(lastError)
-<<<<<<< HEAD
       if (
         isStaleConnection &&
         getFeatureValue_CACHED_MAY_BE_STALE(
@@ -227,9 +223,6 @@ export async function* withRetry<T>(
           false,
         )
       ) {
-=======
-      if (isStaleConnection) {
->>>>>>> upstream/main
         logForDebugging(
           'Stale connection (ECONNRESET/EPIPE) — disabling keep-alive for retry',
         )

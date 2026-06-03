@@ -11,11 +11,7 @@ let originalEnv: {
   PATH?: string
   SHELL?: string
   ZDOTDIR?: string
-<<<<<<< HEAD
   HUBO_DISABLE_TERMINAL_SHELL_ENV?: string
-=======
-  CC_HAHA_DISABLE_TERMINAL_SHELL_ENV?: string
->>>>>>> upstream/main
 }
 
 async function writeExecutable(filePath: string, content: string) {
@@ -53,17 +49,10 @@ describe('MCP host preflight', () => {
       PATH: process.env.PATH,
       SHELL: process.env.SHELL,
       ZDOTDIR: process.env.ZDOTDIR,
-<<<<<<< HEAD
       HUBO_DISABLE_TERMINAL_SHELL_ENV:
         process.env.HUBO_DISABLE_TERMINAL_SHELL_ENV,
     }
     delete process.env.HUBO_DISABLE_TERMINAL_SHELL_ENV
-=======
-      CC_HAHA_DISABLE_TERMINAL_SHELL_ENV:
-        process.env.CC_HAHA_DISABLE_TERMINAL_SHELL_ENV,
-    }
-    delete process.env.CC_HAHA_DISABLE_TERMINAL_SHELL_ENV
->>>>>>> upstream/main
     resetMcpStdioEnvironmentCacheForTests()
   })
 

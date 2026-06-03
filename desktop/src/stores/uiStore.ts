@@ -1,11 +1,7 @@
 import { create } from 'zustand'
 import { isThemeMode, THEME_MODES, type ThemeMode } from '../types/settings'
 
-<<<<<<< HEAD
 const THEME_STORAGE_KEY = 'hubo-theme'
-=======
-const THEME_STORAGE_KEY = 'cc-haha-theme'
->>>>>>> upstream/main
 
 function getStoredTheme(): ThemeMode {
   try {

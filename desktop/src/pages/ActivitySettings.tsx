@@ -8,10 +8,6 @@ import {
 } from '../api/desktopUiPreferences'
 import { type Locale, useTranslation } from '../i18n'
 import { useSettingsStore } from '../stores/settingsStore'
-<<<<<<< HEAD
-=======
-import { publicAssetPath } from '../lib/publicAsset'
->>>>>>> upstream/main
 
 type HeatmapDay = {
   date: string
@@ -56,20 +52,11 @@ const DATE_LOCALES: Record<Locale, string> = {
   zh: 'zh-CN',
 }
 const DEFAULT_PROFILE: DesktopProfilePreferences = {
-<<<<<<< HEAD
   displayName: 'hubo',
   subtitle: 'platform.deepseek.com/usage',
   avatarFile: null,
   avatarUpdatedAt: null,
 }
-=======
-  displayName: 'cc-haha',
-  subtitle: 'github.com/NanmiCoder/cc-haha',
-  avatarFile: null,
-  avatarUpdatedAt: null,
-}
-const DEFAULT_AVATAR_SRC = publicAssetPath('app-icon.png')
->>>>>>> upstream/main
 
 function localDateKey(date: Date) {
   const year = date.getFullYear()
@@ -502,11 +489,7 @@ export function ActivitySettings() {
       detail: formatSessionCount(last30Usage.sessions, t),
     },
   ]
-<<<<<<< HEAD
   const avatarSrc = profile.avatarFile ? getProfileAvatarUrl(profile.avatarUpdatedAt) : '/app-icon.png'
-=======
-  const avatarSrc = profile.avatarFile ? getProfileAvatarUrl(profile.avatarUpdatedAt) : DEFAULT_AVATAR_SRC
->>>>>>> upstream/main
   const avatarClassName = profile.avatarFile
     ? 'h-full w-full object-cover'
     : 'h-full w-full scale-[1.28] object-contain transition-transform'
@@ -585,11 +568,7 @@ export function ActivitySettings() {
             alt={`${profile.displayName} avatar`}
             className={avatarClassName}
             onError={(event) => {
-<<<<<<< HEAD
               event.currentTarget.src = '/app-icon.png'
-=======
-              event.currentTarget.src = DEFAULT_AVATAR_SRC
->>>>>>> upstream/main
               event.currentTarget.className = 'h-full w-full scale-[1.28] object-contain transition-transform'
             }}
           />
@@ -627,7 +606,6 @@ export function ActivitySettings() {
         {profileError && !isEditingProfile && <div className="mt-3 text-xs text-[var(--color-error)]">{profileError}</div>}
       </section>
 
-<<<<<<< HEAD
       <section className="mx-auto mt-8 overflow-hidden rounded-[18px] border border-[var(--color-border)] bg-[var(--color-surface-container-lowest)]">
         {isLoading ? (
           <div className="grid gap-0 sm:grid-cols-2 xl:grid-cols-5">
@@ -648,60 +626,6 @@ export function ActivitySettings() {
                 {metric.detail && <div className="mt-0.5 truncate text-xs text-[var(--color-text-tertiary)]">{metric.detail}</div>}
               </div>
             ))}
-=======
-      <section className="activity-summary-panel mx-auto mt-8 overflow-hidden rounded-[18px] border border-[var(--color-border)] bg-[var(--color-border)] p-px shadow-[0_18px_45px_-38px_rgba(15,23,42,0.65)]">
-        {isLoading ? (
-          <div className="activity-summary-grid grid gap-px">
-            {Array.from({ length: 5 }).map((_, index) => (
-              <div
-                key={index}
-                className={`activity-summary-metric min-h-[112px] animate-pulse bg-[var(--color-surface)] px-5 py-4 ${
-                  index === 0 ? 'activity-summary-metric-primary' : ''
-                }`}
-              >
-                <div className="h-3 w-20 rounded bg-[var(--color-surface-container)]" />
-                <div className="mt-6 h-7 w-24 rounded bg-[var(--color-surface-container)]" />
-                <div className="mt-3 h-3 w-16 rounded bg-[var(--color-surface-container)]" />
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="activity-summary-grid grid gap-px">
-            {metrics.map((metric, index) => {
-              const isPrimary = index === 0
-              return (
-                <div
-                  key={metric.label}
-                  className={`activity-summary-metric min-w-0 bg-[var(--color-surface-container-lowest)] px-5 py-4 text-left opacity-0 shadow-[inset_0_1px_0_rgba(255,255,255,0.48)] [animation:activity-reveal_420ms_cubic-bezier(0.16,1,0.3,1)_forwards] ${
-                    isPrimary ? 'activity-summary-metric-primary' : ''
-                  }`}
-                  style={{ animationDelay: `${index * 45}ms` }}
-                >
-                  <div className="flex min-h-[104px] flex-col justify-between gap-4">
-                    <div className="flex min-w-0 items-center gap-2">
-                      <span
-                        className={`h-1.5 w-1.5 shrink-0 rounded-full ${
-                          isPrimary ? 'bg-[var(--color-primary)]' : 'bg-[var(--color-text-tertiary)] opacity-45'
-                        }`}
-                        aria-hidden="true"
-                      />
-                      <div className="min-w-0 truncate text-[13px] font-semibold text-[var(--color-text-secondary)]">
-                        {metric.label}
-                      </div>
-                    </div>
-                    <div className="min-w-0">
-                      <div className={`activity-summary-value max-w-full font-semibold leading-[1.08] tracking-tight text-[var(--color-text-primary)] tabular-nums ${
-                        isPrimary ? 'text-[32px] lg:text-[26px]' : 'text-[28px] lg:text-[26px]'
-                      }`}>
-                        {metric.value}
-                      </div>
-                      {metric.detail && <div className="mt-2 truncate text-sm text-[var(--color-text-tertiary)]">{metric.detail}</div>}
-                    </div>
-                  </div>
-                </div>
-              )
-            })}
->>>>>>> upstream/main
           </div>
         )}
       </section>

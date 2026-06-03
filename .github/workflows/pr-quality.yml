@@ -134,14 +134,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y \
             build-essential curl wget file \
-<<<<<<< HEAD
             libxdo-dev libssl-dev \
             libwebkit2gtk-4.1-dev \
             libayatana-appindicator3-dev \
             librsvg2-dev patchelf \
-=======
-            libxdo-dev libssl-dev patchelf \
->>>>>>> upstream/main
             libfuse2
 
       - name: Setup Bun
@@ -149,7 +145,6 @@ jobs:
         with:
           bun-version: latest
 
-<<<<<<< HEAD
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
 
@@ -158,8 +153,6 @@ jobs:
         with:
           workspaces: 'desktop/src-tauri -> target'
 
-=======
->>>>>>> upstream/main
       - name: Install root dependencies
         run: bun install
 
@@ -167,13 +160,10 @@ jobs:
         working-directory: desktop
         run: bun install
 
-<<<<<<< HEAD
       - name: Install adapter dependencies
         working-directory: adapters
         run: bun install
 
-=======
->>>>>>> upstream/main
       - name: Run desktop native checks
         run: bun run check:native
 

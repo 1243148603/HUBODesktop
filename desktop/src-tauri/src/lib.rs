@@ -222,10 +222,6 @@ mod webview_panel;
 const SERVER_STARTUP_LOG_LIMIT: usize = 80;
 const SERVER_BIND_HOST: &str = "0.0.0.0";
 const SERVER_CONTROL_HOST: &str = "127.0.0.1";
-<<<<<<< HEAD
-=======
-const CLAUDE_CODE_POWERSHELL_PATH_ENV: &str = "CLAUDE_CODE_POWERSHELL_PATH";
->>>>>>> upstream/main
 const MAIN_WINDOW_LABEL: &str = "main";
 const TRAY_SHOW_ID: &str = "tray_show";
 const TRAY_QUIT_ID: &str = "tray_quit";
@@ -310,11 +306,7 @@ fn dir_has_portable_data(dir: &Path) -> bool {
         || dir.join("skills").is_dir()
         || dir.join("plugins").is_dir()
         || dir.join("cowork_plugins").is_dir()
-<<<<<<< HEAD
         || dir.join("hubo").is_dir()
-=======
-        || dir.join("cc-haha").is_dir()
->>>>>>> upstream/main
 }
 
 /// Resolve the default portable config directory: exe_dir/CLAUDE_CONFIG_DIR.
@@ -415,11 +407,7 @@ struct StoredWindowState {
 
 /// 与 ServerState 平级的 adapter 子进程状态。
 ///
-<<<<<<< HEAD
 /// adapter sidecar（hubo-sidecar adapters --telegram 等）的生命周期
-=======
-/// adapter sidecar（claude-sidecar adapters --telegram 等）的生命周期
->>>>>>> upstream/main
 /// 跟 server 不同：它没有 HTTP 端口可探活，没配凭据时会自己干净退出，
 /// 而且需要支持运行时热重启 —— 用户在设置页保存 IM 凭据后，
 /// 前端会通过 invoke('restart_adapters_sidecar') 来重启它，让新凭据生效。
@@ -556,11 +544,7 @@ fn get_app_mode(app: AppHandle) -> serde_json::Value {
         .clone()
         .or_else(|| app.path().app_config_dir().ok());
     let config_dir_source = if env_config_dir.is_some() {
-<<<<<<< HEAD
         if std::env::var_os("HUBO_APP_PORTABLE_DIR").is_some() {
-=======
-        if std::env::var_os("CC_HAHA_APP_PORTABLE_DIR").is_some() {
->>>>>>> upstream/main
             "portable"
         } else {
             "environment"
@@ -740,11 +724,7 @@ fn is_window_state_visible_on_any_monitor(
 fn window_state_path(app: &AppHandle) -> Option<PathBuf> {
     // honour CLAUDE_CONFIG_DIR so portable installs keep window-state.json
     // and terminal-config.json alongside the config dir instead of
-<<<<<<< HEAD
     // %APPDATA%\com.hubo.desktop\.
-=======
-    // %APPDATA%\com.claude-code-haha.desktop\.
->>>>>>> upstream/main
     resolve_portable_state_path().or_else(|| match app.path().app_config_dir() {
         Ok(dir) => Some(dir.join(WINDOW_STATE_FILE)),
         Err(err) => {
@@ -895,7 +875,6 @@ fn show_main_window(app: &AppHandle) {
 
 fn setup_system_tray(app: &mut tauri::App) -> tauri::Result<()> {
     let menu = MenuBuilder::new(app)
-<<<<<<< HEAD
         .text(TRAY_SHOW_ID, "Show HUBO")
         .separator()
         .text(TRAY_QUIT_ID, "Quit HUBO")
@@ -903,15 +882,6 @@ fn setup_system_tray(app: &mut tauri::App) -> tauri::Result<()> {
 
     let mut tray = TrayIconBuilder::with_id("main-tray")
         .tooltip("HUBO")
-=======
-        .text(TRAY_SHOW_ID, "Show Claude Code Haha")
-        .separator()
-        .text(TRAY_QUIT_ID, "Quit Claude Code Haha")
-        .build()?;
-
-    let mut tray = TrayIconBuilder::with_id("main-tray")
-        .tooltip("Claude Code Haha")
->>>>>>> upstream/main
         .menu(&menu)
         .show_menu_on_left_click(false)
         .on_menu_event(|app, event| match event.id().as_ref() {
@@ -1416,14 +1386,6 @@ fn resolved_terminal_shell(app: &AppHandle) -> Result<String, String> {
     Ok(override_shell.unwrap_or(system_default))
 }
 
-<<<<<<< HEAD
-=======
-fn read_agent_powershell_path_override() -> Option<String> {
-    let configured = read_desktop_terminal_config();
-    resolve_agent_powershell_path_override(current_terminal_host_platform(), configured.as_ref())
-}
-
->>>>>>> upstream/main
 fn current_terminal_host_platform() -> TerminalHostPlatform {
     #[cfg(target_os = "windows")]
     {
@@ -1470,45 +1432,6 @@ fn resolve_desktop_terminal_shell(
     }
 }
 
-<<<<<<< HEAD
-=======
-fn is_powershell_executable_path(path: &str) -> bool {
-    let trimmed = path.trim();
-    if trimmed.is_empty() {
-        return false;
-    }
-
-    let file_name = trimmed.rsplit(['/', '\\']).next().unwrap_or(trimmed);
-    let lowercase = file_name.to_ascii_lowercase();
-    let base = lowercase.strip_suffix(".exe").unwrap_or(&lowercase);
-    matches!(base, "pwsh" | "powershell")
-}
-
-fn resolve_agent_powershell_path_override(
-    platform: TerminalHostPlatform,
-    config: Option<&DesktopTerminalConfig>,
-) -> Option<String> {
-    if platform != TerminalHostPlatform::Windows {
-        return None;
-    }
-
-    let startup_shell = config?.startup_shell.as_deref()?.trim();
-    match startup_shell {
-        "pwsh" => Some("pwsh.exe".to_string()),
-        "powershell" => Some("powershell.exe".to_string()),
-        "custom" => {
-            let custom_path = config?.custom_shell_path.as_deref()?.trim();
-            if is_powershell_executable_path(custom_path) {
-                Some(custom_path.to_string())
-            } else {
-                None
-            }
-        }
-        _ => None,
-    }
-}
-
->>>>>>> upstream/main
 fn normalize_terminal_bash_path(path: Option<String>) -> Result<Option<String>, String> {
     let Some(path) = path else {
         return Ok(None);
@@ -1665,21 +1588,11 @@ fn start_server_sidecar(app: &AppHandle) -> Result<ServerRuntime, String> {
     // 单一合并 sidecar：第一个参数选 server / cli / adapters 模式。
     let mut sidecar = app
         .shell()
-<<<<<<< HEAD
         .sidecar("hubo-sidecar")
-=======
-        .sidecar("claude-sidecar")
->>>>>>> upstream/main
         .map_err(|err| format!("resolve sidecar: {err}"))?;
     for (key, value) in terminal_environment(&default_shell(None)) {
         sidecar = sidecar.env(key, value);
     }
-<<<<<<< HEAD
-=======
-    if let Some(powershell_path) = read_agent_powershell_path_override() {
-        sidecar = sidecar.env(CLAUDE_CODE_POWERSHELL_PATH_ENV, powershell_path);
-    }
->>>>>>> upstream/main
     // Pass through CLAUDE_CONFIG_DIR so the sidecar (Node.js) uses the same
     // portable config directory. Also set XDG_CACHE_HOME to redirect the
     // env-paths cache from %LOCALAPPDATA%\claude-cli-nodejs\ to alongside
@@ -1811,11 +1724,7 @@ fn start_adapters_sidecars(app: &AppHandle) -> Result<Vec<CommandChild>, String>
     ] {
         let mut sidecar = app
             .shell()
-<<<<<<< HEAD
             .sidecar("hubo-sidecar")
-=======
-            .sidecar("claude-sidecar")
->>>>>>> upstream/main
             .map_err(|err| format!("resolve {label} adapter sidecar: {err}"))?;
         for (key, value) in terminal_environment(&default_shell(None)) {
             sidecar = sidecar.env(key, value);
@@ -1985,11 +1894,7 @@ fn kill_stale_unix_adapter_sidecars() {
         if pid == current_pid {
             continue;
         }
-<<<<<<< HEAD
         if !command.contains("hubo-sidecar") || !command.contains(" adapters") {
-=======
-        if !command.contains("claude-sidecar") || !command.contains(" adapters") {
->>>>>>> upstream/main
             continue;
         }
 
@@ -2000,15 +1905,9 @@ fn kill_stale_unix_adapter_sidecars() {
 #[cfg(target_os = "windows")]
 fn kill_windows_sidecars() {
     for image_name in [
-<<<<<<< HEAD
         "hubo-sidecar-x86_64-pc-windows-msvc.exe",
         "hubo-sidecar-aarch64-pc-windows-msvc.exe",
         "hubo-sidecar.exe",
-=======
-        "claude-sidecar-x86_64-pc-windows-msvc.exe",
-        "claude-sidecar-aarch64-pc-windows-msvc.exe",
-        "claude-sidecar.exe",
->>>>>>> upstream/main
     ] {
         let _ = StdCommand::new("taskkill")
             .args(["/F", "/T", "/IM", image_name])
@@ -2021,20 +1920,12 @@ fn kill_windows_sidecars() {
 #[cfg(test)]
 mod tests {
     use super::{
-<<<<<<< HEAD
         decode_terminal_output, default_utf8_locale, ensure_utf8_locale,
         dir_has_portable_data, has_meaningful_intersection, is_persistable_window_state,
         normalize_terminal_bash_path, parse_env_block, resolve_desktop_terminal_shell,
         resolve_terminal_cwd, run_notification_bridge,
         select_h5_dist_dir, DesktopTerminalConfig, StoredWindowState, TerminalHostPlatform,
         SERVER_BIND_HOST, SERVER_CONTROL_HOST,
-=======
-        decode_terminal_output, default_utf8_locale, dir_has_portable_data, ensure_utf8_locale,
-        has_meaningful_intersection, is_persistable_window_state, normalize_terminal_bash_path,
-        parse_env_block, resolve_agent_powershell_path_override, resolve_desktop_terminal_shell,
-        resolve_terminal_cwd, run_notification_bridge, select_h5_dist_dir, DesktopTerminalConfig,
-        StoredWindowState, TerminalHostPlatform, SERVER_BIND_HOST, SERVER_CONTROL_HOST,
->>>>>>> upstream/main
     };
     use std::{collections::HashMap, fs};
 
@@ -2287,60 +2178,6 @@ mod tests {
     }
 
     #[test]
-<<<<<<< HEAD
-=======
-    fn agent_powershell_override_uses_windows_power_shell_preferences() {
-        let pwsh = DesktopTerminalConfig {
-            startup_shell: Some("pwsh".to_string()),
-            custom_shell_path: None,
-        };
-        assert_eq!(
-            resolve_agent_powershell_path_override(TerminalHostPlatform::Windows, Some(&pwsh)),
-            Some("pwsh.exe".to_string())
-        );
-
-        let powershell = DesktopTerminalConfig {
-            startup_shell: Some("powershell".to_string()),
-            custom_shell_path: None,
-        };
-        assert_eq!(
-            resolve_agent_powershell_path_override(
-                TerminalHostPlatform::Windows,
-                Some(&powershell),
-            ),
-            Some("powershell.exe".to_string())
-        );
-    }
-
-    #[test]
-    fn agent_powershell_override_accepts_only_custom_power_shell_paths() {
-        let custom_pwsh = DesktopTerminalConfig {
-            startup_shell: Some("custom".to_string()),
-            custom_shell_path: Some(r"C:\Program Files\PowerShell\7\pwsh.exe".to_string()),
-        };
-        assert_eq!(
-            resolve_agent_powershell_path_override(
-                TerminalHostPlatform::Windows,
-                Some(&custom_pwsh),
-            ),
-            Some(r"C:\Program Files\PowerShell\7\pwsh.exe".to_string())
-        );
-
-        let custom_bash = DesktopTerminalConfig {
-            startup_shell: Some("custom".to_string()),
-            custom_shell_path: Some(r"C:\Program Files\Git\bin\bash.exe".to_string()),
-        };
-        assert_eq!(
-            resolve_agent_powershell_path_override(
-                TerminalHostPlatform::Windows,
-                Some(&custom_bash),
-            ),
-            None
-        );
-    }
-
-    #[test]
->>>>>>> upstream/main
     fn server_sidecar_binds_lan_but_reports_loopback_control_url() {
         assert_eq!(SERVER_BIND_HOST, "0.0.0.0");
         assert_eq!(SERVER_CONTROL_HOST, "127.0.0.1");
@@ -2428,20 +2265,12 @@ pub fn run() {
     let builder = builder
         .menu(|app| {
             let about_item =
-<<<<<<< HEAD
                 MenuItemBuilder::with_id("nav_about", "关于 HUBO").build(app)?;
-=======
-                MenuItemBuilder::with_id("nav_about", "关于 Claude Code Haha").build(app)?;
->>>>>>> upstream/main
             let settings_item = MenuItemBuilder::with_id("nav_settings", "设置...")
                 .accelerator("CmdOrCtrl+,")
                 .build(app)?;
 
-<<<<<<< HEAD
             let app_submenu = SubmenuBuilder::new(app, "HUBO")
-=======
-            let app_submenu = SubmenuBuilder::new(app, "Claude Code Haha")
->>>>>>> upstream/main
                 .item(&about_item)
                 .separator()
                 .item(&settings_item)

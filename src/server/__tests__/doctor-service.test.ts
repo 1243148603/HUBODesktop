@@ -22,11 +22,7 @@ beforeEach(async () => {
 
   await fs.mkdir(path.join(configDir, 'projects', 'demo-project'), { recursive: true })
   await fs.mkdir(path.join(configDir, 'skills', 'alpha-skill'), { recursive: true })
-<<<<<<< HEAD
   await fs.mkdir(path.join(configDir, 'hubo'), { recursive: true })
-=======
-  await fs.mkdir(path.join(configDir, 'cc-haha'), { recursive: true })
->>>>>>> upstream/main
   await fs.mkdir(path.join(projectRoot, '.claude', 'skills', 'beta-skill'), { recursive: true })
 
   await fs.writeFile(path.join(configDir, 'settings.json'), '{"defaultMode":', 'utf-8')
@@ -37,11 +33,7 @@ beforeEach(async () => {
     'utf-8',
   )
   await fs.writeFile(
-<<<<<<< HEAD
     path.join(configDir, 'hubo', 'providers.json'),
-=======
-    path.join(configDir, 'cc-haha', 'providers.json'),
->>>>>>> upstream/main
     JSON.stringify({ activeId: null, providers: [{ id: 'provider-1' }] }),
     'utf-8',
   )

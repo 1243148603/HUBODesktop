@@ -8,11 +8,7 @@ type ServerMsg = {
   [key: string]: unknown
 }
 
-<<<<<<< HEAD
 const modelId = process.env.REPRO_MODEL_ID || 'MiniMax-M2.7-highspeed'
-=======
-const modelId = process.env.REPRO_MODEL_ID || 'MiniMax-M3'
->>>>>>> upstream/main
 const port = Number(process.env.REPRO_SERVER_PORT || 19747)
 const baseUrl = `http://127.0.0.1:${port}`
 const wsUrl = `ws://127.0.0.1:${port}`
@@ -189,11 +185,7 @@ async function connect(sessionId: string): Promise<{
 }
 
 async function main() {
-<<<<<<< HEAD
   const workDir = await fs.mkdtemp(path.join(os.tmpdir(), 'hubo-issue-247-real-'))
-=======
-  const workDir = await fs.mkdtemp(path.join(os.tmpdir(), 'cc-haha-issue-247-real-'))
->>>>>>> upstream/main
   const server = startServer(port, '127.0.0.1')
   await sleep(500)
 

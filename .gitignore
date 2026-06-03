@@ -29,10 +29,7 @@ artifacts/coverage/
 
 # Desktop build output
 desktop/dist/
-<<<<<<< HEAD
-=======
 desktop/electron-dist/
->>>>>>> upstream/main
 desktop/build-artifacts/
 desktop/src-tauri/binaries/
 desktop/src-tauri/target/
@@ -74,16 +71,12 @@ docs/.vitepress/cache
 runtime/__pycache__
 
 # IDE
-<<<<<<< HEAD
 .idea/
 .vscode/
 *.swp
 *.swo
 *~
 *.tmp
-=======
-.idea
->>>>>>> upstream/main
 
 # Codex logs
 .codex-logs/
@@ -91,12 +84,8 @@ runtime/__pycache__
 # Local AI assistant artifacts (graph, notes)
 CLAUDE.md
 graphify-out/
-<<<<<<< HEAD
-
 # Log files
 *.log
 
 # Coverage / test artifacts
 coverage/
-=======
->>>>>>> upstream/main

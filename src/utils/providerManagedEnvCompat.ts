@@ -24,20 +24,12 @@ function looksLikeDeepSeekManagedEnv(env: Record<string, string>): boolean {
 export function normalizeLegacyDeepSeekManagedEnv(
   env: Record<string, string>,
 ): { env: Record<string, string>; changed: boolean } {
-<<<<<<< HEAD
   if (!env.HUBO_SEND_DISABLED_THINKING || !looksLikeDeepSeekManagedEnv(env)) {
-=======
-  if (!env.CC_HAHA_SEND_DISABLED_THINKING || !looksLikeDeepSeekManagedEnv(env)) {
->>>>>>> upstream/main
     return { env, changed: false }
   }
 
   const next = { ...env }
-<<<<<<< HEAD
   delete next.HUBO_SEND_DISABLED_THINKING
-=======
-  delete next.CC_HAHA_SEND_DISABLED_THINKING
->>>>>>> upstream/main
 
   for (const key of DEEPSEEK_CAPABILITY_ENV_KEYS) {
     next[key] = DEEPSEEK_THINKING_CAPABILITIES

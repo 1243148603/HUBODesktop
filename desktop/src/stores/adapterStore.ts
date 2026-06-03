@@ -2,7 +2,6 @@ import { create } from 'zustand'
 import { adaptersApi } from '../api/adapters'
 import type { AdapterFileConfig } from '../types/adapter'
 import type { DingtalkRegistrationBegin, DingtalkRegistrationPoll } from '../api/adapters'
-<<<<<<< HEAD
 
 /**
  * Tauri command 触发器：让主进程 kill + respawn adapter sidecar，
@@ -17,24 +16,6 @@ async function notifyTauriRestartAdapters(): Promise<void> {
     // 用 dynamic import 避开 SSR / non-tauri 测试环境的硬依赖
     const { invoke } = await import('@tauri-apps/api/core')
     await invoke('restart_adapters_sidecar')
-=======
-import { getDesktopHost } from '../lib/desktopHost'
-
-/**
- * Desktop host trigger: let the app process kill + respawn adapter sidecar,
- * 让 ~/.claude/adapters.json 里的最新凭据被新进程读到，建立飞书 / Telegram / 微信 / 钉钉
- * 的 WebSocket 连接。
- *
- * 在非桌面环境（纯浏览器调试 / 单元测试）这会安静跳过 —— 那种场景下
- * 本来也没有 sidecar 可重启。
- */
-async function notifyDesktopRestartAdapters(): Promise<void> {
-  const host = getDesktopHost()
-  if (!host.isDesktop) return
-
-  try {
-    await host.adapters.restartSidecar()
->>>>>>> upstream/main
   } catch (err) {
     // 不阻塞保存流程 —— 配置文件已经写入，下次启动 App 也会生效
     if (typeof console !== 'undefined') {
@@ -100,11 +81,7 @@ export const useAdapterStore = create<AdapterStore>((set, get) => ({
     // 触发飞书 / Telegram WebSocket 用新凭据重连。pairing code / paired users
     // 这种轻量更新也会触发重启 —— 这是个有意为之的简化：保证"任何配置变更
     // 都立刻生效"，比起精细判断哪些字段值得重启更可靠。
-<<<<<<< HEAD
     void notifyTauriRestartAdapters()
-=======
-    void notifyDesktopRestartAdapters()
->>>>>>> upstream/main
   },
 
   generatePairingCode: async () => {
@@ -131,11 +108,7 @@ export const useAdapterStore = create<AdapterStore>((set, get) => ({
     }
     if ('wechat' in result || 'telegram' in result || 'feishu' in result || 'dingtalk' in result) {
       set({ config: result })
-<<<<<<< HEAD
       void notifyTauriRestartAdapters()
-=======
-      void notifyDesktopRestartAdapters()
->>>>>>> upstream/main
       return { connected: true }
     }
     return { connected: false }
@@ -147,11 +120,7 @@ export const useAdapterStore = create<AdapterStore>((set, get) => ({
     const result = await adaptersApi.pollDingtalkRegistration(deviceCode)
     if (result.config) {
       set({ config: result.config })
-<<<<<<< HEAD
       void notifyTauriRestartAdapters()
-=======
-      void notifyDesktopRestartAdapters()
->>>>>>> upstream/main
     }
     return result
   },
@@ -159,21 +128,13 @@ export const useAdapterStore = create<AdapterStore>((set, get) => ({
   unbindWechatAccount: async () => {
     const config = await adaptersApi.unbindWechat()
     set({ config })
-<<<<<<< HEAD
     void notifyTauriRestartAdapters()
-=======
-    void notifyDesktopRestartAdapters()
->>>>>>> upstream/main
   },
 
   unbindDingtalkBot: async () => {
     const config = await adaptersApi.unbindDingtalk()
     set({ config })
-<<<<<<< HEAD
     void notifyTauriRestartAdapters()
-=======
-    void notifyDesktopRestartAdapters()
->>>>>>> upstream/main
   },
 
   removePairedUser: async (platform, userId) => {

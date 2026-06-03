@@ -678,19 +678,11 @@ describe('Feishu: isOutsideWorkDir', () => {
 describe('Feishu: project picker card', () => {
   const sampleProjects: RecentProject[] = [
     {
-<<<<<<< HEAD
       projectPath: '/Users/dev/hubo',
       realPath: '/Users/dev/hubo',
       projectName: 'hubo',
       isGit: true,
       repoName: 'hubo',
-=======
-      projectPath: '/Users/dev/claude-code-haha',
-      realPath: '/Users/dev/claude-code-haha',
-      projectName: 'claude-code-haha',
-      isGit: true,
-      repoName: 'claude-code-haha',
->>>>>>> upstream/main
       branch: 'main',
       modifiedAt: '2026-04-11T00:00:00Z',
       sessionCount: 3,
@@ -779,20 +771,12 @@ describe('Feishu: project picker card', () => {
     expect(info.length).toBe(2)
     // Title markdown
     expect(info[0].tag).toBe('markdown')
-<<<<<<< HEAD
     expect(info[0].content).toContain('**hubo**')
-=======
-    expect(info[0].content).toContain('**claude-code-haha**')
->>>>>>> upstream/main
     expect(info[0].content).toContain('*main*')
     // Path markdown (notation = small grey)
     expect(info[1].tag).toBe('markdown')
     expect(info[1].text_size).toBe('notation')
-<<<<<<< HEAD
     expect(info[1].content).toContain('hubo')
-=======
-    expect(info[1].content).toContain('claude-code-haha')
->>>>>>> upstream/main
   })
 
   it('row without branch has no separator dot in title', () => {
@@ -811,13 +795,8 @@ describe('Feishu: project picker card', () => {
     expect(btn1.text.content).toBe('选择')
     expect(btn1.size).toBe('small')
     expect(btn1.value.action).toBe('pick_project')
-<<<<<<< HEAD
     expect(btn1.value.realPath).toBe('/Users/dev/hubo')
     expect(btn1.value.projectName).toBe('hubo')
-=======
-    expect(btn1.value.realPath).toBe('/Users/dev/claude-code-haha')
-    expect(btn1.value.projectName).toBe('claude-code-haha')
->>>>>>> upstream/main
 
     const btn2 = getRowButton(rows[1])
     expect(btn2.value.realPath).toBe('/Users/dev/desktop')
@@ -899,26 +878,16 @@ describe('Feishu: card.action.trigger parsing', () => {
       action: {
         value: {
           action: 'pick_project',
-<<<<<<< HEAD
           realPath: '/Users/dev/hubo',
           projectName: 'hubo',
-=======
-          realPath: '/Users/dev/claude-code-haha',
-          projectName: 'claude-code-haha',
->>>>>>> upstream/main
         },
       },
       context: { open_chat_id: 'oc_chat_123' },
     }
 
     expect(event.action.value.action).toBe('pick_project')
-<<<<<<< HEAD
     expect(event.action.value.realPath).toBe('/Users/dev/hubo')
     expect(event.action.value.projectName).toBe('hubo')
-=======
-    expect(event.action.value.realPath).toBe('/Users/dev/claude-code-haha')
-    expect(event.action.value.projectName).toBe('claude-code-haha')
->>>>>>> upstream/main
   })
 
   it('ignores non-handled actions', () => {

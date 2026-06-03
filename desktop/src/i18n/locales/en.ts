@@ -181,11 +181,7 @@ export const en = {
   'settings.activity.title': 'Token usage',
   'settings.activity.profileTitle': 'Profile',
   'settings.activity.profilePrivacy': 'Local only',
-<<<<<<< HEAD
   'settings.activity.defaultHandle': '',
-=======
-  'settings.activity.defaultHandle': 'github.com/NanmiCoder/cc-haha',
->>>>>>> upstream/main
   'settings.activity.editProfile': 'Edit profile',
   'settings.activity.displayName': 'Display name',
   'settings.activity.subtitle': 'Second line',
@@ -241,11 +237,7 @@ export const en = {
 
   // Settings > Terminal
   'settings.terminal.title': 'Terminal',
-<<<<<<< HEAD
   'settings.terminal.description': 'Run host-machine commands for plugin, skill, and MCP setup. The desktop app includes hubo; replace documented claude <args> with hubo <args>, for example: hubo plugin install ... or hubo mcp add ...',
-=======
-  'settings.terminal.description': 'Run host-machine commands for plugin, skill, and MCP setup. The desktop app includes claude-haha; replace documented claude <args> with claude-haha <args>, for example: claude-haha plugin install ... or claude-haha mcp add ...',
->>>>>>> upstream/main
   'settings.terminal.infoLabel': 'Terminal setup help',
   'settings.terminal.clear': 'Clear',
   'settings.terminal.restart': 'Restart',
@@ -319,11 +311,7 @@ export const en = {
   'settings.diagnostics.doctorTitle': 'Doctor',
   'settings.diagnostics.doctorDescription': 'Safe desktop repair for startup and UI state problems.',
   'settings.diagnostics.doctorProtectedData': 'Never touches chat history, model config, skills, MCP, IM, or OAuth.',
-<<<<<<< HEAD
   'settings.diagnostics.doctorSafeKeys': 'Clears only: hubo-open-tabs, hubo-session-runtime, hubo-theme, hubo-locale, and hubo.persistence.schemaVersion.',
-=======
-  'settings.diagnostics.doctorSafeKeys': 'Clears only: cc-haha-open-tabs, cc-haha-session-runtime, cc-haha-theme, cc-haha-locale, and cc-haha.persistence.schemaVersion.',
->>>>>>> upstream/main
   'settings.diagnostics.runDoctor': 'Run Doctor',
   'settings.diagnostics.doctorCompleted': 'Doctor completed.',
   'settings.diagnostics.doctorPartial': 'Doctor completed with {count} local cleanup issue(s).',
@@ -421,11 +409,7 @@ export const en = {
   'settings.providers.autoCompactWindowRangeError': 'Must be between 16000 and 10000000.',
   'settings.providers.testConnection': 'Test Connection',
   'settings.providers.settingsJson': 'Settings JSON',
-<<<<<<< HEAD
   'settings.providers.settingsJsonDesc': '~/.claude/hubo/settings.json — edit directly, will be written on save.',
-=======
-  'settings.providers.settingsJsonDesc': '~/.claude/cc-haha/settings.json — edit directly, will be written on save.',
->>>>>>> upstream/main
   'settings.providers.jsonError': 'JSON syntax error: {error}',
   'settings.providers.apiFormat': 'API Format',
   'settings.providers.apiFormatAnthropic': 'Anthropic Messages (native)',
@@ -887,11 +871,7 @@ export const en = {
   'settings.general.storagePortableTitle': 'Use portable directory',
   'settings.general.storagePortableDescription': 'Store desktop data in a folder you choose. Use this for external drives or app bundles you want to move together.',
   'settings.general.storagePortableDirLabel': 'Portable data directory',
-<<<<<<< HEAD
   'settings.general.storagePortableDirPlaceholder': 'Choose a folder for hubo data',
-=======
-  'settings.general.storagePortableDirPlaceholder': 'Choose a folder for cc-haha data',
->>>>>>> upstream/main
   'settings.general.storageChooseDir': 'Choose Folder',
   'settings.general.storageChooseDirTitle': 'Choose portable data directory',
   'settings.general.storageUseDefaultPortableDir': 'Use the default portable folder beside the app',
@@ -900,11 +880,7 @@ export const en = {
   'settings.general.storageEnvironmentHint': 'The current directory is controlled by the CLAUDE_CONFIG_DIR environment variable. In-app switching cannot override it; remove CLAUDE_CONFIG_DIR from the launch environment to return to the system directory.',
   'settings.general.storageEnvironmentSwitchBlocked': 'CLAUDE_CONFIG_DIR currently controls the data directory. Remove it from the launch environment before switching back to the system directory.',
   'settings.general.storageRestartHint': 'The storage change has been saved. Restart the app for the new data directory to take effect.',
-<<<<<<< HEAD
   'settings.general.storageMoveHint': 'Switching directories does not migrate existing data. Copy projects, skills, plugins, hubo, and related folders from the old directory if you want old sessions to keep appearing. For a portable bundle, keep this folder beside the app and zip them together.',
-=======
-  'settings.general.storageMoveHint': 'Switching directories does not migrate existing data. Copy projects, skills, plugins, cc-haha, and related folders from the old directory if you want old sessions to keep appearing. For a portable bundle, keep this folder beside the app and zip them together.',
->>>>>>> upstream/main
   'settings.general.storageNoDirError': 'Choose or enter a portable data directory first.',
   'settings.general.storagePickerError': 'Could not open the folder picker. Paste the folder path manually.',
   'settings.general.storageRestartError': 'The change was saved, but automatic restart failed. Restart the app manually.',
@@ -945,11 +921,7 @@ export const en = {
   'settings.general.notificationsStatusUnsupported': 'Unavailable in this environment',
   'settings.general.notificationsAuthorize': 'Authorize',
   'settings.general.notificationsOpenSettings': 'Open Settings',
-<<<<<<< HEAD
   'settings.general.notificationsTestTitle': 'HUBO notifications are enabled',
-=======
-  'settings.general.notificationsTestTitle': 'Claude Code Haha notifications are enabled',
->>>>>>> upstream/main
   'settings.general.notificationsTestBody': 'Permission prompts and completed agent replies will now use system notifications.',
   'settings.general.chatSendBehaviorTitle': 'Message Sending',
   'settings.general.chatSendBehaviorDescription': 'Choose how the desktop chat composer submits messages.',
@@ -1011,11 +983,7 @@ export const en = {
   'settings.general.networkProxyModeManual': 'Manual proxy',
   'settings.general.networkProxyModeManualDescription': 'Use the HTTP or HTTPS proxy URL entered below.',
   'settings.general.networkProxyUrl': 'Proxy URL',
-<<<<<<< HEAD
   'settings.general.networkProxyUrlHint': 'HTTP and HTTPS proxy URLs are supported, for example http://127.0.0.1:7890.',
-=======
-  'settings.general.networkProxyUrlHint': 'HTTP and HTTPS proxy URLs are supported. For authenticated proxies, use http://user:password@127.0.0.1:7890; the URL is saved with network settings.',
->>>>>>> upstream/main
   'settings.general.networkProxyUrlInvalid': 'Enter an HTTP or HTTPS proxy URL.',
   'settings.general.networkProxyUrlRequired': 'Enter a proxy URL.',
   'settings.general.networkTimeout': 'AI request timeout',
@@ -1692,10 +1660,6 @@ export const en = {
   'tabs.closeConfirmMessage': 'This session is still running. What would you like to do?',
   'tabs.closeConfirmKeep': 'Keep Running',
   // ─── Slash Command Descriptions ──────────────────────────────────────
-<<<<<<< HEAD
-=======
-  'slashCmd.agent.description': 'Run a prompt with a selected Agent',
->>>>>>> upstream/main
   'slashCmd.mcp.description': 'Open available MCP tools for the current chat context',
   'slashCmd.skills.description': 'Browse user-invocable skills for the current chat context',
   'slashCmd.help.description': 'Show available desktop and agent commands',

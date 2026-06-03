@@ -8,10 +8,6 @@ import { buildOpenWithItems, describeFileType, type OpenWithItem } from '../../l
 import { openWithContextForHref } from '../../lib/openWithContextForHref'
 import { handlePreviewLink } from '../../lib/handlePreviewLink'
 import { getServerBaseUrl } from '../../lib/desktopRuntime'
-<<<<<<< HEAD
-=======
-import { getDesktopHost } from '../../lib/desktopHost'
->>>>>>> upstream/main
 import { useOpenTargetStore } from '../../stores/openTargetStore'
 import { useBrowserPanelStore } from '../../stores/browserPanelStore'
 import { useWorkspacePanelStore } from '../../stores/workspacePanelStore'
@@ -49,12 +45,8 @@ export function AssistantOutputTargetCard({ target, sessionId, workDir }: Props)
         void useWorkspacePanelStore.getState().openPreview(id, path, 'file')
       },
       openExternal: (url) => {
-<<<<<<< HEAD
         void import('@tauri-apps/plugin-shell')
           .then((m) => m.open(url))
-=======
-        void getDesktopHost().shell.open(url)
->>>>>>> upstream/main
           .catch(() => window.open(url, '_blank'))
       },
     })
@@ -82,11 +74,7 @@ export function AssistantOutputTargetCard({ target, sessionId, workDir }: Props)
       if (!ctx) return
       const items = buildOpenWithItems(ctx, targets, {
         openInAppBrowser: (url) => useBrowserPanelStore.getState().open(sessionId, url),
-<<<<<<< HEAD
         openSystem: (p) => { void import('@tauri-apps/plugin-shell').then((m) => m.open(p)).catch(() => window.open(p, '_blank')) },
-=======
-        openSystem: (p) => { void getDesktopHost().shell.openPath(p).catch(() => window.open(p, '_blank')) },
->>>>>>> upstream/main
         openWorkspacePreview: (relPath) => { void useWorkspacePanelStore.getState().openPreview(sessionId, relPath, 'file') },
         openTarget: (id, abs) => { void useOpenTargetStore.getState().openTarget(id, abs) },
         t: (k, v) => t(k as TranslationKey, v),

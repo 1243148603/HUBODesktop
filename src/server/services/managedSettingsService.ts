@@ -14,11 +14,7 @@ export class ManagedSettingsService {
   }
 
   private getSettingsPath(): string {
-<<<<<<< HEAD
     return path.join(this.getConfigDir(), 'hubo', 'settings.json')
-=======
-    return path.join(this.getConfigDir(), 'cc-haha', 'settings.json')
->>>>>>> upstream/main
   }
 
   private async withWriteLock<T>(
@@ -61,11 +57,7 @@ export class ManagedSettingsService {
     await ensurePersistentStorageUpgraded()
     return readRecoverableJsonFile({
       filePath: this.getSettingsPath(),
-<<<<<<< HEAD
       label: 'hubo managed settings',
-=======
-      label: 'cc-haha managed settings',
->>>>>>> upstream/main
       defaultValue: {},
       normalize: normalizeJsonObject,
     })

@@ -15,15 +15,9 @@ import type { SavedProvider } from '../../types/provider'
 import type { RuntimeSelection } from '../../types/runtime'
 import type { EffortLevel, ModelInfo } from '../../types/settings'
 import { useMobileViewport } from '../../hooks/useMobileViewport'
-<<<<<<< HEAD
 import { isTauriRuntime } from '../../lib/desktopRuntime'
 import { useHuboOAuthStore } from '../../stores/huboOAuthStore'
 import { useHuboOpenAIOAuthStore } from '../../stores/huboOpenAIOAuthStore'
-=======
-import { isDesktopRuntime } from '../../lib/desktopRuntime'
-import { useHahaOAuthStore } from '../../stores/hahaOAuthStore'
-import { useHahaOpenAIOAuthStore } from '../../stores/hahaOpenAIOAuthStore'
->>>>>>> upstream/main
 import { MobileBottomSheet } from '../shared/MobileBottomSheet'
 
 type ProviderChoice = {
@@ -178,11 +172,7 @@ export function ModelSelector({
   compact = false,
 }: Props = {}) {
   const t = useTranslation()
-<<<<<<< HEAD
   const isMobileBrowser = useMobileViewport() && !isTauriRuntime()
-=======
-  const isMobileBrowser = useMobileViewport() && !isDesktopRuntime()
->>>>>>> upstream/main
   const {
     currentModel: storeModel,
     availableModels,
@@ -196,17 +186,10 @@ export function ModelSelector({
     isLoading: providersLoading,
     fetchProviders,
   } = useProviderStore()
-<<<<<<< HEAD
   const claudeOAuthStatus = useHuboOAuthStore((s) => s.status)
   const fetchClaudeOAuthStatus = useHuboOAuthStore((s) => s.fetchStatus)
   const openAIOAuthStatus = useHuboOpenAIOAuthStore((s) => s.status)
   const fetchOpenAIOAuthStatus = useHuboOpenAIOAuthStore((s) => s.fetchStatus)
-=======
-  const claudeOAuthStatus = useHahaOAuthStore((s) => s.status)
-  const fetchClaudeOAuthStatus = useHahaOAuthStore((s) => s.fetchStatus)
-  const openAIOAuthStatus = useHahaOpenAIOAuthStore((s) => s.status)
-  const fetchOpenAIOAuthStatus = useHahaOpenAIOAuthStore((s) => s.fetchStatus)
->>>>>>> upstream/main
   const runtimeSelection = useSessionRuntimeStore((state) =>
     runtimeKey ? state.selections[runtimeKey] : undefined,
   )
@@ -215,10 +198,6 @@ export function ModelSelector({
   const ref = useRef<HTMLDivElement>(null)
   const dropdownRef = useRef<HTMLDivElement>(null)
   const requestedProvidersRef = useRef(false)
-<<<<<<< HEAD
-=======
-  const requestedOAuthStatusRef = useRef(false)
->>>>>>> upstream/main
 
   const EFFORT_OPTIONS: { value: EffortLevel; label: string }[] = [
     { value: 'low', label: t('settings.general.effort.low') },
@@ -240,17 +219,9 @@ export function ModelSelector({
   }, [fetchProviders, isRuntimeScoped, providersLoading])
 
   useEffect(() => {
-<<<<<<< HEAD
     void fetchClaudeOAuthStatus()
     void fetchOpenAIOAuthStatus()
   }, [fetchClaudeOAuthStatus, fetchOpenAIOAuthStatus])
-=======
-    if (!isRuntimeScoped || !open || requestedOAuthStatusRef.current) return
-    requestedOAuthStatusRef.current = true
-    void fetchClaudeOAuthStatus()
-    void fetchOpenAIOAuthStatus()
-  }, [fetchClaudeOAuthStatus, fetchOpenAIOAuthStatus, isRuntimeScoped, open])
->>>>>>> upstream/main
 
   useEffect(() => {
     if (!open) return

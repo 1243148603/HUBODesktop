@@ -9,16 +9,9 @@ import { useKeyboardShortcuts } from '../../hooks/useKeyboardShortcuts'
 import {
   H5ConnectionRequiredError,
   initializeDesktopServerUrl,
-<<<<<<< HEAD
   isH5ConnectionRequiredError,
   isTauriRuntime,
 } from '../../lib/desktopRuntime'
-=======
-  isDesktopRuntime,
-  isH5ConnectionRequiredError,
-} from '../../lib/desktopRuntime'
-import { getDesktopHost } from '../../lib/desktopHost'
->>>>>>> upstream/main
 import { TabBar } from './TabBar'
 import { StartupErrorView } from './StartupErrorView'
 import { useTabStore, SETTINGS_TAB_ID } from '../../stores/tabStore'
@@ -44,13 +37,8 @@ export function AppShell() {
   const [bootstrapNonce, setBootstrapNonce] = useState(0)
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false)
   const t = useTranslation()
-<<<<<<< HEAD
   const tauriRuntime = isTauriRuntime()
   const isMobileShell = useMobileViewport() && !tauriRuntime
-=======
-  const desktopRuntime = isDesktopRuntime()
-  const isMobileShell = useMobileViewport() && !desktopRuntime
->>>>>>> upstream/main
   const tabs = useTabStore((s) => s.tabs)
   const activeTabId = useTabStore((s) => s.activeTabId)
   const setActiveTab = useTabStore((s) => s.setActiveTab)
@@ -104,11 +92,7 @@ export function AppShell() {
         })().catch(() => {})
       } catch (error) {
         if (!cancelled) {
-<<<<<<< HEAD
           if (!tauriRuntime && isH5ConnectionRequiredError(error)) {
-=======
-          if (!desktopRuntime && isH5ConnectionRequiredError(error)) {
->>>>>>> upstream/main
             setH5StartupError(error)
             setStartupError(null)
           } else {
@@ -125,7 +109,6 @@ export function AppShell() {
     return () => {
       cancelled = true
     }
-<<<<<<< HEAD
   }, [bootstrapNonce, fetchSettings, tauriRuntime])
 
   // Listen for macOS native menu navigation events (About / Settings)
@@ -142,22 +125,6 @@ export function AppShell() {
           useTabStore.getState().openTab(SETTINGS_TAB_ID, 'Settings', 'settings')
         }),
       )
-=======
-  }, [bootstrapNonce, fetchSettings, desktopRuntime])
-
-  // Listen for macOS native menu navigation events (About / Settings)
-  useEffect(() => {
-    const host = getDesktopHost()
-    if (!host.isDesktop) return
-    let unlisten: (() => void) | undefined
-    host.window.onNativeMenuNavigate((target) => {
-      const destination = target as SettingsTab | 'settings'
-      if (destination === 'about') {
-        useUIStore.getState().setPendingSettingsTab('about')
-      }
-      useTabStore.getState().openTab(SETTINGS_TAB_ID, 'Settings', 'settings')
-    })
->>>>>>> upstream/main
       .then((fn) => { unlisten = fn })
       .catch(() => {})
     return () => { unlisten?.() }
@@ -204,11 +171,7 @@ export function AppShell() {
     toggleSidebar()
   }
 
-<<<<<<< HEAD
   if (!tauriRuntime && h5StartupError) {
-=======
-  if (!desktopRuntime && h5StartupError) {
->>>>>>> upstream/main
     return (
       <H5ConnectionView
         initialServerUrl={h5StartupError.serverUrl}

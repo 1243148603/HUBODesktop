@@ -1,30 +1,7 @@
 import { baselineCases } from './baseline/cases'
 import type { BaselineTarget, LaneDefinition, QualityGateMode } from './types'
 
-<<<<<<< HEAD
 export function lanesForMode(mode: QualityGateMode, baselineTargets: BaselineTarget[] = []): LaneDefinition[] {
-=======
-export function currentPackageSmokePlatform(platform: NodeJS.Platform = process.platform) {
-  if (platform === 'darwin') return 'macos'
-  if (platform === 'win32') return 'windows'
-  if (platform === 'linux') return 'linux'
-  return null
-}
-
-export function currentReleaseArtifactsDir(
-  platform: NodeJS.Platform = process.platform,
-  arch: NodeJS.Architecture = process.arch,
-) {
-  if (platform === 'darwin') return arch === 'x64' ? 'desktop/build-artifacts/macos-x64' : 'desktop/build-artifacts/macos-arm64'
-  if (platform === 'win32') return arch === 'arm64' ? 'desktop/build-artifacts/windows-arm64' : 'desktop/build-artifacts/windows-x64'
-  if (platform === 'linux') return arch === 'arm64' ? 'desktop/build-artifacts/linux-arm64' : 'desktop/build-artifacts/linux-x64'
-  return null
-}
-
-export function lanesForMode(mode: QualityGateMode, baselineTargets: BaselineTarget[] = []): LaneDefinition[] {
-  const packageSmokePlatform = currentPackageSmokePlatform()
-  const releaseArtifactsDir = currentReleaseArtifactsDir()
->>>>>>> upstream/main
   const lanes: LaneDefinition[] = [
     {
       id: 'impact-report',
@@ -52,11 +29,7 @@ export function lanesForMode(mode: QualityGateMode, baselineTargets: BaselineTar
       kind: 'command',
       command: ['bun', 'run', 'check:desktop'],
       impactRequiredCheck: 'bun run check:desktop',
-<<<<<<< HEAD
       requiredForModes: ['pr'],
-=======
-      requiredForModes: ['pr', 'release'],
->>>>>>> upstream/main
       category: 'unit',
     },
     {
@@ -66,11 +39,7 @@ export function lanesForMode(mode: QualityGateMode, baselineTargets: BaselineTar
       kind: 'command',
       command: ['bun', 'run', 'check:server'],
       impactRequiredCheck: 'bun run check:server',
-<<<<<<< HEAD
       requiredForModes: ['pr'],
-=======
-      requiredForModes: ['pr', 'release'],
->>>>>>> upstream/main
       category: 'unit',
     },
     {
@@ -80,21 +49,13 @@ export function lanesForMode(mode: QualityGateMode, baselineTargets: BaselineTar
       kind: 'command',
       command: ['bun', 'run', 'check:adapters'],
       impactRequiredCheck: 'bun run check:adapters',
-<<<<<<< HEAD
       requiredForModes: ['pr'],
-=======
-      requiredForModes: ['pr', 'release'],
->>>>>>> upstream/main
       category: 'unit',
     },
     {
       id: 'native-checks',
       title: 'Native desktop checks',
-<<<<<<< HEAD
       description: 'Build sidecars and run the Tauri native compile check when native or packaging paths changed.',
-=======
-      description: 'Build sidecars and run Electron main/preload checks when native or packaging paths changed.',
->>>>>>> upstream/main
       kind: 'command',
       command: ['bun', 'run', 'check:native'],
       impactRequiredCheck: 'bun run check:native',
@@ -108,11 +69,7 @@ export function lanesForMode(mode: QualityGateMode, baselineTargets: BaselineTar
       kind: 'command',
       command: ['bun', 'run', 'check:docs'],
       impactRequiredCheck: 'bun run check:docs',
-<<<<<<< HEAD
       requiredForModes: ['pr'],
-=======
-      requiredForModes: ['pr', 'release'],
->>>>>>> upstream/main
       category: 'docs',
     },
     {
@@ -153,26 +110,6 @@ export function lanesForMode(mode: QualityGateMode, baselineTargets: BaselineTar
     },
   ]
 
-<<<<<<< HEAD
-=======
-  if (packageSmokePlatform && releaseArtifactsDir) {
-    const packageSmokeCommand = ['bun', 'run', 'test:package-smoke', '--platform', packageSmokePlatform, '--package-kind', 'release', '--artifacts-dir', releaseArtifactsDir]
-    if (packageSmokePlatform === 'macos') {
-      packageSmokeCommand.push('--require-macos-gatekeeper')
-    }
-
-    lanes.push({
-      id: `desktop-package-smoke:${packageSmokePlatform}`,
-      title: `Desktop packaged artifact smoke (${packageSmokePlatform})`,
-      description: 'Inspect the current-platform canonical Electron release artifact for app metadata, app.asar, sidecar binaries, update metadata, and unpacked native runtime resources. GUI behavior is verified separately with Computer Use against the real packaged app.',
-      kind: 'command',
-      command: packageSmokeCommand,
-      requiredForModes: ['release'],
-      category: 'smoke',
-    })
-  }
-
->>>>>>> upstream/main
   const targets = baselineTargets.length > 0
     ? baselineTargets
     : [{ providerId: null, modelId: 'current', label: 'current-runtime' }]
@@ -213,17 +150,10 @@ export function lanesForMode(mode: QualityGateMode, baselineTargets: BaselineTar
     lanes.push({
       id: `desktop-smoke:agent-browser-chat:${targetSlug}`,
       title: `Desktop agent-browser chat smoke (${target.label})`,
-<<<<<<< HEAD
       description: 'Open the desktop web app with agent-browser, send a real chat task, and verify the model edits a fixture project through the UI.',
       kind: 'desktop-smoke',
       baselineTarget: target,
       requiredForModes: ['baseline', 'release'],
-=======
-      description: 'Open the desktop web app with agent-browser, send a real chat task, and verify the model edits a fixture project through the UI. This remains a browser/web-app confidence lane; Electron packaged-app acceptance is covered by package-smoke plus manual Computer Use evidence.',
-      kind: 'desktop-smoke',
-      baselineTarget: target,
-      requiredForModes: ['baseline'],
->>>>>>> upstream/main
       category: 'smoke',
       live: true,
     })

@@ -7,11 +7,7 @@ import { useTabStore } from '../../stores/tabStore'
 import { useTranslation } from '../../i18n'
 import type { PermissionMode } from '../../types/settings'
 import { useMobileViewport } from '../../hooks/useMobileViewport'
-<<<<<<< HEAD
 import { isTauriRuntime } from '../../lib/desktopRuntime'
-=======
-import { isDesktopRuntime } from '../../lib/desktopRuntime'
->>>>>>> upstream/main
 import { MobileBottomSheet } from '../shared/MobileBottomSheet'
 import { ActionDialog } from '../shared/ActionDialog'
 
@@ -34,11 +30,7 @@ type Props = {
 
 export function PermissionModeSelector({ workDir: workDirProp, compact = false, value, onChange }: Props = {}) {
   const t = useTranslation()
-<<<<<<< HEAD
   const isMobile = useMobileViewport() && !isTauriRuntime()
-=======
-  const isMobile = useMobileViewport() && !isDesktopRuntime()
->>>>>>> upstream/main
   const { permissionMode: storeMode } = useSettingsStore()
   const setSessionPermissionMode = useChatStore((s) => s.setSessionPermissionMode)
   const activeTabId = useTabStore((s) => s.activeTabId)

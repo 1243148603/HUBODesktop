@@ -184,18 +184,6 @@ export type PreparedForkedContext = {
   promptMessages: Message[]
 }
 
-<<<<<<< HEAD
-=======
-export type ForkedCommandContextOptions = {
-  /** Override which agent type executes this forked command. */
-  agentType?: string
-  /** When true, a missing explicit agent is an error instead of falling back. */
-  requireAgentType?: boolean
-  /** Override the args passed to getPromptForCommand. */
-  promptArgs?: string
-}
-
->>>>>>> upstream/main
 /**
  * Prepares the context for executing a forked command/skill.
  * This handles the common setup that both SkillTool and slash commands need.
@@ -204,17 +192,9 @@ export async function prepareForkedCommandContext(
   command: PromptCommand,
   args: string,
   context: ToolUseContext,
-<<<<<<< HEAD
 ): Promise<PreparedForkedContext> {
   // Get skill content with $ARGUMENTS replaced
   const skillPrompt = await command.getPromptForCommand(args, context)
-=======
-  options: ForkedCommandContextOptions = {},
-): Promise<PreparedForkedContext> {
-  // Get skill content with $ARGUMENTS replaced
-  const promptArgs = options.promptArgs ?? args
-  const skillPrompt = await command.getPromptForCommand(promptArgs, context)
->>>>>>> upstream/main
   const skillContent = skillPrompt
     .map(block => (block.type === 'text' ? block.text : ''))
     .join('\n')
@@ -228,23 +208,11 @@ export async function prepareForkedCommandContext(
     allowedTools,
   )
 
-<<<<<<< HEAD
   // Use command.agent if specified, otherwise 'general-purpose'
   const agentTypeName = command.agent ?? 'general-purpose'
   const agents = context.options.agentDefinitions.activeAgents
   const baseAgent =
     agents.find(a => a.agentType === agentTypeName) ??
-=======
-  // Use an explicit override first, then command.agent, then general-purpose.
-  const agentTypeName = options.agentType ?? command.agent ?? 'general-purpose'
-  const agents = context.options.agentDefinitions.activeAgents
-  const requestedAgent = agents.find(a => a.agentType === agentTypeName)
-  if (options.requireAgentType && !requestedAgent) {
-    throw new Error(`Agent not available: ${agentTypeName}`)
-  }
-  const baseAgent =
-    requestedAgent ??
->>>>>>> upstream/main
     agents.find(a => a.agentType === 'general-purpose') ??
     agents[0]
 

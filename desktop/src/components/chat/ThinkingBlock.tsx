@@ -1,48 +1,27 @@
-<<<<<<< HEAD
 import { useState, useEffect, useRef } from 'react'
 import { useTranslation } from '../../i18n'
-=======
-import { useState, useEffect, useMemo, useRef } from 'react'
-import { useTranslation } from '../../i18n'
-import { MarkdownRenderer } from '../markdown/MarkdownRenderer'
->>>>>>> upstream/main
 
 export function ThinkingBlock({ content, isActive = false }: { content: string; isActive?: boolean }) {
   const t = useTranslation()
   const [expanded, setExpanded] = useState(false)
   const contentRef = useRef<HTMLDivElement>(null)
-<<<<<<< HEAD
-=======
-  const displayContent = useMemo(() => content.replace(/\r\n?/g, '\n').trimEnd(), [content])
-  const hasDisplayContent = displayContent.trim().length > 0
->>>>>>> upstream/main
 
   useEffect(() => {
     if (expanded && isActive && contentRef.current) {
       contentRef.current.scrollTop = contentRef.current.scrollHeight
     }
-<<<<<<< HEAD
   }, [content, expanded, isActive])
 
   // Preview: take first meaningful line, not first 140 chars
   const lines = content.split('\n').filter((l) => l.trim())
   const firstLine = lines[0]?.replace(/\s+/g, ' ').trim() || ''
   const preview = firstLine.length > 80 ? firstLine.slice(0, 80) + '...' : firstLine
-=======
-  }, [displayContent, expanded, isActive])
->>>>>>> upstream/main
 
   return (
     <div className="mb-1">
       <style>{thinkingStyles}</style>
       <button
-<<<<<<< HEAD
         onClick={() => setExpanded((v) => !v)}
-=======
-        type="button"
-        onClick={() => setExpanded((v) => !v)}
-        aria-expanded={expanded}
->>>>>>> upstream/main
         className="flex w-full items-center gap-1.5 rounded-md px-1 py-0.5 text-left text-[12px] text-[var(--color-text-tertiary)] transition-colors hover:text-[var(--color-text-secondary)]"
       >
         <span className="text-[10px] text-[var(--color-outline)]">
@@ -52,7 +31,6 @@ export function ThinkingBlock({ content, isActive = false }: { content: string; 
           {t('thinking.label')}
           {isActive && <span className="thinking-dots" />}
         </span>
-<<<<<<< HEAD
         {!expanded && preview && (
           <span className="min-w-0 flex-1 truncate font-[var(--font-mono)] text-[11px] text-[var(--color-text-tertiary)]">
             {preview}
@@ -67,23 +45,6 @@ export function ThinkingBlock({ content, isActive = false }: { content: string; 
         >
           {content}
           {isActive && expanded && <span className="thinking-cursor" />}
-=======
-      </button>
-      {expanded && hasDisplayContent && (
-        <div
-          ref={contentRef}
-          data-thinking-content="expanded"
-          className="relative mt-1 max-h-[300px] overflow-y-auto rounded-lg border border-[var(--color-border)]/40 bg-[var(--color-surface-container-lowest)] p-2.5 text-[11px] text-[var(--color-text-secondary)]"
-        >
-          <MarkdownRenderer
-            content={displayContent}
-            variant="compact"
-            cache={!isActive}
-            streaming={isActive}
-            className="thinking-markdown text-[var(--color-text-secondary)]"
-          />
-          {isActive && <span className="thinking-cursor" />}
->>>>>>> upstream/main
         </div>
       )}
     </div>
@@ -110,7 +71,6 @@ const thinkingStyles = `
   margin-left: 1px;
   animation: thinking-cursor-blink 1s step-end infinite;
 }
-<<<<<<< HEAD
 .thinking-inline-cursor {
   display: inline-block;
   width: 1px;
@@ -120,21 +80,8 @@ const thinkingStyles = `
   background: var(--color-text-tertiary);
   animation: thinking-cursor-blink 1s step-end infinite;
 }
-=======
->>>>>>> upstream/main
 .thinking-dots::after {
   content: '';
   animation: thinking-dots 1.4s steps(1, end) infinite;
 }
-<<<<<<< HEAD
-=======
-.thinking-markdown > :first-child,
-.thinking-markdown > :first-child > :first-child {
-  margin-top: 0;
-}
-.thinking-markdown > :last-child,
-.thinking-markdown > :last-child > :last-child {
-  margin-bottom: 0;
-}
->>>>>>> upstream/main
 `

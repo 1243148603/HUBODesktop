@@ -29,11 +29,7 @@ async function callAuthorizedApps(method: string, body?: unknown): Promise<Respo
 }
 
 beforeAll(async () => {
-<<<<<<< HEAD
   configDir = await mkdtemp(join(tmpdir(), 'hubo-computer-use-api-'))
-=======
-  configDir = await mkdtemp(join(tmpdir(), 'cc-haha-computer-use-api-'))
->>>>>>> upstream/main
   process.env.CLAUDE_CONFIG_DIR = configDir
   computerUseApi = await import('../api/computer-use.js')
 })
@@ -41,11 +37,7 @@ beforeAll(async () => {
 beforeEach(async () => {
   if (!configDir) throw new Error('configDir was not initialized')
   process.env.CLAUDE_CONFIG_DIR = configDir
-<<<<<<< HEAD
   await rm(join(configDir, 'hubo'), { recursive: true, force: true })
-=======
-  await rm(join(configDir, 'cc-haha'), { recursive: true, force: true })
->>>>>>> upstream/main
   await rm(join(configDir, '.runtime'), { recursive: true, force: true })
 })
 
@@ -81,11 +73,7 @@ describe('Computer Use API authorized app config', () => {
     expect(await getRes.json()).toMatchObject({ enabled: false })
 
     const raw = await readFile(
-<<<<<<< HEAD
       join(configDir!, 'hubo', 'computer-use-config.json'),
-=======
-      join(configDir!, 'cc-haha', 'computer-use-config.json'),
->>>>>>> upstream/main
       'utf8',
     )
     expect(JSON.parse(raw)).toMatchObject({ enabled: false })

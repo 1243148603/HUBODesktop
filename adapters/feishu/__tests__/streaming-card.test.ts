@@ -246,34 +246,6 @@ describe('StreamingCard: ensureCreated (fallback 降级路径)', () => {
     expect(sc._getMessageId()).toBe('om_fb2')
   })
 
-<<<<<<< HEAD
-=======
-  it('reply 发送失败后降级 create 时复用同一个 uuid 避免重复消息', async () => {
-    const { client, calls } = makeMockClient({
-      'card.create': { code: 0, data: { card_id: 'ck' } },
-      'im.message.reply': () => {
-        throw Object.assign(new Error('reply failed after send'), { code: 231003 })
-      },
-      'im.message.create': { data: { message_id: 'om_fb_after_reply' } },
-    })
-    const sc = new StreamingCard({
-      larkClient: client,
-      chatId: 'c',
-      replyToMessageId: 'om_parent',
-    })
-
-    await sc.ensureCreated()
-
-    const replyCall = calls.find((c) => c.api === 'im.message.reply')
-    const fallbackCreate = calls.find((c) => c.api === 'im.message.create')
-    expect(replyCall).toBeDefined()
-    expect(fallbackCreate).toBeDefined()
-    expect(typeof replyCall!.args.data.uuid).toBe('string')
-    expect(replyCall!.args.data.uuid.length).toBeGreaterThan(0)
-    expect(fallbackCreate!.args.data.uuid).toBe(replyCall!.args.data.uuid)
-  })
-
->>>>>>> upstream/main
   it('降级发送也失败 → aborted + throw', async () => {
     const { client } = makeMockClient({
       'card.create': { code: 99991672 },
@@ -565,13 +537,8 @@ describe('StreamingCard: 错误处理', () => {
   })
 
   it('CardKit 中间帧请求挂住时不会阻塞 message_complete 收尾', async () => {
-<<<<<<< HEAD
     const previousTimeout = process.env.HUBO_IM_CARD_REQUEST_TIMEOUT_MS
     process.env.HUBO_IM_CARD_REQUEST_TIMEOUT_MS = '20'
-=======
-    const previousTimeout = process.env.CC_HAHA_IM_CARD_REQUEST_TIMEOUT_MS
-    process.env.CC_HAHA_IM_CARD_REQUEST_TIMEOUT_MS = '20'
->>>>>>> upstream/main
     try {
       const { client, calls } = makeMockClient({
         'card.create': { code: 0, data: { card_id: 'ck_hung' } },
@@ -595,15 +562,9 @@ describe('StreamingCard: 错误处理', () => {
       expect(calls.some((c) => c.api === 'cardkit.v1.card.update')).toBe(true)
     } finally {
       if (previousTimeout === undefined) {
-<<<<<<< HEAD
         delete process.env.HUBO_IM_CARD_REQUEST_TIMEOUT_MS
       } else {
         process.env.HUBO_IM_CARD_REQUEST_TIMEOUT_MS = previousTimeout
-=======
-        delete process.env.CC_HAHA_IM_CARD_REQUEST_TIMEOUT_MS
-      } else {
-        process.env.CC_HAHA_IM_CARD_REQUEST_TIMEOUT_MS = previousTimeout
->>>>>>> upstream/main
       }
     }
   })

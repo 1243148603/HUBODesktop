@@ -53,20 +53,10 @@ export async function handleStaticH5Request(req: Request, url: URL): Promise<Res
 async function resolveH5DistDir(): Promise<string | null> {
   const candidates = [
     process.env.CLAUDE_H5_DIST_DIR,
-<<<<<<< HEAD
-=======
-    unpackedAsarDistDir(process.env.CLAUDE_H5_DIST_DIR),
->>>>>>> upstream/main
     process.env.CLAUDE_APP_ROOT
       ? path.resolve(process.env.CLAUDE_APP_ROOT, '..', 'Resources', '_up_', 'dist')
       : undefined,
     process.env.CLAUDE_APP_ROOT
-<<<<<<< HEAD
-=======
-      ? unpackedAsarDistDir(path.resolve(process.env.CLAUDE_APP_ROOT, 'dist'))
-      : undefined,
-    process.env.CLAUDE_APP_ROOT
->>>>>>> upstream/main
       ? path.resolve(process.env.CLAUDE_APP_ROOT, '..', 'Resources', 'dist')
       : undefined,
     process.env.CLAUDE_APP_ROOT
@@ -90,17 +80,6 @@ async function resolveH5DistDir(): Promise<string | null> {
   return null
 }
 
-<<<<<<< HEAD
-=======
-function unpackedAsarDistDir(value: string | undefined): string | undefined {
-  if (!value || !value.includes('.asar')) {
-    return undefined
-  }
-
-  return value.replace(/\.asar(?=$|[/\\])/, '.asar.unpacked')
-}
-
->>>>>>> upstream/main
 async function resolveStaticFilePath(distDir: string, pathname: string): Promise<string | null> {
   const requested = containedPath(distDir, pathname)
   if (!requested) {

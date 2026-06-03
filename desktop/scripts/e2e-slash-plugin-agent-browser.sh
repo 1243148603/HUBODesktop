@@ -11,13 +11,8 @@ fi
 API_URL="${API_URL:-http://127.0.0.1:3457}"
 WEB_URL="${WEB_URL:-http://127.0.0.1:5175/?serverUrl=http://127.0.0.1:3457}"
 RUN_ID="$(date +%s)-$RANDOM"
-<<<<<<< HEAD
 SESSION_NAME="hubo-webui-e2e-${RUN_ID}"
 ARTIFACT_DIR="$(mktemp -d "/tmp/hubo-webui-e2e-${RUN_ID}-XXXX")"
-=======
-SESSION_NAME="cc-haha-webui-e2e-${RUN_ID}"
-ARTIFACT_DIR="$(mktemp -d "/tmp/cc-haha-webui-e2e-${RUN_ID}-XXXX")"
->>>>>>> upstream/main
 AB=(agent-browser --session "${SESSION_NAME}")
 
 cleanup() {
@@ -148,11 +143,7 @@ echo "Using MCP plugin: ${MCP_PLUGIN_NAME} (${MCP_PLUGIN_ID})"
 
 "${AB[@]}" open "${WEB_URL}"
 "${AB[@]}" wait --load networkidle
-<<<<<<< HEAD
 wait_for_text "HUBO"
-=======
-wait_for_text "Claude Code Haha"
->>>>>>> upstream/main
 "${AB[@]}" screenshot "${ARTIFACT_DIR}/01-home.png" >/dev/null
 
 # Always work from a fresh chat surface so slash-command behavior is deterministic.

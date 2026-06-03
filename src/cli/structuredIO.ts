@@ -354,13 +354,6 @@ export class StructuredIO {
         for (const [key, value] of Object.entries(message.variables)) {
           process.env[key] = value
         }
-<<<<<<< HEAD
-=======
-        if (Object.hasOwn(message.variables, 'CLAUDE_CODE_OAUTH_TOKEN')) {
-          const { clearOAuthTokenCache } = await import('../utils/auth.js')
-          clearOAuthTokenCache()
-        }
->>>>>>> upstream/main
         logForDebugging(
           `[structuredIO] applied update_environment_variables: ${keys.join(', ')}`,
         )

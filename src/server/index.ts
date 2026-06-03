@@ -13,13 +13,8 @@ import { teamWatcher } from './services/teamWatcher.js'
 import { cronScheduler } from './services/cronScheduler.js'
 import { handleProxyRequest } from './proxy/handler.js'
 import { ProviderService } from './services/providerService.js'
-<<<<<<< HEAD
 import { handleHuboOAuthCallback } from './api/hubo-oauth.js'
 import { handleHuboOpenAIOAuthCallback } from './api/hubo-openai-oauth.js'
-=======
-import { handleHahaOAuthCallback } from './api/haha-oauth.js'
-import { handleHahaOpenAIOAuthCallback } from './api/haha-openai-oauth.js'
->>>>>>> upstream/main
 import { handlePreviewFs } from './api/previewFs.js'
 import { handleLocalFile } from './api/localFile.js'
 import { sessionService } from './services/sessionService.js'
@@ -132,11 +127,7 @@ export function startServer(port = PORT, host = HOST) {
   enableConfigs()
   diagnosticsService.installConsoleCapture()
   diagnosticsService.installProcessCapture()
-<<<<<<< HEAD
   ProviderService.setServerPort(port)
-=======
-  let serverPort = port
->>>>>>> upstream/main
   const localConnectHost =
     host === '0.0.0.0' || host === '127.0.0.1' || host === 'localhost'
       ? '127.0.0.1'
@@ -234,11 +225,7 @@ export function startServer(port = PORT, host = HOST) {
               connectedAt: Date.now(),
               channel: 'client',
               sdkToken: null,
-<<<<<<< HEAD
               serverPort: port,
-=======
-              serverPort,
->>>>>>> upstream/main
               serverHost: localConnectHost,
             },
           })
@@ -273,11 +260,7 @@ export function startServer(port = PORT, host = HOST) {
               connectedAt: Date.now(),
               channel: 'sdk',
               sdkToken: url.searchParams.get('token'),
-<<<<<<< HEAD
               serverPort: port,
-=======
-              serverPort,
->>>>>>> upstream/main
               serverHost: localConnectHost,
             },
           })
@@ -286,22 +269,14 @@ export function startServer(port = PORT, host = HOST) {
         }
 
         if (url.pathname === '/callback') {
-<<<<<<< HEAD
           return handleHuboOAuthCallback(url)
-=======
-          return handleHahaOAuthCallback(url)
->>>>>>> upstream/main
         }
 
         if (
           url.pathname === OPENAI_CODEX_REDIRECT_PATH ||
           url.pathname === '/callback/openai'
         ) {
-<<<<<<< HEAD
           return handleHuboOpenAIOAuthCallback(url)
-=======
-          return handleHahaOpenAIOAuthCallback(url)
->>>>>>> upstream/main
         }
 
         // Preview filesystem — serve sandboxed workspace files for a session.
@@ -453,11 +428,6 @@ export function startServer(port = PORT, host = HOST) {
 
       websocket: handleWebSocket,
     })
-<<<<<<< HEAD
-=======
-    serverPort = server.port
-    ProviderService.setServerPort(serverPort)
->>>>>>> upstream/main
   } catch (error) {
     const message = error instanceof Error && error.message
       ? error.message
@@ -478,11 +448,7 @@ export function startServer(port = PORT, host = HOST) {
     )
   })
 
-<<<<<<< HEAD
   console.log(`[Server] Claude Code API server running at http://${host}:${port}`)
-=======
-  console.log(`[Server] Claude Code API server running at http://${host}:${serverPort}`)
->>>>>>> upstream/main
   return server
 }
 

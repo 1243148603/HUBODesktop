@@ -28,11 +28,7 @@ describe('ConversationService', () => {
   let originalDisableTerminalShellEnv: string | undefined
 
   beforeEach(async () => {
-<<<<<<< HEAD
     tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), 'hubo-conversation-service-'))
-=======
-    tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), 'cc-haha-conversation-service-'))
->>>>>>> upstream/main
     originalConfigDir = process.env.CLAUDE_CONFIG_DIR
     originalApiKey = process.env.ANTHROPIC_API_KEY
     originalAuthToken = process.env.ANTHROPIC_AUTH_TOKEN
@@ -47,11 +43,7 @@ describe('ConversationService', () => {
     originalPath = process.env.PATH
     originalShell = process.env.SHELL
     originalZdotdir = process.env.ZDOTDIR
-<<<<<<< HEAD
     originalDisableTerminalShellEnv = process.env.HUBO_DISABLE_TERMINAL_SHELL_ENV
-=======
-    originalDisableTerminalShellEnv = process.env.CC_HAHA_DISABLE_TERMINAL_SHELL_ENV
->>>>>>> upstream/main
 
     process.env.CLAUDE_CONFIG_DIR = tmpDir
     process.env.ANTHROPIC_API_KEY = 'stale-parent-api-key'
@@ -65,11 +57,7 @@ describe('ConversationService', () => {
     delete process.env.CLAUDE_CODE_PROVIDER_MANAGED_BY_HOST
     delete process.env.CLAUDE_CODE_DIAGNOSTICS_FILE
     delete process.env.CLAUDE_CODE_ATTRIBUTION_HEADER
-<<<<<<< HEAD
     process.env.HUBO_DISABLE_TERMINAL_SHELL_ENV = '1'
-=======
-    process.env.CC_HAHA_DISABLE_TERMINAL_SHELL_ENV = '1'
->>>>>>> upstream/main
     resetTerminalShellEnvironmentCacheForTests()
   })
 
@@ -116,13 +104,8 @@ describe('ConversationService', () => {
     if (originalZdotdir === undefined) delete process.env.ZDOTDIR
     else process.env.ZDOTDIR = originalZdotdir
 
-<<<<<<< HEAD
     if (originalDisableTerminalShellEnv === undefined) delete process.env.HUBO_DISABLE_TERMINAL_SHELL_ENV
     else process.env.HUBO_DISABLE_TERMINAL_SHELL_ENV = originalDisableTerminalShellEnv
-=======
-    if (originalDisableTerminalShellEnv === undefined) delete process.env.CC_HAHA_DISABLE_TERMINAL_SHELL_ENV
-    else process.env.CC_HAHA_DISABLE_TERMINAL_SHELL_ENV = originalDisableTerminalShellEnv
->>>>>>> upstream/main
 
     resetTerminalShellEnvironmentCacheForTests()
     await fs.rm(tmpDir, { recursive: true, force: true })
@@ -154,36 +137,22 @@ describe('ConversationService', () => {
 
   test('keeps inherited provider env when no desktop provider config exists', async () => {
     const service = new ConversationService() as any
-<<<<<<< HEAD
     const env = (await service.buildChildEnv('D:\\workspace\\code\\myself_code\\hubo')) as Record<string, string>
-=======
-    const env = (await service.buildChildEnv('D:\\workspace\\code\\myself_code\\cc-haha')) as Record<string, string>
->>>>>>> upstream/main
 
     expect(env.ANTHROPIC_AUTH_TOKEN).toBe('test-token')
     expect(env.ANTHROPIC_BASE_URL).toBe('https://example.invalid/anthropic')
     expect(env.ANTHROPIC_MODEL).toBe('test-model')
     expect(env.CLAUDE_CODE_ATTRIBUTION_HEADER).toBe('0')
-<<<<<<< HEAD
     expect(env.CLAUDE_CODE_DIAGNOSTICS_FILE).toBe(path.join(tmpDir, 'hubo', 'diagnostics', 'cli-diagnostics.jsonl'))
     expect(env.CLAUDE_COWORK_MEMORY_PATH_OVERRIDE).toBe(
       `${path.join(tmpDir, 'projects', 'D--workspace-code-myself-code-hubo', 'memory')}${path.sep}`,
-=======
-    expect(env.CLAUDE_CODE_DIAGNOSTICS_FILE).toBe(path.join(tmpDir, 'cc-haha', 'diagnostics', 'cli-diagnostics.jsonl'))
-    expect(env.CLAUDE_COWORK_MEMORY_PATH_OVERRIDE).toBe(
-      `${path.join(tmpDir, 'projects', 'D--workspace-code-myself-code-cc-haha', 'memory')}${path.sep}`,
->>>>>>> upstream/main
     )
     await expect(fs.stat(path.dirname(env.CLAUDE_CODE_DIAGNOSTICS_FILE))).resolves.toBeTruthy()
   })
 
   test('buildChildEnv pins desktop memory to the current sanitized project directory', async () => {
     const service = new ConversationService() as any
-<<<<<<< HEAD
     const workDir = path.join(tmpDir, 'workspace', 'myself_code', 'hubo')
-=======
-    const workDir = path.join(tmpDir, 'workspace', 'myself_code', 'claude-code-haha')
->>>>>>> upstream/main
     await fs.mkdir(workDir, { recursive: true })
 
     const env = (await service.buildChildEnv(workDir)) as Record<string, string>
@@ -211,11 +180,7 @@ describe('ConversationService', () => {
       ].join('\n'),
     )
 
-<<<<<<< HEAD
     delete process.env.HUBO_DISABLE_TERMINAL_SHELL_ENV
-=======
-    delete process.env.CC_HAHA_DISABLE_TERMINAL_SHELL_ENV
->>>>>>> upstream/main
     process.env.HOME = tmpDir
     process.env.SHELL = shellPath
     process.env.PATH = '/usr/bin:/bin'
@@ -231,27 +196,16 @@ describe('ConversationService', () => {
   })
 
   test('strips inherited provider env when desktop provider config exists', async () => {
-<<<<<<< HEAD
     const huboDir = path.join(tmpDir, 'hubo')
     await fs.mkdir(huboDir, { recursive: true })
     await fs.writeFile(
       path.join(huboDir, 'providers.json'),
-=======
-    const ccHahaDir = path.join(tmpDir, 'cc-haha')
-    await fs.mkdir(ccHahaDir, { recursive: true })
-    await fs.writeFile(
-      path.join(ccHahaDir, 'providers.json'),
->>>>>>> upstream/main
       JSON.stringify({ activeId: null, providers: [] }),
       'utf-8',
     )
 
     const service = new ConversationService() as any
-<<<<<<< HEAD
     const env = (await service.buildChildEnv('D:\\workspace\\code\\myself_code\\hubo')) as Record<string, string>
-=======
-    const env = (await service.buildChildEnv('D:\\workspace\\code\\myself_code\\cc-haha')) as Record<string, string>
->>>>>>> upstream/main
 
     expect(env.ANTHROPIC_AUTH_TOKEN).toBeUndefined()
     expect(env.ANTHROPIC_BASE_URL).toBeUndefined()
@@ -282,28 +236,16 @@ describe('ConversationService', () => {
   })
 
   test('buildChildEnv injects CLAUDE_CODE_OAUTH_TOKEN when official mode + haha oauth token exists', async () => {
-<<<<<<< HEAD
     const huboDir = path.join(tmpDir, 'hubo')
     await fs.mkdir(huboDir, { recursive: true })
     await fs.writeFile(
       path.join(huboDir, 'settings.json'),
-=======
-    const ccHahaDir = path.join(tmpDir, 'cc-haha')
-    await fs.mkdir(ccHahaDir, { recursive: true })
-    await fs.writeFile(
-      path.join(ccHahaDir, 'settings.json'),
->>>>>>> upstream/main
       JSON.stringify({ env: {} }),
       'utf-8',
     )
 
-<<<<<<< HEAD
     const { huboOAuthService } = await import('../services/huboOAuthService.js')
     await huboOAuthService.saveTokens({
-=======
-    const { hahaOAuthService } = await import('../services/hahaOAuthService.js')
-    await hahaOAuthService.saveTokens({
->>>>>>> upstream/main
       accessToken: 'haha-fresh-token',
       refreshToken: 'haha-refresh-xxx',
       expiresAt: Date.now() + 30 * 60_000,
@@ -318,75 +260,17 @@ describe('ConversationService', () => {
     expect(env.CLAUDE_CODE_OAUTH_TOKEN).toBe('haha-fresh-token')
   })
 
-<<<<<<< HEAD
   test('buildChildEnv does NOT inject CLAUDE_CODE_OAUTH_TOKEN when not official mode', async () => {
     const huboDir = path.join(tmpDir, 'hubo')
     await fs.mkdir(huboDir, { recursive: true })
     await fs.writeFile(
       path.join(huboDir, 'settings.json'),
-=======
-  test('sendMessage updates a running official OAuth CLI token before the user turn', async () => {
-    const { hahaOAuthService } = await import('../services/hahaOAuthService.js')
-    await hahaOAuthService.saveTokens({
-      accessToken: 'fresh-after-wake-token',
-      refreshToken: 'refresh-xxx',
-      expiresAt: Date.now() + 30 * 60_000,
-      scopes: ['user:inference'],
-      subscriptionType: 'max',
-    })
-
-    const service = new ConversationService() as any
-    const sent: string[] = []
-    service.sessions.set('sleep-wake-session', {
-      proc: {},
-      outputCallbacks: [],
-      workDir: tmpDir,
-      permissionMode: 'default',
-      sdkToken: 'sdk-token',
-      sdkSocket: {
-        send(line: string) {
-          sent.push(line)
-        },
-      },
-      pendingOutbound: [],
-      startupPending: false,
-      startupExitCode: null,
-      stdoutLines: [],
-      stderrLines: [],
-      outputDrain: Promise.resolve(),
-      sdkMessages: [],
-      initMessage: null,
-      pendingPermissionRequests: new Map(),
-      usesOfficialOAuth: true,
-      officialOAuthToken: 'stale-before-sleep-token',
-    })
-
-    const ok = await service.sendMessage('sleep-wake-session', 'hello after wake')
-
-    expect(ok).toBe(true)
-    expect(sent).toHaveLength(2)
-    expect(JSON.parse(sent[0]!).type).toBe('update_environment_variables')
-    expect(JSON.parse(sent[0]!).variables.CLAUDE_CODE_OAUTH_TOKEN).toBe('fresh-after-wake-token')
-    expect(JSON.parse(sent[1]!).type).toBe('user')
-  })
-
-  test('buildChildEnv does NOT inject CLAUDE_CODE_OAUTH_TOKEN when not official mode', async () => {
-    const ccHahaDir = path.join(tmpDir, 'cc-haha')
-    await fs.mkdir(ccHahaDir, { recursive: true })
-    await fs.writeFile(
-      path.join(ccHahaDir, 'settings.json'),
->>>>>>> upstream/main
       JSON.stringify({ env: { ANTHROPIC_AUTH_TOKEN: 'custom-provider-token' } }),
       'utf-8',
     )
 
-<<<<<<< HEAD
     const { huboOAuthService } = await import('../services/huboOAuthService.js')
     await huboOAuthService.saveTokens({
-=======
-    const { hahaOAuthService } = await import('../services/hahaOAuthService.js')
-    await hahaOAuthService.saveTokens({
->>>>>>> upstream/main
       accessToken: 'haha-token-should-not-be-used',
       refreshToken: null,
       expiresAt: null,
@@ -529,28 +413,16 @@ describe('ConversationService', () => {
   })
 
   test('buildChildEnv can force official auth even when a custom default provider exists', async () => {
-<<<<<<< HEAD
     const huboDir = path.join(tmpDir, 'hubo')
     await fs.mkdir(huboDir, { recursive: true })
     await fs.writeFile(
       path.join(huboDir, 'settings.json'),
-=======
-    const ccHahaDir = path.join(tmpDir, 'cc-haha')
-    await fs.mkdir(ccHahaDir, { recursive: true })
-    await fs.writeFile(
-      path.join(ccHahaDir, 'settings.json'),
->>>>>>> upstream/main
       JSON.stringify({ env: { ANTHROPIC_AUTH_TOKEN: 'custom-provider-token' } }),
       'utf-8',
     )
 
-<<<<<<< HEAD
     const { huboOAuthService } = await import('../services/huboOAuthService.js')
     await huboOAuthService.saveTokens({
-=======
-    const { hahaOAuthService } = await import('../services/hahaOAuthService.js')
-    await hahaOAuthService.saveTokens({
->>>>>>> upstream/main
       accessToken: 'forced-official-token',
       refreshToken: 'forced-official-refresh',
       expiresAt: Date.now() + 30 * 60_000,
@@ -572,13 +444,8 @@ describe('ConversationService', () => {
     const providerService = new ProviderService()
     await providerService.activateProvider('openai-official')
 
-<<<<<<< HEAD
     const { huboOAuthService } = await import('../services/huboOAuthService.js')
     await huboOAuthService.saveTokens({
-=======
-    const { hahaOAuthService } = await import('../services/hahaOAuthService.js')
-    await hahaOAuthService.saveTokens({
->>>>>>> upstream/main
       accessToken: 'claude-oauth-token-that-must-not-be-used',
       refreshToken: 'claude-refresh-token',
       expiresAt: Date.now() + 30 * 60_000,
@@ -602,15 +469,9 @@ describe('ConversationService', () => {
       providerId: 'openai-official',
     })) as Record<string, string>
 
-<<<<<<< HEAD
     expect(env.HUBO_OPENAI_OAUTH_PROVIDER).toBe('1')
     expect(env.OPENAI_CODEX_OAUTH_FILE).toBe(
       path.join(tmpDir, 'hubo', 'openai-oauth.json'),
-=======
-    expect(env.CC_HAHA_OPENAI_OAUTH_PROVIDER).toBe('1')
-    expect(env.OPENAI_CODEX_OAUTH_FILE).toBe(
-      path.join(tmpDir, 'cc-haha', 'openai-oauth.json'),
->>>>>>> upstream/main
     )
     expect(env.ANTHROPIC_MODEL).toBe('gpt-5.3-codex')
     expect(env.ANTHROPIC_DEFAULT_SONNET_MODEL).toBe('gpt-5.4')
@@ -623,17 +484,10 @@ describe('ConversationService', () => {
   })
 
   test('buildChildEnv does not leak inherited CLAUDE_CODE_OAUTH_TOKEN when official token is unavailable', async () => {
-<<<<<<< HEAD
     const huboDir = path.join(tmpDir, 'hubo')
     await fs.mkdir(huboDir, { recursive: true })
     await fs.writeFile(
       path.join(huboDir, 'settings.json'),
-=======
-    const ccHahaDir = path.join(tmpDir, 'cc-haha')
-    await fs.mkdir(ccHahaDir, { recursive: true })
-    await fs.writeFile(
-      path.join(ccHahaDir, 'settings.json'),
->>>>>>> upstream/main
       JSON.stringify({ env: {} }),
       'utf-8',
     )
@@ -652,17 +506,10 @@ describe('ConversationService', () => {
       'ws://127.0.0.1:3456/sdk/test-session?token=test-token',
     )) as Record<string, string>
 
-<<<<<<< HEAD
     expect(env.HUBO_COMPUTER_USE_HOST_BUNDLE_ID).toBe(
       'com.hubo.desktop',
     )
     expect(env.HUBO_DESKTOP_SERVER_URL).toBe('http://127.0.0.1:3456')
-=======
-    expect(env.CC_HAHA_COMPUTER_USE_HOST_BUNDLE_ID).toBe(
-      'com.claude-code-haha.desktop',
-    )
-    expect(env.CC_HAHA_DESKTOP_SERVER_URL).toBe('http://127.0.0.1:3456')
->>>>>>> upstream/main
     expect(env.CLAUDE_CODE_ENABLE_SDK_FILE_CHECKPOINTING).toBe('1')
   })
 
@@ -676,11 +523,7 @@ describe('ConversationService', () => {
       expect(args[2]).toContain('preload.ts')
       expect(args[3]).toContain(path.join('src', 'entrypoints', 'cli.tsx'))
     } else {
-<<<<<<< HEAD
       expect(args[0]).toContain(path.join('bin', 'hubo'))
-=======
-      expect(args[0]).toContain(path.join('bin', 'claude-haha'))
->>>>>>> upstream/main
     }
   })
 
@@ -705,13 +548,8 @@ describe('ConversationService', () => {
       'ws://127.0.0.1:3456/sdk/test-session?token=test-token',
     )) as Record<string, string>
 
-<<<<<<< HEAD
     expect(env.HUBO_DESKTOP_AWAIT_MCP).toBe('1')
     expect(env.HUBO_DESKTOP_AWAIT_MCP_TIMEOUT_MS).toBe('5000')
-=======
-    expect(env.CC_HAHA_DESKTOP_AWAIT_MCP).toBe('1')
-    expect(env.CC_HAHA_DESKTOP_AWAIT_MCP_TIMEOUT_MS).toBe('5000')
->>>>>>> upstream/main
   })
 
   test('buildChildEnv enables stream idle watchdog for desktop CLI sessions', async () => {

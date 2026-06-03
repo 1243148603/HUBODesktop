@@ -160,11 +160,7 @@ function parseArgs(argv: string[]): ParsedArgs {
 }
 
 function printHelp() {
-<<<<<<< HEAD
   console.log(`Install the repository pre-push quality gate.
-=======
-  console.log(`Install the repository non-blocking pre-push reminder.
->>>>>>> upstream/main
 
 Usage:
   bun run hooks:install [-- --force] [-- --no-live] [-- --live-provider-model <selector>] [-- --live-mode smoke|baseline]
@@ -173,17 +169,10 @@ Usage:
 Examples:
   bun run hooks:install
   bun run hooks:install -- --no-live
-<<<<<<< HEAD
   bun run quality:providers
   bun run hooks:install -- --live-provider-model codingplan:main:codingplan-main
   bun run hooks:install -- --live-provider-model codingplan:main:codingplan-main --live-mode baseline
   bun run hooks:install -- --allow-cli-core-change --allow-coverage-baseline-change
-=======
-  bun run hooks:install -- --allow-cli-core-change --allow-coverage-baseline-change
-
-The installed hook never blocks git push. Run quality gates manually with
-bun run quality:push, bun run verify, or the relevant narrow check.
->>>>>>> upstream/main
 `)
 }
 
@@ -206,7 +195,6 @@ if (import.meta.main) {
       live: args.live,
     })
 
-<<<<<<< HEAD
     console.log(`Installed pre-push quality gate: ${result.hookPath}`)
     console.log('Every git push now runs: bun run quality:push')
     console.log('Coverage remains in bun run verify, quality:pr, and CI.')
@@ -221,22 +209,6 @@ if (import.meta.main) {
 
     if (args.allowCliCoreChange || args.allowCoverageBaselineChange || args.allowMissingTests) {
       console.log('Local maintainer override config was updated for this clone.')
-=======
-    console.log(`Installed non-blocking pre-push reminder: ${result.hookPath}`)
-    console.log('git push no longer runs local quality gates.')
-    console.log('Run checks manually with bun run quality:push, bun run verify, or the relevant narrow check.')
-
-    if (args.liveProviderModels.length > 0) {
-      console.log(`Legacy live ${args.liveMode ?? 'smoke'} selector option was accepted, but pre-push is non-blocking and will not run it.`)
-    } else if (args.live === false) {
-      console.log('Legacy live model gate config is disabled in local git config.')
-    } else {
-      console.log('Live model gates remain manual; use bun run quality:providers and bun run quality:smoke when needed.')
-    }
-
-    if (args.allowCliCoreChange || args.allowCoverageBaselineChange || args.allowMissingTests) {
-      console.log('Legacy local maintainer override config was updated for this clone.')
->>>>>>> upstream/main
     }
   } catch (error) {
     console.error(error instanceof Error ? error.message : String(error))

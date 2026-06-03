@@ -35,11 +35,7 @@ describe('changedFilesForLocalPrCheck', () => {
     originalCwd = process.cwd()
     originalBaseRef = process.env.PR_BASE_REF
     delete process.env.PR_BASE_REF
-<<<<<<< HEAD
     tempDir = mkdtempSync(join(tmpdir(), 'hubo-changed-files-'))
-=======
-    tempDir = mkdtempSync(join(tmpdir(), 'cc-haha-changed-files-'))
->>>>>>> upstream/main
     process.chdir(tempDir)
     runGit(['init', '-b', 'main'])
     runGit(['config', 'user.email', 'test@example.com'])

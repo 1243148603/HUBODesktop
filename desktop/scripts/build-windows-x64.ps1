@@ -1,20 +1,9 @@
 [CmdletBinding()]
 param(
   [Parameter(ValueFromRemainingArguments = $true)]
-<<<<<<< HEAD
   [string[]]$TauriArgs
 )
 
-=======
-  [string[]]$BuilderArgs
-)
-
-# Environment:
-#   SKIP_INSTALL=1        Skip root/desktop dependency installation.
-#   REBUILD_NATIVE=1      Rebuild Electron native dependencies before packaging.
-#   SKIP_PACKAGE_SMOKE=1  Skip static package-smoke verification after copying artifacts.
-
->>>>>>> upstream/main
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 
@@ -23,15 +12,10 @@ $desktopDir = (Resolve-Path (Join-Path $scriptDir '..')).Path
 $repoRoot = (Resolve-Path (Join-Path $desktopDir '..')).Path
 
 $targetTriple = 'x86_64-pc-windows-msvc'
-<<<<<<< HEAD
 $tauriTargetDir = Join-Path $desktopDir 'src-tauri\target'
 $canonicalOutputDir = Join-Path $desktopDir 'build-artifacts\windows-x64'
 $activeOutputDir = $canonicalOutputDir
 $appVersion = (Get-Content -Path (Join-Path $desktopDir 'src-tauri\tauri.conf.json') -Raw | ConvertFrom-Json).version
-=======
-$canonicalOutputDir = Join-Path $desktopDir 'build-artifacts\windows-x64'
-$electronOutputDir = Join-Path $desktopDir 'build-artifacts\electron'
->>>>>>> upstream/main
 
 function Write-Step {
   param([string]$Message)
@@ -46,10 +30,7 @@ function Assert-WindowsHost {
 
 function Assert-Command {
   param([string]$Name)
-<<<<<<< HEAD
 
-=======
->>>>>>> upstream/main
   if (-not (Get-Command $Name -ErrorAction SilentlyContinue)) {
     throw "[build-windows-x64] Missing required command: $Name"
   }
@@ -68,11 +49,7 @@ function Import-VsDevEnvironment {
     Select-Object -First 1
 
   if (-not $installationPath) {
-<<<<<<< HEAD
     throw '[build-windows-x64] Missing Visual C++ build tools. Install the "Desktop development with C++" / VC.Tools.x86.x64 workload first.'
-=======
-    throw '[build-windows-x64] Missing Visual C++ build tools. Install the Desktop development with C++ workload first.'
->>>>>>> upstream/main
   }
 
   $vsDevCmd = Join-Path $installationPath 'Common7\Tools\VsDevCmd.bat'
@@ -81,10 +58,7 @@ function Import-VsDevEnvironment {
   }
 
   Write-Step "Importing MSVC environment from $vsDevCmd"
-<<<<<<< HEAD
 
-=======
->>>>>>> upstream/main
   $env:VSCMD_SKIP_SENDTELEMETRY = '1'
   $envDump = & cmd.exe /d /s /c "`"$vsDevCmd`" -arch=x64 -host_arch=x64 >nul && set"
   if ($LASTEXITCODE -ne 0) {
@@ -98,7 +72,6 @@ function Import-VsDevEnvironment {
   }
 }
 
-<<<<<<< HEAD
 function Get-RustCargoBinDir {
   return Join-Path $env:USERPROFILE '.cargo\bin'
 }
@@ -166,19 +139,10 @@ function Resolve-OutputDirectory {
   }
 
   return $PreferredPath
-=======
-function Clear-Directory {
-  param([string]$Path)
-  if (Test-Path $Path) {
-    Remove-Item -LiteralPath $Path -Recurse -Force
-  }
-  New-Item -ItemType Directory -Force -Path $Path | Out-Null
->>>>>>> upstream/main
 }
 
 Assert-WindowsHost
 Assert-Command bun
-<<<<<<< HEAD
 
 Ensure-RustInPath
 Import-VsDevEnvironment
@@ -186,10 +150,6 @@ Import-VsDevEnvironment
 Assert-Command cargo
 Assert-Command rustc
 Assert-Command bunx
-=======
-Assert-Command bunx
-Import-VsDevEnvironment
->>>>>>> upstream/main
 
 if ($env:SKIP_INSTALL -ne '1') {
   Write-Step 'Installing root dependencies...'
@@ -213,7 +173,6 @@ if ($env:SKIP_INSTALL -ne '1') {
   } finally {
     Pop-Location
   }
-<<<<<<< HEAD
 
   $adaptersDir = Join-Path $repoRoot 'adapters'
   if (Test-Path (Join-Path $adaptersDir 'package.json')) {
@@ -337,97 +296,3 @@ Write-Step "Canonical output: $canonicalOutputDir"
 if ($env:OPEN_OUTPUT -eq '1') {
   Invoke-Item $canonicalOutputDir
 }
-=======
-}
-
-Write-Step 'Cleaning stale Electron outputs...'
-Remove-Item -LiteralPath (Join-Path $desktopDir 'dist') -Recurse -Force -ErrorAction SilentlyContinue
-Remove-Item -LiteralPath (Join-Path $desktopDir 'electron-dist') -Recurse -Force -ErrorAction SilentlyContinue
-Remove-Item -LiteralPath $electronOutputDir -Recurse -Force -ErrorAction SilentlyContinue
-Remove-Item -Path (Join-Path $desktopDir 'src-tauri\binaries\claude-sidecar-*') -Force -ErrorAction SilentlyContinue
-Remove-Item -LiteralPath (Join-Path $desktopDir 'tsconfig.tsbuildinfo') -Force -ErrorAction SilentlyContinue
-
-Write-Step "Building sidecars for $targetTriple..."
-Push-Location $desktopDir
-try {
-  $env:SIDECAR_TARGET_TRIPLE = $targetTriple
-  & bun run build:sidecars
-  if ($LASTEXITCODE -ne 0) {
-    throw "[build-windows-x64] build:sidecars failed (exit $LASTEXITCODE)"
-  }
-
-  Write-Step 'Building renderer and Electron main/preload bundles...'
-  & bun run build
-  if ($LASTEXITCODE -ne 0) {
-    throw "[build-windows-x64] renderer build failed (exit $LASTEXITCODE)"
-  }
-  & bun run build:electron
-  if ($LASTEXITCODE -ne 0) {
-    throw "[build-windows-x64] Electron build failed (exit $LASTEXITCODE)"
-  }
-
-  if ($env:REBUILD_NATIVE -eq '1') {
-    Write-Step 'Rebuilding native dependencies for Electron ABI...'
-    & bunx electron-builder install-app-deps
-    if ($LASTEXITCODE -ne 0) {
-      throw "[build-windows-x64] electron-builder install-app-deps failed (exit $LASTEXITCODE)"
-    }
-    & bun run prepare:node-pty
-    if ($LASTEXITCODE -ne 0) {
-      throw "[build-windows-x64] prepare:node-pty failed (exit $LASTEXITCODE)"
-    }
-  }
-
-  $args = @('electron-builder', '--win', 'nsis', '--x64', '--publish', 'never')
-  $remainingArgs = @($BuilderArgs)
-  if ($remainingArgs.Count -gt 0) {
-    $args += $remainingArgs
-  }
-
-  Write-Step 'Packaging Electron app...'
-  & bunx @args
-  if ($LASTEXITCODE -ne 0) {
-    throw "[build-windows-x64] electron-builder failed (exit $LASTEXITCODE)"
-  }
-} finally {
-  Pop-Location
-}
-
-Clear-Directory -Path $canonicalOutputDir
-
-Get-ChildItem -Path $electronOutputDir -File -ErrorAction SilentlyContinue |
-  Where-Object { $_.Name -match '\.(exe|blockmap|yml)$' } |
-  ForEach-Object { Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $canonicalOutputDir $_.Name) -Force }
-
-$winUnpackedDir = Join-Path $electronOutputDir 'win-unpacked'
-if (Test-Path $winUnpackedDir) {
-  Copy-Item -LiteralPath $winUnpackedDir -Destination (Join-Path $canonicalOutputDir 'win-unpacked') -Recurse -Force
-} else {
-  Write-Step "Warning: win-unpacked was not found under $electronOutputDir; package-smoke will fail if it is required."
-}
-
-Set-Content -Path (Join-Path $canonicalOutputDir 'BUILD_INFO.txt') -Value @"
-Target triple: $targetTriple
-Builder output: $electronOutputDir
-Canonical output: $canonicalOutputDir
-Built at: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss zzz')
-"@ -Encoding UTF8
-
-if ($env:SKIP_PACKAGE_SMOKE -eq '1') {
-  Write-Step 'Skipping package-smoke because SKIP_PACKAGE_SMOKE=1.'
-} else {
-  Write-Step 'Running package-smoke against canonical Windows artifacts...'
-  Push-Location $repoRoot
-  try {
-    & bun run test:package-smoke --platform windows --package-kind release --artifacts-dir desktop/build-artifacts/windows-x64
-    if ($LASTEXITCODE -ne 0) {
-      throw "[build-windows-x64] package-smoke failed (exit $LASTEXITCODE)"
-    }
-  } finally {
-    Pop-Location
-  }
-}
-
-Write-Step 'Build finished.'
-Write-Step "Canonical output: $canonicalOutputDir"
->>>>>>> upstream/main

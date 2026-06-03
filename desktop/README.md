@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 # HUBO Desktop
-=======
-# Claude Code Haha Desktop
->>>>>>> upstream/main
 
 基于 Tauri 2 + React 的桌面客户端。
 
@@ -30,9 +26,5 @@ bun run tauri dev
 ### macOS 提示"已损坏，无法打开"
 
 ```bash
-<<<<<<< HEAD
 xattr -cr /Applications/Claude\ Code\ Hubo.app
-=======
-xattr -cr /Applications/Claude\ Code\ Haha.app
->>>>>>> upstream/main
 ```

@@ -58,11 +58,7 @@ Deconstructing the architecture behind Claude Code's agent framework from source
 
 ## Illustration Notes
 
-<<<<<<< HEAD
 All diagrams use a dark background (#1a1a2e) with HUBO orange-blue accent (#FF7A00), consistent with Claude Code's official documentation style.
-=======
-All diagrams use a dark background (#1a1a2e) with Claude Code Haha orange-blue accent (#FF7A00), consistent with Claude Code's official documentation style.
->>>>>>> upstream/main
 
 | Image | Description | Document |
 |-------|-------------|----------|
@@ -125,18 +121,9 @@ All diagrams use a dark background (#1a1a2e) with Claude Code Haha orange-blue a
 
 ## Related Resources
 
-<<<<<<< HEAD
 - [HUBO Home](/)
 - [Memory System Documentation](/en/memory/01-usage-guide)
 - [Agent Tool Source Code](https://github.com/NanmiCoder/hubo/tree/main/src/tools/AgentTool/)
 - [Swarm Infrastructure](https://github.com/NanmiCoder/hubo/tree/main/src/utils/swarm/)
 - [Task Management System](https://github.com/NanmiCoder/hubo/tree/main/src/tasks/)
 - [GitHub Issues](https://github.com/NanmiCoder/hubo/issues)
-=======
-- [Claude Code Haha Home](/)
-- [Memory System Documentation](/en/memory/01-usage-guide)
-- [Agent Tool Source Code](https://github.com/NanmiCoder/cc-haha/tree/main/src/tools/AgentTool/)
-- [Swarm Infrastructure](https://github.com/NanmiCoder/cc-haha/tree/main/src/utils/swarm/)
-- [Task Management System](https://github.com/NanmiCoder/cc-haha/tree/main/src/tasks/)
-- [GitHub Issues](https://github.com/NanmiCoder/cc-haha/issues)
->>>>>>> upstream/main

@@ -83,11 +83,7 @@ describe('provider presets API', () => {
     expect(deepseek?.defaultModels.haiku).toBe('deepseek-v4-flash')
     expect(deepseek?.defaultModels.sonnet).toBe('deepseek-v4-pro')
     expect(deepseek?.defaultModels.opus).toBe('deepseek-v4-pro')
-<<<<<<< HEAD
     expect(deepseek?.defaultEnv?.HUBO_SEND_DISABLED_THINKING).toBeUndefined()
-=======
-    expect(deepseek?.defaultEnv?.CC_HAHA_SEND_DISABLED_THINKING).toBeUndefined()
->>>>>>> upstream/main
     expect(deepseek?.defaultEnv?.ANTHROPIC_DEFAULT_SONNET_MODEL_SUPPORTED_CAPABILITIES).toBe(
       'thinking,effort,adaptive_thinking,max_effort',
     )
@@ -99,17 +95,10 @@ describe('provider presets API', () => {
     expect(kimi?.baseUrl).toBe('https://api.kimi.com/coding')
     expect(kimi?.authStrategy).toBe('auth_token')
     expect(kimi?.defaultModels.main).toBe('kimi-k2.6')
-<<<<<<< HEAD
     expect(kimi?.defaultEnv?.HUBO_SEND_DISABLED_THINKING).toBe('1')
     expect(minimax?.authStrategy).toBe('auth_token')
     expect(minimax?.defaultModels.main).toBe('MiniMax-M2.7')
     expect(minimax?.modelContextWindows?.['MiniMax-M2.7']).toBe(204800)
-=======
-    expect(kimi?.defaultEnv?.CC_HAHA_SEND_DISABLED_THINKING).toBe('1')
-    expect(minimax?.authStrategy).toBe('auth_token')
-    expect(minimax?.defaultModels.main).toBe('MiniMax-M3')
-    expect(minimax?.modelContextWindows?.['MiniMax-M3']).toBe(1000000)
->>>>>>> upstream/main
     expect(jiekouai?.baseUrl).toBe('https://api.jiekou.ai/anthropic')
     expect(jiekouai?.authStrategy).toBe('auth_token')
     expect(jiekouai?.defaultModels.main).toBe('claude-sonnet-4-6')
@@ -150,13 +139,8 @@ describe('provider presets API', () => {
     expect(deepseek?.modelContextWindows?.['deepseek-v4-pro']).toBe(1000000)
     expect(deepseek?.modelContextWindows?.['deepseek-v4-flash']).toBe(1000000)
     expect(zhipu?.apiKeyUrl).toBe('https://www.bigmodel.cn/invite?icode=d41B2qi8Z5xNwTGLNPPF3OZLO2QH3C0EBTSr%2BArzMw4%3D')
-<<<<<<< HEAD
     expect(zhipu?.promoText).toContain('hubo')
     expect(zhipu?.defaultEnv?.HUBO_SEND_DISABLED_THINKING).toBe('1')
-=======
-    expect(zhipu?.promoText).toContain('cc-haha')
-    expect(zhipu?.defaultEnv?.CC_HAHA_SEND_DISABLED_THINKING).toBe('1')
->>>>>>> upstream/main
     expect(zhipu?.modelContextWindows?.['glm-5.1']).toBe(200000)
     expect(zhipu?.modelContextWindows?.['glm-4.5-air']).toBe(128000)
     expect(kimi?.apiKeyUrl).toBe('https://platform.kimi.com/console/api-keys')
@@ -179,26 +163,16 @@ describe('provider presets API', () => {
     expect(custom?.defaultEnv).toBeUndefined()
   })
 
-<<<<<<< HEAD
   test('GET and PUT /api/providers/settings read and write hubo settings.json', async () => {
-=======
-  test('GET and PUT /api/providers/settings read and write cc-haha settings.json', async () => {
->>>>>>> upstream/main
     const initial = {
       env: {
         ANTHROPIC_MODEL: 'glm-5.1',
       },
       model: 'glm-5.1',
     }
-<<<<<<< HEAD
     await fs.mkdir(path.join(tmpDir, 'hubo'), { recursive: true })
     await fs.writeFile(
       path.join(tmpDir, 'hubo', 'settings.json'),
-=======
-    await fs.mkdir(path.join(tmpDir, 'cc-haha'), { recursive: true })
-    await fs.writeFile(
-      path.join(tmpDir, 'cc-haha', 'settings.json'),
->>>>>>> upstream/main
       JSON.stringify(initial, null, 2),
       'utf-8',
     )
@@ -218,11 +192,7 @@ describe('provider presets API', () => {
     const putRes = await handleProvidersApi(putReq.req, putReq.url, putReq.segments)
     expect(putRes.status).toBe(200)
 
-<<<<<<< HEAD
     const updatedRaw = await fs.readFile(path.join(tmpDir, 'hubo', 'settings.json'), 'utf-8')
-=======
-    const updatedRaw = await fs.readFile(path.join(tmpDir, 'cc-haha', 'settings.json'), 'utf-8')
->>>>>>> upstream/main
     expect(JSON.parse(updatedRaw)).toEqual(updateBody)
   })
 

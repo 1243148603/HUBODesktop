@@ -7,11 +7,7 @@ type OutputFormat = 'text' | 'json'
 function printHelp(): void {
   process.stdout.write(
     [
-<<<<<<< HEAD
       'Usage: hubo [options] [prompt]',
-=======
-      'Usage: claude-haha [options] [prompt]',
->>>>>>> upstream/main
       '',
       'Local recovery mode for this leaked source tree.',
       '',
@@ -244,11 +240,7 @@ async function runInteractive(parsed: {
   })
 
   process.stdout.write(
-<<<<<<< HEAD
     `HUBO local interactive mode\nmodel: ${model}\ncommands: /exit, /clear\n\n`,
-=======
-    `Claude Haha local interactive mode\nmodel: ${model}\ncommands: /exit, /clear\n\n`,
->>>>>>> upstream/main
   )
   rl.prompt()
 

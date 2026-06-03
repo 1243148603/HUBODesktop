@@ -11,11 +11,7 @@ const MAX_PROJECT_PREFERENCE_ENTRIES = 2_000
 const MAX_PROFILE_DISPLAY_NAME_LENGTH = 80
 const MAX_PROFILE_SUBTITLE_LENGTH = 160
 const MAX_PROFILE_AVATAR_BYTES = 2_000_000
-<<<<<<< HEAD
 const DEFAULT_PROFILE_SUBTITLE = 'github.com/NanmiCoder/hubo'
-=======
-const DEFAULT_PROFILE_SUBTITLE = 'github.com/NanmiCoder/cc-haha'
->>>>>>> upstream/main
 
 const AVATAR_CONTENT_TYPES = {
   'image/png': { extension: 'png', mediaType: 'image/png' },
@@ -59,11 +55,7 @@ const DEFAULT_SIDEBAR_PROJECT_PREFERENCES: SidebarProjectPreferences = {
 }
 
 const DEFAULT_PROFILE_PREFERENCES: DesktopProfilePreferences = {
-<<<<<<< HEAD
   displayName: 'hubo',
-=======
-  displayName: 'cc-haha',
->>>>>>> upstream/main
   subtitle: DEFAULT_PROFILE_SUBTITLE,
   avatarFile: null,
   avatarUpdatedAt: null,
@@ -177,19 +169,11 @@ export class DesktopUiPreferencesService {
   }
 
   private getPreferencesPath(): string {
-<<<<<<< HEAD
     return path.join(this.getConfigDir(), 'hubo', 'desktop-ui.json')
   }
 
   private getProfileDir(): string {
     return path.join(this.getConfigDir(), 'hubo', 'profile')
-=======
-    return path.join(this.getConfigDir(), 'cc-haha', 'desktop-ui.json')
-  }
-
-  private getProfileDir(): string {
-    return path.join(this.getConfigDir(), 'cc-haha', 'profile')
->>>>>>> upstream/main
   }
 
   private getProfileAvatarPath(avatarFile: string): string {
@@ -197,11 +181,7 @@ export class DesktopUiPreferencesService {
     if (!normalized) {
       throw ApiError.badRequest('Invalid avatar file path')
     }
-<<<<<<< HEAD
     return path.join(this.getConfigDir(), 'hubo', normalized)
-=======
-    return path.join(this.getConfigDir(), 'cc-haha', normalized)
->>>>>>> upstream/main
   }
 
   private async fileExists(filePath: string): Promise<boolean> {
@@ -256,11 +236,7 @@ export class DesktopUiPreferencesService {
     const existedBeforeRead = await this.fileExists(filePath)
     const preferences = await readRecoverableJsonFile({
       filePath,
-<<<<<<< HEAD
       label: 'hubo desktop UI preferences',
-=======
-      label: 'cc-haha desktop UI preferences',
->>>>>>> upstream/main
       defaultValue: defaultPreferences(),
       normalize: normalizeDesktopUiPreferences,
     })

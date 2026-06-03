@@ -3,18 +3,10 @@ import { ExternalLink } from 'lucide-react'
 import { useTranslation, type TranslationKey } from '../../i18n'
 import { useOpenTargetStore } from '../../stores/openTargetStore'
 import { buildOpenWithItems, type OpenWithItem, type OpenWithDeps } from '../../lib/openWithItems'
-<<<<<<< HEAD
 import { TargetIcon } from '../common/TargetIcon'
 
 function openExternal(path: string) {
   void import('@tauri-apps/plugin-shell').then((m) => m.open(path)).catch(() => {})
-=======
-import { getDesktopHost } from '../../lib/desktopHost'
-import { TargetIcon } from '../common/TargetIcon'
-
-function openExternal(path: string) {
-  void getDesktopHost().shell.openPath(path).catch(() => {})
->>>>>>> upstream/main
 }
 
 export function WorkspaceFileOpenWith({

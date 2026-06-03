@@ -17,10 +17,6 @@ vi.mock('../../api/filesystem', () => ({
 import { DirectoryPicker } from './DirectoryPicker'
 import { sessionsApi } from '../../api/sessions'
 import { filesystemApi } from '../../api/filesystem'
-<<<<<<< HEAD
-=======
-import { browserHost } from '../../lib/desktopHost/browserHost'
->>>>>>> upstream/main
 
 describe('DirectoryPicker', () => {
   let originalInnerWidth: number
@@ -31,10 +27,6 @@ describe('DirectoryPicker', () => {
 
   afterEach(() => {
     Object.defineProperty(window, 'innerWidth', { configurable: true, value: originalInnerWidth })
-<<<<<<< HEAD
-=======
-    Reflect.deleteProperty(window, 'desktopHost')
->>>>>>> upstream/main
     vi.restoreAllMocks()
   })
 
@@ -177,39 +169,4 @@ describe('DirectoryPicker', () => {
 
     errorSpy.mockRestore()
   })
-<<<<<<< HEAD
-=======
-
-  it('uses the injected desktop host for native folder selection', async () => {
-    vi.mocked(sessionsApi.getRecentProjects).mockResolvedValue({ projects: [] })
-    const open = vi.fn().mockResolvedValue('/workspace/native-project')
-    window.desktopHost = {
-      ...browserHost,
-      kind: 'electron',
-      isDesktop: true,
-      capabilities: {
-        ...browserHost.capabilities,
-        dialogs: true,
-      },
-      dialogs: {
-        ...browserHost.dialogs,
-        open,
-      },
-    }
-    const onChange = vi.fn()
-
-    render(<DirectoryPicker value="" onChange={onChange} />)
-
-    fireEvent.click(screen.getByRole('button', { name: /选择项目|Select a project/ }))
-    fireEvent.click(await screen.findByText(/选择其他文件夹|Choose a different folder/))
-
-    await waitFor(() => expect(onChange).toHaveBeenCalledWith('/workspace/native-project'))
-    expect(open).toHaveBeenCalledWith({
-      directory: true,
-      multiple: false,
-      title: expect.any(String),
-    })
-    expect(filesystemApi.browse).not.toHaveBeenCalled()
-  })
->>>>>>> upstream/main
 })

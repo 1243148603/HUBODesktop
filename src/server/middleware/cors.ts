@@ -2,11 +2,8 @@
  * CORS middleware for desktop and temporary open H5 access.
  */
 
-<<<<<<< HEAD
 import { isLoopbackHost } from '../h5AccessPolicy.js'
 
-=======
->>>>>>> upstream/main
 export function corsHeaders(origin?: string | null): Record<string, string> {
   const allowedOrigin = origin || 'http://localhost:3000'
   return {
@@ -38,22 +35,17 @@ export type CorsResolutionOptions = {
   isOriginAllowed?: (origin: string) => Promise<boolean>
 }
 
-<<<<<<< HEAD
 const LOCAL_ORIGINS = new Set([
   'http://tauri.localhost',
   'https://tauri.localhost',
   'tauri://localhost',
 ])
-=======
-const LOCAL_DESKTOP_ORIGINS = new Set(['file://'])
->>>>>>> upstream/main
 
 function isLocalOrigin(origin?: string | null): boolean {
   if (!origin) {
     return true
   }
 
-<<<<<<< HEAD
   if (LOCAL_ORIGINS.has(origin)) {
     return true
   }
@@ -63,9 +55,6 @@ function isLocalOrigin(origin?: string | null): boolean {
   } catch {
     return false
   }
-=======
-  return LOCAL_DESKTOP_ORIGINS.has(origin)
->>>>>>> upstream/main
 }
 
 export async function resolveCors(

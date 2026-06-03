@@ -23,19 +23,10 @@ import {
   H5_SERVER_URL_STORAGE_KEY,
   H5_TOKEN_STORAGE_KEY,
   initializeDesktopServerUrl,
-<<<<<<< HEAD
-=======
-  isBrowserH5Runtime,
-  isDesktopRuntime,
->>>>>>> upstream/main
   isLoopbackHostname,
   requiresH5AuthForServerUrl,
   saveAndVerifyH5Connection,
 } from './desktopRuntime'
-<<<<<<< HEAD
-=======
-import { browserHost } from './desktopHost/browserHost'
->>>>>>> upstream/main
 
 function healthOkResponse() {
   return Response.json({ status: 'ok' })
@@ -51,12 +42,6 @@ describe('desktopRuntime browser H5 bootstrap', () => {
     vi.useRealTimers()
     window.localStorage.clear()
     window.history.pushState({}, '', '/')
-<<<<<<< HEAD
-=======
-    Reflect.deleteProperty(window, 'desktopHost')
-    Reflect.deleteProperty(window, '__TAURI_INTERNALS__')
-    Reflect.deleteProperty(window, '__TAURI__')
->>>>>>> upstream/main
     globalThis.fetch = originalFetch
   })
 
@@ -134,69 +119,6 @@ describe('desktopRuntime browser H5 bootstrap', () => {
     })
   })
 
-<<<<<<< HEAD
-=======
-  it('uses an injected desktop host server URL before browser fallback', async () => {
-    const serverUrl = 'http://127.0.0.1:59231'
-    window.desktopHost = {
-      ...browserHost,
-      kind: 'electron',
-      isDesktop: true,
-      runtime: {
-        getServerUrl: vi.fn().mockResolvedValue(serverUrl),
-      },
-    }
-    globalThis.fetch = vi.fn().mockResolvedValue(
-      healthOkResponse(),
-    ) as typeof fetch
-
-    await expect(initializeDesktopServerUrl()).resolves.toBe(serverUrl)
-
-    expect(window.desktopHost.runtime.getServerUrl).toHaveBeenCalledTimes(1)
-    expect(clientMocks.setBaseUrl).toHaveBeenLastCalledWith(serverUrl)
-    expect(clientMocks.setAuthToken).toHaveBeenLastCalledWith(null)
-    expect(globalThis.fetch).toHaveBeenCalledWith(`${serverUrl}/health`, {
-      cache: 'no-store',
-    })
-    expect(globalThis.fetch).toHaveBeenCalledTimes(1)
-  })
-
-  it('classifies browser H5 runtime using the desktop host boundary', () => {
-    expect(isBrowserH5Runtime()).toBe(true)
-    expect(isDesktopRuntime()).toBe(false)
-
-    window.desktopHost = {
-      ...browserHost,
-      kind: 'electron',
-      isDesktop: true,
-    }
-
-    expect(isBrowserH5Runtime()).toBe(false)
-    expect(isDesktopRuntime()).toBe(true)
-  })
-
-  it('normalizes injected desktop host startup failures', async () => {
-    const error = new Error('electron sidecar failed')
-    const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {})
-    window.desktopHost = {
-      ...browserHost,
-      kind: 'electron',
-      isDesktop: true,
-      runtime: {
-        getServerUrl: vi.fn().mockRejectedValue(error),
-      },
-    }
-
-    await expect(initializeDesktopServerUrl()).rejects.toThrow('electron sidecar failed')
-    expect(consoleError).toHaveBeenCalledWith(
-      '[desktop] Failed to initialize desktop server URL',
-      error,
-    )
-
-    consoleError.mockRestore()
-  })
-
->>>>>>> upstream/main
   it('does not treat a Vite SPA fallback response as a desktop server healthcheck', async () => {
     vi.useFakeTimers()
     globalThis.fetch = vi.fn().mockResolvedValue(

@@ -89,29 +89,14 @@ Every feature, bugfix, and behavior change must ship with verifiable evidence. T
 - Do not lower `coverage-baseline.json` or `coverage-thresholds.json` just to pass the gate; real baseline/threshold changes require `allow-coverage-baseline-change` and a reason. Legacy low-coverage areas are debt; new PRs must leave touched areas better than they found them.
 - The PR description must record changed files, tests added, coverage report path, E2E/live report path or blocker, and remaining risk.
 
-<<<<<<< HEAD
 ## Local Pre-Push Gate
 
 Git hooks are local, so each clone needs to install the hook once:
-=======
-## Local Pre-Push Reminder
-
-push no longer runs a local quality gate. Run checks manually when needed:
-
-```bash
-bun run quality:push
-```
-
-`bun run quality:push` reuses the PR gate impact, policy, and path-aware checks, but skips the expensive coverage lane by default; full coverage remains in `bun run verify`, `bun run quality:pr`, and CI.
-
-You can still install the local pre-push hook, but it only prints a non-blocking reminder and never blocks `git push`:
->>>>>>> upstream/main
 
 ```bash
 bun run hooks:install
 ```
 
-<<<<<<< HEAD
 After installation, every `git push` runs the fast local gate internally (`bun run quality:push`). It reuses the PR gate impact, policy, and path-aware checks, but skips the expensive coverage lane by default; full coverage remains in `bun run verify`, `bun run quality:pr`, and CI. If unit tests, docs/native/adapter checks, or any other selected fast path-aware lane fails, the local hook blocks the push.
 
 Maintainers or contributors with model quota can also add real provider smoke and desktop agent-browser smoke to the pre-push hook:
@@ -137,21 +122,6 @@ bun run hooks:install -- --allow-cli-core-change --allow-coverage-baseline-chang
 
 This only affects the current clone and is not committed; PR CI still requires the matching labels.
 
-=======
-Maintainers or contributors with model quota can run real provider smoke and desktop agent-browser smoke manually:
-
-```bash
-bun run quality:providers
-bun run quality:smoke -- --provider-model minimax:main:minimax-main
-```
-
-To run the full live baseline, use:
-
-```bash
-bun run quality:gate --mode baseline --allow-live --provider-model minimax:main:minimax-main
-```
-
->>>>>>> upstream/main
 ## PR CI Merge Gate
 
 `.github/workflows/pr-quality.yml` runs for PR `opened`, `synchronize`, `reopened`, `ready_for_review`, `labeled`, and `unlabeled` events. It starts with `change-policy`, which maps changed files to the desktop, server, adapter, native, docs, and coverage lanes. The final `pr-quality-gate` job aggregates every selected job: failed selected jobs fail `pr-quality-gate`, while unselected jobs may be skipped.
@@ -166,11 +136,7 @@ Run the checks that match the files you changed:
 bun run check:server      # Server API, WebSocket, providers, sessions, and related tests
 bun run check:desktop     # Desktop lint, Vitest, and production build
 bun run check:adapters    # IM adapter tests
-<<<<<<< HEAD
 bun run check:native      # Desktop sidecars and Tauri native checks
-=======
-bun run check:native      # Desktop sidecars, Electron host, and package-smoke checks
->>>>>>> upstream/main
 bun run check:docs        # Docs build, using npm ci + docs:build
 bun run check:quarantine  # Quarantine owners, exit criteria, and review windows
 bun run check:coverage    # Root, desktop, and adapter coverage reports plus ratchet enforcement
@@ -260,11 +226,7 @@ Before a release, run release mode:
 bun run quality:gate --mode release --allow-live --provider-model <selector>:main
 ```
 
-<<<<<<< HEAD
 Release mode composes PR checks, baseline catalog validation, live baseline cases, provider smoke, desktop smoke, and native checks. Reports are written to `artifacts/quality-runs/<timestamp>/`. The hosted release workflow now runs `quality:gate --mode pr` as a non-live preflight before the packaging matrix and uploads a `release-quality-gate` artifact; maintainers still need to run the live release gate explicitly with an available provider.
-=======
-Release mode composes PR checks, baseline catalog validation, live baseline cases, provider smoke, native checks, and current-platform canonical release `package-smoke --package-kind release`. Reports are written to `artifacts/quality-runs/<timestamp>/`. The hosted release workflow now runs `bun run verify` as a non-live preflight before the packaging matrix; maintainers still need to run the live release gate explicitly with an available provider.
->>>>>>> upstream/main
 
 In release mode, live lanes are not allowed to be silently skipped. Missing providers, model quota, or external account access will fail the gate and must be recorded as a release blocker.
 

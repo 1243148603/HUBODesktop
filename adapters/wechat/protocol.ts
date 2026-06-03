@@ -266,11 +266,7 @@ export async function sendWechatText(params: {
     msg: {
       from_user_id: '',
       to_user_id: params.to,
-<<<<<<< HEAD
       client_id: `hubo-wechat-${crypto.randomUUID()}`,
-=======
-      client_id: `claude-code-haha-wechat-${crypto.randomUUID()}`,
->>>>>>> upstream/main
       message_type: 2,
       message_state: 2,
       item_list: params.text ? [{ type: 1, text_item: { text: params.text } }] : undefined,

@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import { isTauriRuntime } from '../lib/desktopRuntime'
-=======
-import { getDesktopHost } from '../lib/desktopHost'
->>>>>>> upstream/main
 
 export type TerminalSpawnResult = {
   session_id: number
@@ -23,7 +19,6 @@ export type TerminalExitPayload = {
 
 type Unlisten = () => void
 
-<<<<<<< HEAD
 async function invoke<T>(command: string, args?: Record<string, unknown>): Promise<T> {
   if (!isTauriRuntime()) {
     throw new Error('Terminal is available in the desktop app runtime.')
@@ -67,48 +62,5 @@ export const terminalApi = {
 
   setBashPath(path: string | null) {
     return invoke<void>('set_terminal_bash_path', { path })
-=======
-function getTerminalHost() {
-  const host = getDesktopHost()
-  if (!host.capabilities.terminal) {
-    throw new Error('Terminal is available in the desktop app runtime.')
-  }
-  return host.terminal
-}
-
-export const terminalApi = {
-  isAvailable: () => getDesktopHost().capabilities.terminal,
-
-  spawn(input: { cols: number; rows: number; cwd?: string }) {
-    return getTerminalHost().spawn(input)
-  },
-
-  write(sessionId: number, data: string) {
-    return getTerminalHost().write(sessionId, data)
-  },
-
-  resize(sessionId: number, cols: number, rows: number) {
-    return getTerminalHost().resize(sessionId, cols, rows)
-  },
-
-  kill(sessionId: number) {
-    return getTerminalHost().kill(sessionId)
-  },
-
-  async onOutput(handler: (payload: TerminalOutputPayload) => void): Promise<Unlisten> {
-    return getTerminalHost().onOutput(handler)
-  },
-
-  async onExit(handler: (payload: TerminalExitPayload) => void): Promise<Unlisten> {
-    return getTerminalHost().onExit(handler)
-  },
-
-  getBashPath() {
-    return getTerminalHost().getBashPath()
-  },
-
-  setBashPath(path: string | null) {
-    return getTerminalHost().setBashPath(path)
->>>>>>> upstream/main
   },
 }

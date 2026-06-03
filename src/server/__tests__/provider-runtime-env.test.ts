@@ -25,11 +25,7 @@ describe('providerRuntimeEnv', () => {
   })
 
   test('derives native Anthropic provider env from the active provider index', async () => {
-<<<<<<< HEAD
     await writeJson(path.join(tmpDir, 'hubo', 'providers.json'), {
-=======
-    await writeJson(path.join(tmpDir, 'cc-haha', 'providers.json'), {
->>>>>>> upstream/main
       activeId: 'provider-1',
       providers: [
         {
@@ -64,11 +60,7 @@ describe('providerRuntimeEnv', () => {
   })
 
   test('active provider env overrides stale proxy settings while preserving unrelated env', async () => {
-<<<<<<< HEAD
     await writeJson(path.join(tmpDir, 'hubo', 'providers.json'), {
-=======
-    await writeJson(path.join(tmpDir, 'cc-haha', 'providers.json'), {
->>>>>>> upstream/main
       activeId: 'provider-1',
       providers: [
         {

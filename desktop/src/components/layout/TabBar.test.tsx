@@ -3,10 +3,6 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import '@testing-library/jest-dom'
 import type { PerSessionState } from '../../stores/chatStore'
 import type { ChatState } from '../../types/chat'
-<<<<<<< HEAD
-=======
-import { browserHost } from '../../lib/desktopHost/browserHost'
->>>>>>> upstream/main
 
 const startDraggingMock = vi.hoisted(() => vi.fn(() => Promise.resolve()))
 const getCurrentWindowMock = vi.hoisted(() => vi.fn(() => ({
@@ -102,25 +98,6 @@ vi.mock('./WindowControls', () => ({
 }))
 
 describe('TabBar', () => {
-<<<<<<< HEAD
-=======
-  const installElectronDesktopHost = () => {
-    window.desktopHost = {
-      ...browserHost,
-      kind: 'electron',
-      isDesktop: true,
-      capabilities: {
-        ...browserHost.capabilities,
-        windowControls: true,
-      },
-      window: {
-        ...browserHost.window,
-        startDragging: startDraggingMock,
-      },
-    }
-  }
-
->>>>>>> upstream/main
   beforeEach(() => {
     class ResizeObserverMock {
       constructor(_callback: ResizeObserverCallback) {}
@@ -136,15 +113,10 @@ describe('TabBar', () => {
       value: ResizeObserverMock,
     })
 
-<<<<<<< HEAD
     Object.defineProperty(window, '__TAURI__', {
       configurable: true,
       value: {},
     })
-=======
-    Reflect.deleteProperty(window, '__TAURI__')
-    installElectronDesktopHost()
->>>>>>> upstream/main
 
     Object.defineProperty(window.HTMLElement.prototype, 'scrollIntoView', {
       configurable: true,
@@ -185,12 +157,7 @@ describe('TabBar', () => {
     useTerminalPanelStore.setState(useTerminalPanelStore.getInitialState(), true)
     useBrowserPanelStore.setState(useBrowserPanelStore.getInitialState(), true)
 
-<<<<<<< HEAD
     delete (window as typeof window & { __TAURI__?: unknown }).__TAURI__
-=======
-    Reflect.deleteProperty(window, 'desktopHost')
-    Reflect.deleteProperty(window, '__TAURI__')
->>>>>>> upstream/main
   })
 
   it('scrolls the active tab into view when the active tab changes', async () => {
@@ -324,15 +291,8 @@ describe('TabBar', () => {
       render(<TabBar />)
     })
 
-<<<<<<< HEAD
     expect(screen.getByTestId('tab-bar')).not.toHaveAttribute('data-tauri-drag-region')
     expect(screen.getByTestId('tab-bar-drag-gutter')).toHaveAttribute('data-tauri-drag-region')
-=======
-    expect(screen.getByTestId('tab-bar')).toHaveAttribute('data-desktop-drag-region')
-    expect(screen.getByTestId('tab-bar-scroll-region')).toHaveAttribute('data-desktop-drag-region')
-    expect(screen.getByTestId('tab-bar-drag-gutter')).toHaveAttribute('data-desktop-drag-region')
-    expect(screen.getByText('Untitled Session').closest('.tab-bar-interactive')).toBeInTheDocument()
->>>>>>> upstream/main
   })
 
   it('keeps the desktop tab strip at a roomier titlebar height', async () => {
@@ -356,11 +316,7 @@ describe('TabBar', () => {
     })
 
     const tabBar = screen.getByTestId('tab-bar')
-<<<<<<< HEAD
     const tab = screen.getByText('Untitled Session').closest('.tab-bar-hit-area')
-=======
-    const tab = screen.getByText('Untitled Session').closest('.tab-bar-interactive')
->>>>>>> upstream/main
 
     expect(tabBar).toHaveClass('min-h-11')
     expect(tab).toHaveClass('min-h-11')
@@ -496,11 +452,7 @@ describe('TabBar', () => {
   })
 
   it('hides the open-project control outside the desktop shell', async () => {
-<<<<<<< HEAD
     delete (window as typeof window & { __TAURI__?: unknown }).__TAURI__
-=======
-    Reflect.deleteProperty(window, 'desktopHost')
->>>>>>> upstream/main
 
     const { TabBar } = await import('./TabBar')
     const { useTabStore } = await import('../../stores/tabStore')
@@ -538,11 +490,7 @@ describe('TabBar', () => {
     expect(screen.queryByTestId('open-project-menu')).not.toBeInTheDocument()
   })
 
-<<<<<<< HEAD
   it('starts dragging when clicking the empty tab-bar gutter', async () => {
-=======
-  it('marks the empty tab-bar gutter as a native drag region without runtime dragging', async () => {
->>>>>>> upstream/main
     const { TabBar } = await import('./TabBar')
     const { useTabStore } = await import('../../stores/tabStore')
     const { useChatStore } = await import('../../stores/chatStore')
@@ -562,7 +510,6 @@ describe('TabBar', () => {
       render(<TabBar />)
     })
 
-<<<<<<< HEAD
     await waitFor(() => {
       expect(getCurrentWindowMock).toHaveBeenCalled()
     })
@@ -575,15 +522,6 @@ describe('TabBar', () => {
     await waitFor(() => {
       expect(startDraggingMock).toHaveBeenCalledTimes(1)
     })
-=======
-    const scrollRegion = screen.getByTestId('tab-bar-scroll-region')
-    expect(scrollRegion).toBeInTheDocument()
-    expect(scrollRegion).toHaveAttribute('data-desktop-drag-region')
-
-    fireEvent.mouseDown(scrollRegion)
-
-    expect(startDraggingMock).not.toHaveBeenCalled()
->>>>>>> upstream/main
   })
 
   it('does not start dragging when clicking a tab', async () => {
@@ -606,13 +544,10 @@ describe('TabBar', () => {
       render(<TabBar />)
     })
 
-<<<<<<< HEAD
     await waitFor(() => {
       expect(getCurrentWindowMock).toHaveBeenCalled()
     })
 
-=======
->>>>>>> upstream/main
     fireEvent.mouseDown(screen.getByText('Untitled Session'))
 
     expect(startDraggingMock).not.toHaveBeenCalled()
@@ -639,17 +574,10 @@ describe('TabBar', () => {
       render(<TabBar />)
     })
 
-<<<<<<< HEAD
     expect(screen.getByTestId('tab-bar').querySelector('.tab-bar-hit-area')).toBeInTheDocument()
 
     const firstTab = screen.getByText('First Session').closest('.tab-bar-hit-area')
     const secondTab = screen.getByText('Second Session').closest('.tab-bar-hit-area')
-=======
-    expect(screen.getByTestId('tab-bar').querySelector('.tab-bar-interactive')).toBeInTheDocument()
-
-    const firstTab = screen.getByText('First Session').closest('.tab-bar-interactive')
-    const secondTab = screen.getByText('Second Session').closest('.tab-bar-interactive')
->>>>>>> upstream/main
 
     expect(firstTab).toBeTruthy()
     expect(secondTab).toBeTruthy()
@@ -694,11 +622,7 @@ describe('TabBar', () => {
       render(<TabBar />)
     })
 
-<<<<<<< HEAD
     const firstTab = screen.getByText('First Session').closest('.tab-bar-hit-area')
-=======
-    const firstTab = screen.getByText('First Session').closest('.tab-bar-interactive')
->>>>>>> upstream/main
     expect(firstTab).toBeTruthy()
 
     fireEvent.mouseDown(firstTab!, { button: 0, clientX: 20, clientY: 10 })
@@ -732,11 +656,7 @@ describe('TabBar', () => {
       render(<TabBar />)
     })
 
-<<<<<<< HEAD
     const firstTab = screen.getByText('First Session').closest('.tab-bar-hit-area')
-=======
-    const firstTab = screen.getByText('First Session').closest('.tab-bar-interactive')
->>>>>>> upstream/main
     const closeButton = screen.getByLabelText('Close First Session')
 
     expect(firstTab).toHaveClass('group')

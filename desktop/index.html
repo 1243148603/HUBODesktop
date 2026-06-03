@@ -2,21 +2,6 @@
 <html lang="zh-CN" data-theme="white">
   <head>
     <meta charset="UTF-8" />
-<<<<<<< HEAD
-=======
-    <!--
-      Conservative CSP: hardens default/object/base-uri without breaking the app.
-      script/style keep 'unsafe-inline' + 'unsafe-eval' on purpose - Emotion CSS-in-JS
-      injects runtime <style> tags, the startup watchdog below is inline, and shiki/
-      mermaid/Vite rely on eval. connect-src stays permissive (localhost sidecar + ws +
-      https) so renderer fetches and dev HMR keep working. Tighten only after verifying
-      on a packaged build.
-    -->
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https: http://127.0.0.1:* http://localhost:*; connect-src 'self' https: http://127.0.0.1:* http://localhost:* ws://127.0.0.1:* ws://localhost:*; worker-src 'self' blob:; object-src 'none'; base-uri 'self'"
-    />
->>>>>>> upstream/main
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Claude Code Companion</title>
     <!-- Fonts are self-hosted in /fonts/ and declared via @font-face in globals.css -->
@@ -41,11 +26,7 @@
         }
 
         function renderStartupError(reason) {
-<<<<<<< HEAD
           if (window.__HUBO_BOOTSTRAPPED__) return
-=======
-          if (window.__CC_HAHA_BOOTSTRAPPED__) return
->>>>>>> upstream/main
           var root = document.getElementById('root')
           if (!root) return
 
@@ -94,11 +75,7 @@
           root.appendChild(shell)
         }
 
-<<<<<<< HEAD
         window.__HUBO_SHOW_STARTUP_ERROR__ = renderStartupError
-=======
-        window.__CC_HAHA_SHOW_STARTUP_ERROR__ = renderStartupError
->>>>>>> upstream/main
 
         window.addEventListener('error', function (event) {
           var target = event.target

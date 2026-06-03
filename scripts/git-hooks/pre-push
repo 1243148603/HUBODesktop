@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-<<<<<<< HEAD
 git_config() {
   git config --local --get "$1" 2>/dev/null || true
 }
@@ -72,9 +71,3 @@ done
 
 echo "[pre-push] Running live $live_mode gate with configured provider selector(s)."
 "${cmd[@]}"
-=======
-echo "[pre-push] non-blocking: git push no longer runs local quality gates."
-echo "[pre-push] Run manually before PR/release work: bun run quality:push or bun run verify"
-
-exit 0
->>>>>>> upstream/main

@@ -1,19 +1,11 @@
 // desktop/src/components/settings/ChatGPTOfficialLogin.tsx
 
 import { useEffect, useState } from 'react'
-<<<<<<< HEAD
 import { open as shellOpen } from '@tauri-apps/plugin-shell'
 import { Copy, LogIn, LogOut } from 'lucide-react'
 import { useHuboOpenAIOAuthStore } from '../../stores/huboOpenAIOAuthStore'
 import { useTranslation } from '../../i18n'
 import { copyTextToClipboard } from '../chat/clipboard'
-=======
-import { Copy, LogIn, LogOut } from 'lucide-react'
-import { useHahaOpenAIOAuthStore } from '../../stores/hahaOpenAIOAuthStore'
-import { useTranslation } from '../../i18n'
-import { copyTextToClipboard } from '../chat/clipboard'
-import { getDesktopHost } from '../../lib/desktopHost'
->>>>>>> upstream/main
 
 export function ChatGPTOfficialLogin() {
   const t = useTranslation()
@@ -27,11 +19,7 @@ export function ChatGPTOfficialLogin() {
     logout,
     startPolling,
     stopPolling,
-<<<<<<< HEAD
   } = useHuboOpenAIOAuthStore()
-=======
-  } = useHahaOpenAIOAuthStore()
->>>>>>> upstream/main
 
   useEffect(() => {
     void fetchStatus()
@@ -50,20 +38,12 @@ export function ChatGPTOfficialLogin() {
       const { authorizeUrl } = await login()
       setManualAuthorizeUrl(authorizeUrl)
       try {
-<<<<<<< HEAD
         await shellOpen(authorizeUrl)
-=======
-        await getDesktopHost().shell.open(authorizeUrl)
->>>>>>> upstream/main
         setManualAuthorizeUrl(null)
         startPolling()
       } catch (err) {
         console.error('[ChatGPTOfficialLogin] shellOpen failed:', err)
-<<<<<<< HEAD
         useHuboOpenAIOAuthStore.setState({
-=======
-        useHahaOpenAIOAuthStore.setState({
->>>>>>> upstream/main
           error: t('settings.chatgptOfficialLogin.openBrowserFailed'),
         })
       }
@@ -77,19 +57,11 @@ export function ChatGPTOfficialLogin() {
     const copied = await copyTextToClipboard(manualAuthorizeUrl)
     if (copied) {
       setManualAuthorizeUrl(null)
-<<<<<<< HEAD
       useHuboOpenAIOAuthStore.setState({ error: null })
       startPolling()
       return
     }
     useHuboOpenAIOAuthStore.setState({
-=======
-      useHahaOpenAIOAuthStore.setState({ error: null })
-      startPolling()
-      return
-    }
-    useHahaOpenAIOAuthStore.setState({
->>>>>>> upstream/main
       error: t('settings.chatgptOfficialLogin.copyLinkFailed'),
     })
   }

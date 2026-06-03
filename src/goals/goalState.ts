@@ -27,11 +27,7 @@ export type ParsedGoalCommand =
   | { type: 'clear' }
   | { type: 'set'; objective: string }
 
-<<<<<<< HEAD
 const GOAL_HOOK_MARKER = '<hubo-goal-hook>'
-=======
-const GOAL_HOOK_MARKER = '<cc-haha-goal-hook>'
->>>>>>> upstream/main
 const GOAL_HOOK_TIMEOUT_SECONDS = 45
 const RESERVED_GOAL_ARGS = new Set(['status', 'pause', 'resume', 'complete'])
 const goalsByThread = new Map<string, ThreadGoal>()

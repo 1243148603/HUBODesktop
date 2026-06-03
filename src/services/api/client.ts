@@ -184,11 +184,7 @@ export async function getAnthropicClient({
 
   const isOpenAIModel = model ? isOpenAIResponsesModel(model) : false
   const isClaudeSubscriber = isClaudeAISubscriber()
-<<<<<<< HEAD
   const forceOpenAICodex = isEnvTruthy(process.env.HUBO_OPENAI_OAUTH_PROVIDER)
-=======
-  const forceOpenAICodex = isEnvTruthy(process.env.CC_HAHA_OPENAI_OAUTH_PROVIDER)
->>>>>>> upstream/main
   const hasOpenAIAuth = shouldUseOpenAICodexAuth()
   const hasFallbackApiKey = hasOpenAIAuth &&
     !process.env.ANTHROPIC_AUTH_TOKEN &&

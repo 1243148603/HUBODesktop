@@ -53,11 +53,6 @@ export type ComposerReferenceInsertion = {
   nonce: number
 }
 
-<<<<<<< HEAD
-=======
-export type ComposerPrefillMode = 'replace' | 'append'
-
->>>>>>> upstream/main
 export type PerSessionState = {
   messages: UIMessage[]
   chatState: ChatState
@@ -92,10 +87,6 @@ export type PerSessionState = {
   composerPrefill?: {
     text: string
     attachments?: UIAttachment[]
-<<<<<<< HEAD
-=======
-    mode?: ComposerPrefillMode
->>>>>>> upstream/main
     nonce: number
   } | null
   composerInsertion?: ComposerReferenceInsertion | null
@@ -166,14 +157,8 @@ type ChatStore = {
   reloadHistory: (sessionId: string) => Promise<void>
   queueComposerPrefill: (
     sessionId: string,
-<<<<<<< HEAD
     prefill: { text: string; attachments?: UIAttachment[] },
   ) => void
-=======
-    prefill: { text: string; attachments?: UIAttachment[]; mode?: ComposerPrefillMode },
-  ) => void
-  clearComposerPrefill: (sessionId: string, nonce?: number) => void
->>>>>>> upstream/main
   queueComposerInsertion: (
     sessionId: string,
     insertion: Omit<ComposerReferenceInsertion, 'nonce'>,
@@ -740,11 +725,7 @@ function buildAgentCompletionNotification(
   const lastAssistant = [...messages].reverse().find((message) => message.type === 'assistant_text')
   const suffix = preview.length > AGENT_COMPLETION_NOTIFICATION_PREVIEW_CHARS ? '...' : ''
   return {
-<<<<<<< HEAD
     title: 'HUBO 已完成回复',
-=======
-    title: 'Claude Code Haha 已完成回复',
->>>>>>> upstream/main
     body: preview.slice(0, AGENT_COMPLETION_NOTIFICATION_PREVIEW_CHARS) + suffix,
     dedupeKey: `agent-completion:${sessionId}:${lastAssistant?.id ?? Date.now()}`,
   }
@@ -1222,28 +1203,12 @@ export const useChatStore = create<ChatStore>((set, get) => ({
         composerPrefill: {
           text: prefill.text,
           attachments: prefill.attachments,
-<<<<<<< HEAD
-=======
-          mode: prefill.mode,
->>>>>>> upstream/main
           nonce: Date.now(),
         },
       })),
     }))
   },
 
-<<<<<<< HEAD
-=======
-  clearComposerPrefill: (sessionId, nonce) => {
-    set((state) => ({
-      sessions: updateSessionIn(state.sessions, sessionId, (session) => {
-        if (nonce !== undefined && session.composerPrefill?.nonce !== nonce) return {}
-        return { composerPrefill: null }
-      }),
-    }))
-  },
-
->>>>>>> upstream/main
   queueComposerInsertion: (sessionId, insertion) => {
     set((state) => ({
       sessions: updateSessionIn(state.sessions, sessionId, () => ({
@@ -1581,11 +1546,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
           dedupeKey: `permission:${msg.requestId}`,
           cooldownScope: 'permission-prompt',
           requestAttention: true,
-<<<<<<< HEAD
           title: 'HUBO 需要你的确认',
-=======
-          title: 'Claude Code Haha 需要你的确认',
->>>>>>> upstream/main
           body: msg.toolName
             ? `${msg.toolName} 请求执行，正在等待允许。`
             : '有一个工具请求正在等待允许。',
@@ -1624,11 +1585,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
           dedupeKey: `computer-use-permission:${msg.requestId}`,
           cooldownScope: 'permission-prompt',
           requestAttention: true,
-<<<<<<< HEAD
           title: 'HUBO 需要你的确认',
-=======
-          title: 'Claude Code Haha 需要你的确认',
->>>>>>> upstream/main
           body: msg.request.reason || 'Computer Use 正在等待允许。',
           target: { type: 'session', sessionId },
         })

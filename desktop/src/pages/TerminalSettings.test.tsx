@@ -3,10 +3,6 @@ import '@testing-library/jest-dom'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { useSettingsStore } from '../stores/settingsStore'
 import { destroyTerminalRuntime } from '../lib/terminalRuntime'
-<<<<<<< HEAD
-=======
-import { browserHost } from '../lib/desktopHost/browserHost'
->>>>>>> upstream/main
 
 const terminalMocks = vi.hoisted(() => {
   const terminalInstance = {
@@ -102,10 +98,6 @@ describe('TerminalSettings', () => {
       shell: '/bin/zsh',
       cwd: '/Users/test',
     })
-<<<<<<< HEAD
-=======
-    Reflect.deleteProperty(window, 'desktopHost')
->>>>>>> upstream/main
     vi.stubGlobal('ResizeObserver', class {
       observe = vi.fn()
       disconnect = vi.fn()
@@ -157,11 +149,7 @@ describe('TerminalSettings', () => {
 
     expect(button).toHaveAttribute('aria-expanded', 'true')
     expect(help).toHaveTextContent('plugin, skill, and MCP setup')
-<<<<<<< HEAD
     expect(help).toHaveTextContent('hubo plugin install')
-=======
-    expect(help).toHaveTextContent('claude-haha plugin install')
->>>>>>> upstream/main
   })
 
   it('lets the settings page keep scrolling when the terminal is not focused', async () => {
@@ -287,41 +275,4 @@ describe('TerminalSettings', () => {
 
     expect(await screen.findByText('Path does not exist. Select a valid Bash executable.')).toBeInTheDocument()
   })
-<<<<<<< HEAD
-=======
-
-  it('selects a Windows bash path through the injected desktop host', async () => {
-    vi.spyOn(navigator, 'platform', 'get').mockReturnValue('Win32')
-    terminalMocks.available = true
-    const open = vi.fn().mockResolvedValue('C:\\Program Files\\Git\\bin\\bash.exe')
-    window.desktopHost = {
-      ...browserHost,
-      kind: 'electron',
-      isDesktop: true,
-      capabilities: {
-        ...browserHost.capabilities,
-        dialogs: true,
-      },
-      dialogs: {
-        ...browserHost.dialogs,
-        open,
-      },
-    }
-
-    render(<TerminalSettings showPreferences />)
-
-    await screen.findByPlaceholderText('Bash Path')
-    fireEvent.click(screen.getByText('folder_open').closest('button')!)
-
-    expect(await screen.findByDisplayValue('C:\\Program Files\\Git\\bin\\bash.exe')).toBeInTheDocument()
-    expect(open).toHaveBeenCalledWith({
-      title: 'Bash Path',
-      multiple: false,
-      filters: [{
-        name: 'Bash Executable',
-        extensions: ['exe', '', 'bat', 'cmd', 'ps1'],
-      }],
-    })
-  })
->>>>>>> upstream/main
 })

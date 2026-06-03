@@ -23,7 +23,6 @@ function getDesktopTokenFilePath(): string | null {
   return filePath ? filePath : null
 }
 
-<<<<<<< HEAD
 function getCcHuboDir(): string {
   const configDir =
     process.env.CLAUDE_CONFIG_DIR || path.join(os.homedir(), '.claude')
@@ -32,25 +31,11 @@ function getCcHuboDir(): string {
 
 function getFileBackedStorageMarkerPath(): string {
   return path.join(getCcHuboDir(), FILE_BACKED_STORAGE_MARKER_FILE)
-=======
-function getCcHahaDir(): string {
-  const configDir =
-    process.env.CLAUDE_CONFIG_DIR || path.join(os.homedir(), '.claude')
-  return path.join(configDir, 'cc-haha')
-}
-
-function getFileBackedStorageMarkerPath(): string {
-  return path.join(getCcHahaDir(), FILE_BACKED_STORAGE_MARKER_FILE)
->>>>>>> upstream/main
 }
 
 function markFileBackedStorageUsed(): void {
   try {
-<<<<<<< HEAD
     fs.mkdirSync(getCcHuboDir(), { recursive: true })
-=======
-    fs.mkdirSync(getCcHahaDir(), { recursive: true })
->>>>>>> upstream/main
     fs.writeFileSync(getFileBackedStorageMarkerPath(), '1\n', { mode: 0o600 })
   } catch (error) {
     logError(error)

@@ -78,7 +78,7 @@ export function buildApplicationMenuTemplate(
 
 export async function installApplicationMenu(app: App, getMainWindow: () => BrowserWindow | null) {
   const { Menu } = await import('electron')
-  const template = buildApplicationMenuTemplate(app.name || 'Claude Code Haha', destination => {
+  const template = buildApplicationMenuTemplate(app.name || 'HUBO', destination => {
     getMainWindow()?.webContents.send(ELECTRON_EVENT_CHANNELS.nativeMenuNavigate, destination)
   }, process.platform, {
     hide: () => {

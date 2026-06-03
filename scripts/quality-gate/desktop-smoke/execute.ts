@@ -1,50 +1,18 @@
-<<<<<<< HEAD
 import { appendFileSync, cpSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
-=======
-import { appendFileSync, cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
->>>>>>> upstream/main
 import { mkdtemp } from 'node:fs/promises'
 import { createServer } from 'node:net'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-<<<<<<< HEAD
-=======
-import treeKill from 'tree-kill'
->>>>>>> upstream/main
 import { changedFiles, writeDiffPatch } from '../baseline/execute'
 import type { BaselineTarget, LaneResult } from '../types'
 
 const FIXTURE = 'scripts/quality-gate/desktop-smoke/fixtures/chat-edit'
-<<<<<<< HEAD
-=======
-const AGENT_BROWSER_HOME = join(process.env.HOME ?? '', '.agent-browser')
-const LOOPBACK_PROXY_BYPASS = '127.0.0.1,localhost,::1,[::1]'
->>>>>>> upstream/main
 const PROMPT = [
   'Run the tests in this project, fix the failing greeting implementation, and rerun the tests.',
   'Only edit src/greeting.ts. Do not edit package.json or tests.',
   'When the tests pass, briefly say done.',
 ].join(' ')
 
-<<<<<<< HEAD
-=======
-type DesktopSmokeStage = 'open' | 'eval' | 'reload' | 'wait' | 'screenshot' | 'fill' | 'press' | 'verify'
-
-type DesktopSmokeFailureContext = {
-  stage: DesktopSmokeStage
-  sessionName: string
-  browserProfileDir: string
-  artifactDir: string
-  browserLogPath: string
-  serverLogPath: string
-  viteLogPath: string
-  appUrl: string
-  baseUrl: string
-  serverPort: number
-  vitePort: number
-}
-
->>>>>>> upstream/main
 export function resolveDesktopSmokeRuntimeSelection(target: BaselineTarget | undefined) {
   if (!target) return null
   if (!target.providerId && target.modelId === 'current' && target.label === 'current-runtime') {
@@ -56,145 +24,6 @@ export function resolveDesktopSmokeRuntimeSelection(target: BaselineTarget | und
   }
 }
 
-<<<<<<< HEAD
-=======
-function mergeProxyBypass(value: string | undefined) {
-  const entries = new Set(
-    (value ?? '')
-      .split(',')
-      .map((entry) => entry.trim())
-      .filter(Boolean),
-  )
-  for (const entry of LOOPBACK_PROXY_BYPASS.split(',')) {
-    entries.add(entry)
-  }
-  return Array.from(entries).join(',')
-}
-
-export function buildDesktopSmokeBrowserEnv(
-  sessionName: string,
-  browserProfileDir: string,
-  baseEnv: Record<string, string | undefined> = process.env,
-) {
-  const noProxy = mergeProxyBypass(baseEnv.NO_PROXY ?? baseEnv.no_proxy)
-  return {
-    AGENT_BROWSER_SESSION: sessionName,
-    AGENT_BROWSER_PROFILE: browserProfileDir,
-    NO_PROXY: noProxy,
-    no_proxy: noProxy,
-  }
-}
-
-function agentBrowserCommand(args: string[]) {
-  return ['agent-browser', '--proxy-bypass', LOOPBACK_PROXY_BYPASS, ...args]
-}
-
-function isProcessAlive(pid: number) {
-  try {
-    process.kill(pid, 0)
-    return true
-  } catch {
-    return false
-  }
-}
-
-async function waitForProcessExit(pid: number, timeoutMs: number) {
-  const deadline = Date.now() + timeoutMs
-  while (Date.now() < deadline) {
-    if (!isProcessAlive(pid)) return true
-    await Bun.sleep(100)
-  }
-  return !isProcessAlive(pid)
-}
-
-async function killProcessTree(pid: number, signal: 'SIGTERM' | 'SIGKILL') {
-  await new Promise<void>((resolve, reject) => {
-    treeKill(pid, signal, (error) => {
-      if (error) reject(error)
-      else resolve()
-    })
-  })
-}
-
-async function cleanupAgentBrowserSession(sessionName: string, logPath: string) {
-  if (!sessionName || !existsSync(AGENT_BROWSER_HOME)) return
-
-  const metadataSuffixes = ['pid', 'sock', 'stream', 'engine', 'version']
-  const pidPath = join(AGENT_BROWSER_HOME, `${sessionName}.pid`)
-  if (existsSync(pidPath)) {
-    const rawPid = readFileSync(pidPath, 'utf8').trim()
-    const pid = Number(rawPid)
-    if (Number.isInteger(pid) && pid > 0) {
-      try {
-        await killProcessTree(pid, 'SIGTERM')
-        if (!await waitForProcessExit(pid, 1_500)) {
-          await killProcessTree(pid, 'SIGKILL')
-        }
-        appendFileSync(logPath, `\n[quality-gate] Killed agent-browser session process tree pid=${pid}\n`)
-      } catch (error) {
-        appendFileSync(logPath, `\n[quality-gate] Failed to kill agent-browser session process tree pid=${pid}: ${error instanceof Error ? error.message : String(error)}\n`)
-      }
-    }
-  }
-
-  for (const suffix of metadataSuffixes) {
-    rmSync(join(AGENT_BROWSER_HOME, `${sessionName}.${suffix}`), { force: true })
-  }
-}
-
-function cleanupBrowserProfileProcesses(browserProfileDir: string, logPath: string) {
-  if (process.platform === 'win32') {
-    appendFileSync(logPath, '\n[quality-gate] Skipped browser profile process cleanup on Windows\n')
-    return
-  }
-
-  const proc = Bun.spawnSync(['pkill', '-9', '-f', browserProfileDir], {
-    stdout: 'pipe',
-    stderr: 'pipe',
-  })
-  const output = `${proc.stdout ? Buffer.from(proc.stdout).toString('utf8') : ''}${proc.stderr ? Buffer.from(proc.stderr).toString('utf8') : ''}`.trim()
-  if (proc.exitCode === 0) {
-    appendFileSync(logPath, `\n[quality-gate] Killed browser processes for profile ${browserProfileDir}\n`)
-  } else if (output) {
-    appendFileSync(logPath, `\n[quality-gate] Browser profile process cleanup reported: ${output}\n`)
-  }
-}
-
-function writeDesktopSmokeFailure(context: DesktopSmokeFailureContext, error: unknown) {
-  const message = error instanceof Error ? error.message : String(error)
-  const diagnostics = {
-    stage: context.stage,
-    message,
-    sessionName: context.sessionName,
-    browserProfileDir: context.browserProfileDir,
-    appUrl: context.appUrl,
-    baseUrl: context.baseUrl,
-    serverPort: context.serverPort,
-    vitePort: context.vitePort,
-    logs: {
-      browser: context.browserLogPath,
-      server: context.serverLogPath,
-      vite: context.viteLogPath,
-    },
-  }
-  writeFileSync(join(context.artifactDir, 'desktop-smoke-failure.json'), JSON.stringify(diagnostics, null, 2) + '\n')
-  return new Error(`Desktop smoke failed during ${context.stage}: ${message}. session=${context.sessionName} appUrl=${context.appUrl} profile=${context.browserProfileDir} diagnostics=${join(context.artifactDir, 'desktop-smoke-failure.json')}`)
-}
-
-async function runBrowserStep(
-  stage: DesktopSmokeStage,
-  args: string[],
-  options: Parameters<typeof runLoggedCommand>[1],
-  context: Omit<DesktopSmokeFailureContext, 'stage'>,
-) {
-  try {
-    return await runLoggedCommand(agentBrowserCommand(args), options)
-  } catch (error) {
-    throw writeDesktopSmokeFailure({ ...context, stage }, error)
-  }
-}
-
->>>>>>> upstream/main
 async function getPort(): Promise<number> {
   return await new Promise((resolve, reject) => {
     const server = createServer()
@@ -314,11 +143,7 @@ async function waitForVerifiedProject(
   const deadline = Date.now() + timeoutMs
   let lastVerificationError = 'project verification has not run yet'
   while (Date.now() < deadline) {
-<<<<<<< HEAD
     const body = await runLoggedCommand(['agent-browser', 'get', 'text', '#content-area'], {
-=======
-    const body = await runLoggedCommand(agentBrowserCommand(['get', 'text', '#content-area']), {
->>>>>>> upstream/main
       cwd: rootDir,
       env: browserEnv,
       logPath: browserLogPath,
@@ -409,24 +234,9 @@ export async function executeDesktopSmoke(
   const baseUrl = `http://127.0.0.1:${serverPort}`
   const appUrl = `http://127.0.0.1:${vitePort}`
   const sessionName = `quality-gate-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
-<<<<<<< HEAD
   const browserEnv = {
     AGENT_BROWSER_SESSION: sessionName,
     AGENT_BROWSER_PROFILE: browserProfileDir,
-=======
-  const browserEnv = buildDesktopSmokeBrowserEnv(sessionName, browserProfileDir)
-  const browserStepContext = {
-    sessionName,
-    browserProfileDir,
-    artifactDir,
-    browserLogPath,
-    serverLogPath,
-    viteLogPath,
-    appUrl,
-    baseUrl,
-    serverPort,
-    vitePort,
->>>>>>> upstream/main
   }
 
   const server = Bun.spawn(['bun', 'run', 'src/server/index.ts', '--host', '127.0.0.1', '--port', String(serverPort)], {
@@ -475,29 +285,18 @@ export async function executeDesktopSmoke(
       ? { source: 'explicit-target', ...runtimeSelection }
       : { source: 'default-runtime' }, null, 2) + '\n')
 
-<<<<<<< HEAD
     await runLoggedCommand(['agent-browser', 'open', appUrl], {
-=======
-    await runBrowserStep('open', ['open', appUrl], {
->>>>>>> upstream/main
       cwd: rootDir,
       env: browserEnv,
       logPath: browserLogPath,
       timeoutMs: 30_000,
-<<<<<<< HEAD
     })
     const browserSetup = [
       `localStorage.setItem('hubo-open-tabs', ${JSON.stringify(JSON.stringify({
-=======
-    }, browserStepContext)
-    const browserSetup = [
-      `localStorage.setItem('cc-haha-open-tabs', ${JSON.stringify(JSON.stringify({
->>>>>>> upstream/main
         openTabs: [{ sessionId: session.sessionId, title: 'Desktop Smoke', type: 'session' }],
         activeTabId: session.sessionId,
       }))})`,
       runtimeSelection
-<<<<<<< HEAD
         ? `localStorage.setItem('hubo-session-runtime', ${JSON.stringify(JSON.stringify({
           [session.sessionId]: runtimeSelection,
         }))})`
@@ -508,79 +307,42 @@ export async function executeDesktopSmoke(
       'eval',
       browserSetup.join(';'),
     ], {
-=======
-        ? `localStorage.setItem('cc-haha-session-runtime', ${JSON.stringify(JSON.stringify({
-          [session.sessionId]: runtimeSelection,
-        }))})`
-        : `localStorage.removeItem('cc-haha-session-runtime')`,
-    ]
-    await runBrowserStep('eval', ['eval', browserSetup.join(';')], {
->>>>>>> upstream/main
       cwd: rootDir,
       env: browserEnv,
       logPath: browserLogPath,
       timeoutMs: 15_000,
-<<<<<<< HEAD
     })
     await runLoggedCommand(['agent-browser', 'reload'], {
-=======
-    }, browserStepContext)
-    await runBrowserStep('reload', ['reload'], {
->>>>>>> upstream/main
       cwd: rootDir,
       env: browserEnv,
       logPath: browserLogPath,
       timeoutMs: 30_000,
-<<<<<<< HEAD
     })
     await runLoggedCommand(['agent-browser', 'wait', 'textarea'], {
-=======
-    }, browserStepContext)
-    await runBrowserStep('wait', ['wait', 'textarea'], {
->>>>>>> upstream/main
       cwd: rootDir,
       env: browserEnv,
       logPath: browserLogPath,
       timeoutMs: 30_000,
-<<<<<<< HEAD
     })
     await runLoggedCommand(['agent-browser', 'screenshot', join(artifactDir, 'initial.png')], {
-=======
-    }, browserStepContext)
-    await runBrowserStep('screenshot', ['screenshot', join(artifactDir, 'initial.png')], {
->>>>>>> upstream/main
       cwd: rootDir,
       env: browserEnv,
       logPath: browserLogPath,
       timeoutMs: 20_000,
       allowFailure: true,
-<<<<<<< HEAD
     })
     await runLoggedCommand(['agent-browser', 'fill', 'textarea', PROMPT], {
-=======
-    }, browserStepContext)
-    await runBrowserStep('fill', ['fill', 'textarea', PROMPT], {
->>>>>>> upstream/main
       cwd: rootDir,
       env: browserEnv,
       logPath: browserLogPath,
       timeoutMs: 20_000,
-<<<<<<< HEAD
     })
     await runLoggedCommand(['agent-browser', 'press', 'Enter'], {
-=======
-    }, browserStepContext)
-    await runBrowserStep('press', ['press', 'Enter'], {
->>>>>>> upstream/main
       cwd: rootDir,
       env: browserEnv,
       logPath: browserLogPath,
       timeoutMs: 15_000,
-<<<<<<< HEAD
     })
-=======
-    }, browserStepContext)
->>>>>>> upstream/main
 
     await waitForVerifiedProject(
       browserEnv,
@@ -591,21 +353,13 @@ export async function executeDesktopSmoke(
       artifactDir,
       360_000,
     )
-<<<<<<< HEAD
     await runLoggedCommand(['agent-browser', 'screenshot', join(artifactDir, 'final.png')], {
-=======
-    await runBrowserStep('screenshot', ['screenshot', join(artifactDir, 'final.png')], {
->>>>>>> upstream/main
       cwd: rootDir,
       env: browserEnv,
       logPath: browserLogPath,
       timeoutMs: 20_000,
       allowFailure: true,
-<<<<<<< HEAD
     })
-=======
-    }, browserStepContext)
->>>>>>> upstream/main
 
     return {
       id: resultId,
@@ -629,24 +383,13 @@ export async function executeDesktopSmoke(
         appendFileSync(serverLogPath, `\n[quality-gate] Failed to restore permission mode: ${error instanceof Error ? error.message : String(error)}\n`)
       })
     }
-<<<<<<< HEAD
     await runLoggedCommand(['agent-browser', 'close'], {
-=======
-    await runLoggedCommand(agentBrowserCommand(['close']), {
->>>>>>> upstream/main
       cwd: rootDir,
       env: browserEnv,
       logPath: browserLogPath,
       timeoutMs: 10_000,
       allowFailure: true,
     }).catch(() => {})
-<<<<<<< HEAD
-=======
-    await cleanupAgentBrowserSession(sessionName, browserLogPath)
-    cleanupBrowserProfileProcesses(browserProfileDir, browserLogPath)
-    rmSync(browserProfileDir, { recursive: true, force: true })
-    appendFileSync(browserLogPath, `\n[quality-gate] Removed browser profile ${browserProfileDir}\n`)
->>>>>>> upstream/main
     server.kill()
     vite.kill()
     rmSync(workRoot, { recursive: true, force: true })

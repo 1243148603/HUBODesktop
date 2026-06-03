@@ -2,31 +2,19 @@
 layout: home
 
 hero:
-<<<<<<< HEAD
   name: HUBO
-=======
-  name: Claude Code Haha
->>>>>>> upstream/main
   text: Locally Runnable Claude Code
   tagline: Repaired from leaked source, supports any Anthropic-compatible API endpoint (MiniMax, OpenRouter, etc.)
   image:
     src: /images/logo-horizontal.png
-<<<<<<< HEAD
     alt: HUBO
-=======
-    alt: Claude Code Haha
->>>>>>> upstream/main
   actions:
     - theme: brand
       text: Quick Start
       link: /en/guide/quick-start
     - theme: alt
       text: GitHub
-<<<<<<< HEAD
       link: https://github.com/NanmiCoder/hubo
-=======
-      link: https://github.com/NanmiCoder/cc-haha
->>>>>>> upstream/main
 
 features:
   - icon: "\U0001F5A5"

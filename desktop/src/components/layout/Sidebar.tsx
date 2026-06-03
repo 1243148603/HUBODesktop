@@ -9,7 +9,6 @@ import { useTabStore, SETTINGS_TAB_ID, SCHEDULED_TAB_ID } from '../../stores/tab
 import { useChatStore } from '../../stores/chatStore'
 import { useOpenTargetStore } from '../../stores/openTargetStore'
 import { desktopUiPreferencesApi, type SidebarProjectPreferences } from '../../api/desktopUiPreferences'
-<<<<<<< HEAD
 
 const isTauri = typeof window !== 'undefined' && ('__TAURI_INTERNALS__' in window || '__TAURI__' in window)
 const isWindows = typeof navigator !== 'undefined' && /Win/.test(navigator.platform)
@@ -20,22 +19,6 @@ const PROJECT_PINNED_STORAGE_KEY = 'hubo-sidebar-pinned-projects'
 const PROJECT_HIDDEN_STORAGE_KEY = 'hubo-sidebar-hidden-projects'
 const PROJECT_ORGANIZATION_STORAGE_KEY = 'hubo-sidebar-project-organization'
 const PROJECT_SORT_STORAGE_KEY = 'hubo-sidebar-project-sort'
-=======
-import { getDesktopHost } from '../../lib/desktopHost'
-import { publicAssetPath } from '../../lib/publicAsset'
-
-const desktopHost = getDesktopHost()
-const isDesktopRuntime = desktopHost.isDesktop
-const canUseNativeDialogs = desktopHost.capabilities.dialogs
-const isWindows = typeof navigator !== 'undefined' && /Win/.test(navigator.platform)
-const SESSION_LIST_AUTO_REFRESH_MS = 30_000
-const SESSION_LIST_FOCUS_REFRESH_MIN_MS = 5_000
-const PROJECT_ORDER_STORAGE_KEY = 'cc-haha-sidebar-project-order'
-const PROJECT_PINNED_STORAGE_KEY = 'cc-haha-sidebar-pinned-projects'
-const PROJECT_HIDDEN_STORAGE_KEY = 'cc-haha-sidebar-hidden-projects'
-const PROJECT_ORGANIZATION_STORAGE_KEY = 'cc-haha-sidebar-project-organization'
-const PROJECT_SORT_STORAGE_KEY = 'cc-haha-sidebar-project-sort'
->>>>>>> upstream/main
 const PROJECT_GROUP_VISIBLE_COUNT = 6
 const PROJECT_GROUP_SCROLL_COUNT = 12
 
@@ -362,11 +345,7 @@ export function Sidebar({ isMobile = false, onRequestClose }: SidebarProps) {
   const createSessionFromExistingFolder = useCallback(async () => {
     setProjectHeaderMenu(null)
     setProjectHeaderSubmenu(null)
-<<<<<<< HEAD
     if (!isTauri) {
-=======
-    if (!canUseNativeDialogs) {
->>>>>>> upstream/main
       addToast({
         type: 'error',
         message: t('sidebar.chooseProjectFolderUnavailable'),
@@ -374,12 +353,8 @@ export function Sidebar({ isMobile = false, onRequestClose }: SidebarProps) {
       return
     }
     try {
-<<<<<<< HEAD
       const { open } = await import('@tauri-apps/plugin-dialog')
       const selected = await open({
-=======
-      const selected = await getDesktopHost().dialogs.open({
->>>>>>> upstream/main
         directory: true,
         multiple: false,
         title: t('sidebar.useExistingFolder'),
@@ -596,7 +571,6 @@ export function Sidebar({ isMobile = false, onRequestClose }: SidebarProps) {
     setRenameValue('')
   }, [renamingId, renameValue, renameSession])
 
-<<<<<<< HEAD
   const startDraggingRef = useRef<(() => Promise<void>) | null>(null)
 
   useEffect(() => {
@@ -615,8 +589,6 @@ export function Sidebar({ isMobile = false, onRequestClose }: SidebarProps) {
     startDraggingRef.current?.()
   }, [])
 
-=======
->>>>>>> upstream/main
   useEffect(() => {
     if (!isBatchMode) return
 
@@ -640,55 +612,23 @@ export function Sidebar({ isMobile = false, onRequestClose }: SidebarProps) {
 
   return (
     <aside
-<<<<<<< HEAD
       onMouseDown={handleSidebarDrag}
-=======
->>>>>>> upstream/main
       className="sidebar-panel relative h-full flex flex-col bg-[var(--color-surface-sidebar)] border-r border-[var(--color-border)] select-none"
       data-state={expanded ? 'open' : 'closed'}
       aria-label="Sidebar"
     >
-<<<<<<< HEAD
       <div className={`px-3 pb-2 ${isTauri && !isWindows ? 'pt-[44px]' : 'pt-3'}`}>
         <div className={`flex ${expanded ? 'items-center justify-between gap-3' : 'flex-col items-center gap-2'}`}>
           <div className={`flex min-w-0 items-center ${expanded ? 'gap-2.5' : 'justify-center'}`}>
             <img src="/app-icon.png" alt="" className="h-8 w-8 flex-shrink-0" />
-=======
-      <div
-        data-testid="sidebar-title-region"
-        data-desktop-drag-region
-        className={`px-3 pb-2 ${isDesktopRuntime && !isWindows ? 'pt-[44px]' : 'pt-3'}`}
-      >
-        <div className={`flex ${expanded ? 'items-center justify-between gap-3' : 'flex-col items-center gap-2'}`}>
-          <div className={`flex min-w-0 items-center ${expanded ? 'gap-2.5' : 'justify-center'}`}>
-            <img src={publicAssetPath('app-icon.png')} alt="" className="h-8 w-8 flex-shrink-0" />
->>>>>>> upstream/main
             <span
               className={`sidebar-copy ${expanded ? 'sidebar-copy--visible' : 'sidebar-copy--hidden'} text-[13px] font-semibold tracking-tight text-[var(--color-text-primary)]`}
               style={{ fontFamily: 'var(--font-headline)' }}
             >
-<<<<<<< HEAD
               HUBO
             </span>
           </div>
           <div className={`flex items-center ${expanded ? 'gap-1.5' : 'flex-col gap-2'}`}>
-=======
-              Claude Code <span className="text-[var(--color-primary-container)]">Haha</span>
-            </span>
-          </div>
-          <div className={`flex items-center ${expanded ? 'gap-1.5' : 'flex-col gap-2'}`}>
-            <a
-              href="https://github.com/NanmiCoder/cc-haha"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`sidebar-copy ${expanded ? 'sidebar-copy--visible' : 'sidebar-copy--hidden'} inline-flex items-center justify-center rounded-md p-1 text-[var(--color-text-tertiary)] transition-colors hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface-hover)]`}
-              title="GitHub"
-              tabIndex={expanded ? undefined : -1}
-              aria-hidden={!expanded}
-            >
-              <GitHubIcon />
-            </a>
->>>>>>> upstream/main
             {isMobile ? (
               <button
                 type="button"
@@ -1960,16 +1900,6 @@ function formatRelativeTime(
   return new Intl.DateTimeFormat(undefined, { month: 'numeric', day: 'numeric' }).format(date)
 }
 
-<<<<<<< HEAD
-=======
-function GitHubIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
-    </svg>
-  )
-}
->>>>>>> upstream/main
 
 function PlusIcon() {
   return (

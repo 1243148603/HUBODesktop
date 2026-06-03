@@ -92,12 +92,6 @@ const zhSidebar = [
       { text: '功能详解', link: '/desktop/03-features' },
       { text: '安装与构建', link: '/desktop/04-installation' },
       { text: 'H5 访问', link: '/desktop/06-h5-access' },
-<<<<<<< HEAD
-=======
-      { text: 'Electron 迁移调研', link: '/desktop/07-electron-migration-research' },
-      { text: 'Electron 迁移任务', link: '/desktop/08-electron-migration-tasks' },
-      { text: 'Electron 迁移验证', link: '/desktop/09-electron-migration-validation-checklist' },
->>>>>>> upstream/main
     ],
   },
   {
@@ -188,11 +182,7 @@ const enSidebar = [
 ]
 
 export default withMermaid(defineConfig({
-<<<<<<< HEAD
   title: 'HUBO',
-=======
-  title: 'Claude Code Haha',
->>>>>>> upstream/main
   description: '基于 Claude Code 泄露源码修复的本地可运行版本，支持接入任意 Anthropic 兼容 API',
   lastUpdated: true,
   base: '/',
@@ -238,11 +228,7 @@ export default withMermaid(defineConfig({
       description: 'A locally runnable version repaired from the leaked Claude Code source, with support for any Anthropic-compatible API endpoint.',
       themeConfig: {
         editLink: {
-<<<<<<< HEAD
           pattern: 'https://github.com/NanmiCoder/hubo/edit/main/docs/:path',
-=======
-          pattern: 'https://github.com/NanmiCoder/cc-haha/edit/main/docs/:path',
->>>>>>> upstream/main
           text: 'Edit this page on GitHub',
         },
         nav: [
@@ -256,30 +242,18 @@ export default withMermaid(defineConfig({
 
   themeConfig: {
     editLink: {
-<<<<<<< HEAD
       pattern: 'https://github.com/NanmiCoder/hubo/edit/main/docs/:path',
-=======
-      pattern: 'https://github.com/NanmiCoder/cc-haha/edit/main/docs/:path',
->>>>>>> upstream/main
       text: '在 GitHub 上编辑此页',
     },
     search: {
       provider: 'local',
     },
     socialLinks: [
-<<<<<<< HEAD
       { icon: 'github', link: 'https://github.com/NanmiCoder/hubo' },
     ],
     footer: {
       message: 'Released under the MIT License.',
       copyright: 'Copyright 2026 HUBO Contributors',
-=======
-      { icon: 'github', link: 'https://github.com/NanmiCoder/cc-haha' },
-    ],
-    footer: {
-      message: 'Released under the MIT License.',
-      copyright: 'Copyright 2026 Claude Code Haha Contributors',
->>>>>>> upstream/main
     },
   },
 }))

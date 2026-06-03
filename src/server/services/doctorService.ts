@@ -161,7 +161,6 @@ export class DoctorService {
     const targets: DoctorTarget[] = [
       this.jsonTarget('user-settings', 'User settings', 'user', path.join(this.configDir, 'settings.json')),
       this.jsonTarget(
-<<<<<<< HEAD
         'hubo-providers',
         'Managed providers',
         'user',
@@ -172,18 +171,6 @@ export class DoctorService {
         'Managed provider settings',
         'user',
         path.join(this.configDir, 'hubo', 'settings.json'),
-=======
-        'cc-haha-providers',
-        'Managed providers',
-        'user',
-        path.join(this.configDir, 'cc-haha', 'providers.json'),
-      ),
-      this.jsonTarget(
-        'cc-haha-settings',
-        'Managed provider settings',
-        'user',
-        path.join(this.configDir, 'cc-haha', 'settings.json'),
->>>>>>> upstream/main
       ),
       this.jsonTarget('adapters', 'Adapters config', 'user', path.join(this.configDir, 'adapters.json')),
       this.jsonTarget(
@@ -202,20 +189,12 @@ export class DoctorService {
         path.join(this.configDir, 'cowork_plugins'),
       ),
       this.jsonTarget('user-mcp', 'User MCP config', 'user', this.getUserMcpConfigPath()),
-<<<<<<< HEAD
       this.jsonTarget('oauth', 'OAuth tokens', 'user', path.join(this.configDir, 'hubo', 'oauth.json')),
-=======
-      this.jsonTarget('oauth', 'OAuth tokens', 'user', path.join(this.configDir, 'cc-haha', 'oauth.json')),
->>>>>>> upstream/main
       this.jsonTarget(
         'openai-oauth',
         'OpenAI OAuth tokens',
         'user',
-<<<<<<< HEAD
         path.join(this.configDir, 'hubo', 'openai-oauth.json'),
-=======
-        path.join(this.configDir, 'cc-haha', 'openai-oauth.json'),
->>>>>>> upstream/main
       ),
     ]
 

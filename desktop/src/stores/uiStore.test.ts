@@ -18,11 +18,7 @@ describe('uiStore theme handling', () => {
   })
 
   it('hydrates and applies the pure white theme as a light color scheme', async () => {
-<<<<<<< HEAD
     window.localStorage.setItem('hubo-theme', 'white')
-=======
-    window.localStorage.setItem('cc-haha-theme', 'white')
->>>>>>> upstream/main
 
     const { initializeTheme, useUIStore } = await import('./uiStore')
 

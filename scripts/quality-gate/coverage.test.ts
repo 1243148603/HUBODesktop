@@ -1,13 +1,5 @@
 import { describe, expect, test } from 'bun:test'
-<<<<<<< HEAD
 import {
-=======
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
-import { tmpdir } from 'node:os'
-import { join } from 'node:path'
-import {
-  collectServerTestFiles,
->>>>>>> upstream/main
   evaluateChangedLineCoverage,
   evaluateThresholds,
   parseChangedLinesFromDiff,
@@ -211,37 +203,6 @@ describe('coverage gate helpers', () => {
     expect(failures).toEqual(['desktop: coverage command exited with 1'])
   })
 
-<<<<<<< HEAD
-=======
-  test('collects non-quarantined server tests when review windows have expired', () => {
-    const root = mkdtempSync(join(tmpdir(), 'cc-haha-coverage-'))
-    try {
-      mkdirSync(join(root, 'src/server/__tests__'), { recursive: true })
-      mkdirSync(join(root, 'src/tools'), { recursive: true })
-      mkdirSync(join(root, 'src/utils'), { recursive: true })
-      writeFileSync(join(root, 'src/server/__tests__/active.test.ts'), '')
-      writeFileSync(join(root, 'src/server/__tests__/quarantined.test.ts'), '')
-
-      const files = collectServerTestFiles(root, {
-        quarantined: [
-          {
-            id: 'server:expired',
-            path: 'src/server/__tests__/quarantined.test.ts',
-            reason: 'Known instability under review.',
-            owner: 'maintainers',
-            reviewAfter: '2026-01-01',
-            exitCriteria: 'Make deterministic or remove from quarantine.',
-          },
-        ],
-      })
-
-      expect(files).toEqual(['src/server/__tests__/active.test.ts'])
-    } finally {
-      rmSync(root, { recursive: true, force: true })
-    }
-  })
-
->>>>>>> upstream/main
   test('does not require every suite to exist in the ratchet baseline', () => {
     const failures = evaluateThresholds([
       {

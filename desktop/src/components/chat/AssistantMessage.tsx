@@ -7,10 +7,6 @@ import { InlineVideoGallery } from './InlineVideoGallery'
 import { AssistantOutputTargetCard } from './AssistantOutputTargetCard'
 import { handlePreviewLink } from '../../lib/handlePreviewLink'
 import { getServerBaseUrl } from '../../lib/desktopRuntime'
-<<<<<<< HEAD
-=======
-import { getDesktopHost } from '../../lib/desktopHost'
->>>>>>> upstream/main
 import { extractAssistantOutputTargets } from '../../lib/assistantOutputTargets'
 import { useBrowserPanelStore } from '../../stores/browserPanelStore'
 import { useWorkspacePanelStore } from '../../stores/workspacePanelStore'
@@ -41,12 +37,8 @@ export const AssistantMessage = memo(function AssistantMessage({ content, isStre
           void useWorkspacePanelStore.getState().openPreview(id, path, 'file')
         },
         openExternal: (url) => {
-<<<<<<< HEAD
           void import('@tauri-apps/plugin-shell')
             .then((m) => m.open(url))
-=======
-          void getDesktopHost().shell.open(url)
->>>>>>> upstream/main
             .catch(() => window.open(url, '_blank'))
         },
       })

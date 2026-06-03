@@ -1,9 +1,4 @@
-<<<<<<< HEAD
 import { isTauriRuntime } from './desktopRuntime'
-=======
-import { isDesktopRuntime } from './desktopRuntime'
-import { getDesktopHost } from './desktopHost'
->>>>>>> upstream/main
 
 export type ComposerAttachment = {
   id: string
@@ -54,19 +49,11 @@ export async function dataTransferToComposerAttachments(dataTransfer: DataTransf
 }
 
 export async function selectNativeFileAttachments(): Promise<ComposerAttachment[] | null> {
-<<<<<<< HEAD
   if (!isTauriRuntime()) return null
 
   try {
     const { open } = await import('@tauri-apps/plugin-dialog')
     const selected = await open({
-=======
-  const host = getDesktopHost()
-  if (!host.isDesktop || !host.capabilities.dialogs) return null
-
-  try {
-    const selected = await host.dialogs.open({
->>>>>>> upstream/main
       multiple: true,
       directory: false,
     })
@@ -96,11 +83,7 @@ function getNativeFilePath(file: File): string | undefined {
 }
 
 async function fileToComposerAttachment(file: File): Promise<ComposerAttachment | null> {
-<<<<<<< HEAD
   const nativePath = isTauriRuntime() ? getNativeFilePath(file) : undefined
-=======
-  const nativePath = isDesktopRuntime() ? getNativeFilePath(file) : undefined
->>>>>>> upstream/main
   if (nativePath) {
     return pathToComposerAttachment(nativePath)
   }

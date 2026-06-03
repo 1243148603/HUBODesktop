@@ -286,11 +286,7 @@ export function resolveCronProjectRoot(
   options: CronCliResolutionOptions = {},
 ): string {
   const env = options.env ?? process.env
-<<<<<<< HEAD
   const explicitRoot = env.HUBO_ROOT?.trim()
-=======
-  const explicitRoot = env.CC_HAHA_ROOT?.trim()
->>>>>>> upstream/main
   if (explicitRoot && isSourceProjectRoot(path.resolve(explicitRoot))) {
     return path.resolve(explicitRoot)
   }
@@ -707,11 +703,7 @@ export class CronScheduler {
       CLAUDE_CODE_ENTRYPOINT: 'sdk-cli',
       CALLER_DIR: workDir,
       PWD: workDir,
-<<<<<<< HEAD
       HUBO_SKIP_DOTENV: '1',
-=======
-      CC_HAHA_SKIP_DOTENV: '1',
->>>>>>> upstream/main
       ...(explicitProviderEnv
         ? {
             CLAUDE_CODE_PROVIDER_MANAGED_BY_HOST: '1',
@@ -735,22 +727,13 @@ export class CronScheduler {
       return true
     }
 
-<<<<<<< HEAD
     const huboDir = path.join(this.getConfigDir(), 'hubo')
     if (existsSync(path.join(huboDir, 'providers.json'))) {
-=======
-    const ccHahaDir = path.join(this.getConfigDir(), 'cc-haha')
-    if (existsSync(path.join(ccHahaDir, 'providers.json'))) {
->>>>>>> upstream/main
       return true
     }
 
     try {
-<<<<<<< HEAD
       const raw = readFileSync(path.join(huboDir, 'settings.json'), 'utf-8')
-=======
-      const raw = readFileSync(path.join(ccHahaDir, 'settings.json'), 'utf-8')
->>>>>>> upstream/main
       const parsed = JSON.parse(raw) as { env?: Record<string, string> }
       const env = parsed.env ?? {}
       return Object.entries(env).some(
@@ -774,11 +757,7 @@ export class CronScheduler {
 
     try {
       const raw = readFileSync(
-<<<<<<< HEAD
         path.join(this.getConfigDir(), 'hubo', 'settings.json'),
-=======
-        path.join(this.getConfigDir(), 'cc-haha', 'settings.json'),
->>>>>>> upstream/main
         'utf-8',
       )
       const parsed = JSON.parse(raw) as { env?: Record<string, string> }
@@ -802,13 +781,8 @@ export class CronScheduler {
       CLAUDE_CODE_ENTRYPOINT: 'claude-desktop',
     }
     try {
-<<<<<<< HEAD
       const { huboOAuthService } = await import('./huboOAuthService.js')
       const token = await huboOAuthService.ensureFreshAccessToken()
-=======
-      const { hahaOAuthService } = await import('./hahaOAuthService.js')
-      const token = await hahaOAuthService.ensureFreshAccessToken()
->>>>>>> upstream/main
       if (token) {
         env.CLAUDE_CODE_OAUTH_TOKEN = token
       }

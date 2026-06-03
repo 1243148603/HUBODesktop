@@ -241,11 +241,7 @@ async function handleCurrentModel(req: Request): Promise<Response> {
       currentModelId = explicitModel || env.ANTHROPIC_MODEL || 'gpt-5.3-codex'
       currentModelName = currentModelId
     } else if (activeProvider) {
-<<<<<<< HEAD
       // Provider is active — only use the provider-managed hubo settings.
-=======
-      // Provider is active — only use the provider-managed cc-haha settings.
->>>>>>> upstream/main
       // This avoids leaking global ~/.claude/settings.json model choices into
       // the active provider flow.
       const providerEnvModel = env.ANTHROPIC_MODEL

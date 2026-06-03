@@ -27,11 +27,7 @@ export const DEFAULT_DESKTOP_GRANT_FLAGS: CuGrantFlags = {
 export function getComputerUseConfigPath(): string {
   return join(
     getClaudeConfigHomeDir(),
-<<<<<<< HEAD
     'hubo',
-=======
-    'cc-haha',
->>>>>>> upstream/main
     'computer-use-config.json',
   )
 }

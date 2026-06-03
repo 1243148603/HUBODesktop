@@ -8,66 +8,23 @@ import { describe, it, expect, beforeAll, afterAll } from 'bun:test'
 import * as fs from 'fs/promises'
 import * as path from 'path'
 import * as os from 'os'
-<<<<<<< HEAD
-=======
-import { fileURLToPath } from 'node:url'
->>>>>>> upstream/main
 
 let server: ReturnType<typeof Bun.serve>
 let baseUrl: string
 let tmpDir: string
-<<<<<<< HEAD
-=======
-const originalConfigDir = process.env.CLAUDE_CONFIG_DIR
-const originalCliPath = process.env.CLAUDE_CLI_PATH
-const originalDisableTerminalShellEnv = process.env.CC_HAHA_DISABLE_TERMINAL_SHELL_ENV
-const mockSdkCliPath = fileURLToPath(new URL('../fixtures/mock-sdk-cli.ts', import.meta.url))
-
-function restoreEnv() {
-  if (originalConfigDir !== undefined) {
-    process.env.CLAUDE_CONFIG_DIR = originalConfigDir
-  } else {
-    delete process.env.CLAUDE_CONFIG_DIR
-  }
-  if (originalCliPath !== undefined) {
-    process.env.CLAUDE_CLI_PATH = originalCliPath
-  } else {
-    delete process.env.CLAUDE_CLI_PATH
-  }
-  if (originalDisableTerminalShellEnv !== undefined) {
-    process.env.CC_HAHA_DISABLE_TERMINAL_SHELL_ENV = originalDisableTerminalShellEnv
-  } else {
-    delete process.env.CC_HAHA_DISABLE_TERMINAL_SHELL_ENV
-  }
-}
-
-afterAll(() => {
-  restoreEnv()
-})
->>>>>>> upstream/main
 
 // Use dynamic import to avoid bundling issues
 async function startTestServer() {
   tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), 'claude-e2e-'))
   process.env.CLAUDE_CONFIG_DIR = tmpDir
-<<<<<<< HEAD
-=======
-  process.env.CLAUDE_CLI_PATH = mockSdkCliPath
-  process.env.CC_HAHA_DISABLE_TERMINAL_SHELL_ENV = '1'
->>>>>>> upstream/main
 
   // Create required directories
   await fs.mkdir(path.join(tmpDir, 'projects'), { recursive: true })
 
   const { startServer } = await import('../../index.js')
-<<<<<<< HEAD
   const port = 13456 + Math.floor(Math.random() * 1000)
   server = startServer(port, '127.0.0.1')
   baseUrl = `http://127.0.0.1:${port}`
-=======
-  server = startServer(0, '127.0.0.1')
-  baseUrl = `http://127.0.0.1:${server.port}`
->>>>>>> upstream/main
 }
 
 async function api(method: string, path: string, body?: unknown): Promise<{ status: number; data: any }> {
@@ -201,11 +158,7 @@ describe('E2E: Full Flow', () => {
 
   it('should list available models', async () => {
     const { data } = await api('GET', '/api/models')
-<<<<<<< HEAD
     expect(data.models.length).toBe(4)
-=======
-    expect(data.models.length).toBe(3)
->>>>>>> upstream/main
     expect(data.models[0].name).toBe('Opus 4.7')
   })
 
@@ -379,21 +332,13 @@ describe('E2E: Full Flow', () => {
   // 10. CORS
   // =============================================
 
-<<<<<<< HEAD
   it('should handle CORS preflight', async () => {
-=======
-  it('should block browser CORS preflight while H5 access is disabled', async () => {
->>>>>>> upstream/main
     const res = await fetch(`${baseUrl}/api/status`, {
       method: 'OPTIONS',
       headers: { 'Origin': 'http://localhost:3000' },
     })
-<<<<<<< HEAD
     expect(res.status).toBe(204)
     expect(res.headers.get('Access-Control-Allow-Origin')).toBe('http://localhost:3000')
-=======
-    expect(res.status).toBe(403)
->>>>>>> upstream/main
   })
 
   // =============================================

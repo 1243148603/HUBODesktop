@@ -4,11 +4,7 @@ import { notifyDesktop } from '../lib/desktopNotifications'
 import type { CronTask, TaskRun } from '../types/task'
 
 const POLL_INTERVAL_MS = 30_000
-<<<<<<< HEAD
 const NOTIFIED_RUNS_STORAGE_KEY = 'hubo.notifiedDesktopTaskRuns.v1'
-=======
-const NOTIFIED_RUNS_STORAGE_KEY = 'cc-haha.notifiedDesktopTaskRuns.v1'
->>>>>>> upstream/main
 const MAX_STORED_RUN_IDS = 200
 
 function isTerminalRun(run: TaskRun): boolean {

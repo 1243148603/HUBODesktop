@@ -1,11 +1,7 @@
 /**
  * Provider types — preset-based provider configuration.
  *
-<<<<<<< HEAD
  * Providers are stored in ~/.claude/hubo/providers.json as a lightweight index.
-=======
- * Providers are stored in ~/.claude/cc-haha/providers.json as a lightweight index.
->>>>>>> upstream/main
  * The active provider's env vars are written to ~/.claude/settings.json.
  */
 

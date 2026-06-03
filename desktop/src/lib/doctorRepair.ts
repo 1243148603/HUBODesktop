@@ -3,17 +3,10 @@ import { APP_ZOOM_STORAGE_KEY, LEGACY_UI_ZOOM_STORAGE_KEY } from './appZoom'
 import { DESKTOP_PERSISTENCE_VERSION_KEY } from './persistenceMigrations'
 
 export const SAFE_DOCTOR_STORAGE_KEYS = [
-<<<<<<< HEAD
   'hubo-open-tabs',
   'hubo-session-runtime',
   'hubo-theme',
   'hubo-locale',
-=======
-  'cc-haha-open-tabs',
-  'cc-haha-session-runtime',
-  'cc-haha-theme',
-  'cc-haha-locale',
->>>>>>> upstream/main
   APP_ZOOM_STORAGE_KEY,
   LEGACY_UI_ZOOM_STORAGE_KEY,
   DESKTOP_PERSISTENCE_VERSION_KEY,

@@ -1,9 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { ApiError } from '../api/client'
-<<<<<<< HEAD
-=======
-import { browserHost } from '../lib/desktopHost/browserHost'
->>>>>>> upstream/main
 
 describe('settingsStore locale defaults', () => {
   beforeEach(() => {
@@ -18,11 +14,7 @@ describe('settingsStore locale defaults', () => {
   })
 
   it('keeps a stored locale override', async () => {
-<<<<<<< HEAD
     window.localStorage.setItem('hubo-locale', 'en')
-=======
-    window.localStorage.setItem('cc-haha-locale', 'en')
->>>>>>> upstream/main
 
     const { useSettingsStore } = await import('./settingsStore')
 
@@ -40,11 +32,7 @@ describe('settingsStore UI zoom', () => {
   })
 
   it('hydrates from the app zoom storage key', async () => {
-<<<<<<< HEAD
     window.localStorage.setItem('hubo-app-zoom', '1.25')
-=======
-    window.localStorage.setItem('cc-haha-app-zoom', '1.25')
->>>>>>> upstream/main
 
     const { useSettingsStore } = await import('./settingsStore')
 
@@ -57,11 +45,7 @@ describe('settingsStore UI zoom', () => {
     useSettingsStore.getState().setUiZoom(1.25)
 
     await vi.waitFor(() => {
-<<<<<<< HEAD
       expect(window.localStorage.getItem('hubo-app-zoom')).toBe('1.25')
-=======
-      expect(window.localStorage.getItem('cc-haha-app-zoom')).toBe('1.25')
->>>>>>> upstream/main
     })
     expect(useSettingsStore.getState().uiZoom).toBe(1.25)
     expect(document.documentElement.getAttribute('data-app-zoom-percent')).toBe('125')
@@ -73,11 +57,7 @@ describe('settingsStore UI zoom', () => {
     useSettingsStore.getState().setUiZoom(9)
 
     await vi.waitFor(() => {
-<<<<<<< HEAD
       expect(window.localStorage.getItem('hubo-app-zoom')).toBe('2')
-=======
-      expect(window.localStorage.getItem('cc-haha-app-zoom')).toBe('2')
->>>>>>> upstream/main
     })
     expect(useSettingsStore.getState().uiZoom).toBe(2)
   })
@@ -352,30 +332,10 @@ describe('settingsStore network persistence', () => {
 })
 
 describe('settingsStore app mode', () => {
-<<<<<<< HEAD
-=======
-  const installElectronAppModeHost = (appMode: Partial<typeof browserHost.appMode>) => {
-    window.desktopHost = {
-      ...browserHost,
-      kind: 'electron',
-      isDesktop: true,
-      capabilities: {
-        ...browserHost.capabilities,
-        appMode: true,
-      },
-      appMode: {
-        ...browserHost.appMode,
-        ...appMode,
-      },
-    }
-  }
-
->>>>>>> upstream/main
   beforeEach(() => {
     vi.resetModules()
     vi.clearAllMocks()
     delete (window as unknown as { __TAURI_INTERNALS__?: object }).__TAURI_INTERNALS__
-<<<<<<< HEAD
   })
 
   it('hydrates app mode from the native desktop command', async () => {
@@ -387,25 +347,11 @@ describe('settingsStore app mode', () => {
     vi.doMock('@tauri-apps/api/core', () => ({ invoke }))
     const tauriWindow = window as unknown as { __TAURI_INTERNALS__?: object }
     tauriWindow.__TAURI_INTERNALS__ = {}
-=======
-    Reflect.deleteProperty(window, 'desktopHost')
-    Reflect.deleteProperty(window, '__TAURI__')
-  })
-
-  it('hydrates app mode from the Electron desktop host', async () => {
-    const getAppMode = vi.fn().mockResolvedValue({
-      mode: 'portable',
-      portableDir: 'C:\\cc-haha\\CLAUDE_CONFIG_DIR',
-      defaultPortableDir: 'C:\\cc-haha\\CLAUDE_CONFIG_DIR',
-    })
-    installElectronAppModeHost({ get: getAppMode })
->>>>>>> upstream/main
 
     const { useSettingsStore } = await import('./settingsStore')
 
     await useSettingsStore.getState().fetchAppMode()
 
-<<<<<<< HEAD
     expect(invoke).toHaveBeenCalledWith('get_app_mode')
     expect(useSettingsStore.getState().appMode).toEqual({
       mode: 'portable',
@@ -419,57 +365,19 @@ describe('settingsStore app mode', () => {
     vi.doMock('@tauri-apps/api/core', () => ({ invoke }))
     const tauriWindow = window as unknown as { __TAURI_INTERNALS__?: object }
     tauriWindow.__TAURI_INTERNALS__ = {}
-=======
-    expect(getAppMode).toHaveBeenCalledTimes(1)
-    expect(useSettingsStore.getState().appMode).toEqual({
-      mode: 'portable',
-      portableDir: 'C:\\cc-haha\\CLAUDE_CONFIG_DIR',
-      defaultPortableDir: 'C:\\cc-haha\\CLAUDE_CONFIG_DIR',
-    })
-  })
-
-  it('hydrates app mode from an injected desktop host', async () => {
-    const getAppMode = vi.fn().mockResolvedValue({
-      mode: 'portable',
-      portableDir: 'D:\\cc-haha\\data',
-      defaultPortableDir: 'D:\\cc-haha\\data',
-    })
-    installElectronAppModeHost({ get: getAppMode })
-
-    const { useSettingsStore } = await import('./settingsStore')
-
-    await useSettingsStore.getState().fetchAppMode()
-
-    expect(getAppMode).toHaveBeenCalledTimes(1)
-    expect(useSettingsStore.getState().appMode).toEqual({
-      mode: 'portable',
-      portableDir: 'D:\\cc-haha\\data',
-      defaultPortableDir: 'D:\\cc-haha\\data',
-    })
-  })
-
-  it('persists app mode through the Electron desktop host and marks restart required', async () => {
-    const setAppMode = vi.fn().mockResolvedValue(undefined)
-    installElectronAppModeHost({ set: setAppMode })
->>>>>>> upstream/main
 
     const { useSettingsStore } = await import('./settingsStore')
     useSettingsStore.setState({
       appMode: {
         mode: 'default',
         portableDir: null,
-<<<<<<< HEAD
         defaultPortableDir: 'C:\\hubo\\CLAUDE_CONFIG_DIR',
-=======
-        defaultPortableDir: 'C:\\cc-haha\\CLAUDE_CONFIG_DIR',
->>>>>>> upstream/main
       },
       appModeRequiresRestart: false,
     })
 
     await useSettingsStore.getState().setAppMode('portable')
 
-<<<<<<< HEAD
     expect(invoke).toHaveBeenCalledWith('set_app_mode', {
       mode: 'portable',
       portableDir: 'C:\\hubo\\CLAUDE_CONFIG_DIR',
@@ -479,78 +387,30 @@ describe('settingsStore app mode', () => {
       portableDir: 'C:\\hubo\\CLAUDE_CONFIG_DIR',
       defaultPortableDir: 'C:\\hubo\\CLAUDE_CONFIG_DIR',
       activeConfigDir: 'C:\\hubo\\CLAUDE_CONFIG_DIR',
-=======
-    expect(setAppMode).toHaveBeenCalledWith({
-      mode: 'portable',
-      portableDir: 'C:\\cc-haha\\CLAUDE_CONFIG_DIR',
-    })
-    expect(useSettingsStore.getState().appMode).toEqual({
-      mode: 'portable',
-      portableDir: 'C:\\cc-haha\\CLAUDE_CONFIG_DIR',
-      defaultPortableDir: 'C:\\cc-haha\\CLAUDE_CONFIG_DIR',
-      activeConfigDir: 'C:\\cc-haha\\CLAUDE_CONFIG_DIR',
->>>>>>> upstream/main
       configDirSource: 'portable',
     })
     expect(useSettingsStore.getState().appModeRequiresRestart).toBe(true)
   })
 
-<<<<<<< HEAD
   it('persists a user-selected portable directory', async () => {
     const invoke = vi.fn().mockResolvedValue(undefined)
     vi.doMock('@tauri-apps/api/core', () => ({ invoke }))
     const tauriWindow = window as unknown as { __TAURI_INTERNALS__?: object }
     tauriWindow.__TAURI_INTERNALS__ = {}
-=======
-  it('persists app mode through an injected desktop host', async () => {
-    const setAppMode = vi.fn().mockResolvedValue(undefined)
-    installElectronAppModeHost({ set: setAppMode })
->>>>>>> upstream/main
 
     const { useSettingsStore } = await import('./settingsStore')
     useSettingsStore.setState({
       appMode: {
         mode: 'default',
         portableDir: null,
-<<<<<<< HEAD
         defaultPortableDir: 'C:\\hubo\\CLAUDE_CONFIG_DIR',
-=======
-        defaultPortableDir: 'D:\\cc-haha\\data',
-      },
-      appModeRequiresRestart: false,
-    })
-
-    await useSettingsStore.getState().setAppMode('portable')
-
-    expect(setAppMode).toHaveBeenCalledWith({
-      mode: 'portable',
-      portableDir: 'D:\\cc-haha\\data',
-    })
-    expect(useSettingsStore.getState().appModeRequiresRestart).toBe(true)
-  })
-
-  it('persists a user-selected portable directory', async () => {
-    const setAppMode = vi.fn().mockResolvedValue(undefined)
-    installElectronAppModeHost({ set: setAppMode })
-
-    const { useSettingsStore } = await import('./settingsStore')
-    useSettingsStore.setState({
-      appMode: {
-        mode: 'default',
-        portableDir: null,
-        defaultPortableDir: 'C:\\cc-haha\\CLAUDE_CONFIG_DIR',
->>>>>>> upstream/main
       },
       appModeRequiresRestart: false,
     })
 
     await useSettingsStore.getState().setAppMode('portable', 'D:\\portable-data')
 
-<<<<<<< HEAD
     expect(invoke).toHaveBeenCalledWith('set_app_mode', {
-=======
-    expect(setAppMode).toHaveBeenCalledWith({
->>>>>>> upstream/main
       mode: 'portable',
       portableDir: 'D:\\portable-data',
     })
@@ -563,26 +423,17 @@ describe('settingsStore app mode', () => {
   })
 
   it('switches app mode back to the system data source', async () => {
-<<<<<<< HEAD
     const invoke = vi.fn().mockResolvedValue(undefined)
     vi.doMock('@tauri-apps/api/core', () => ({ invoke }))
     const tauriWindow = window as unknown as { __TAURI_INTERNALS__?: object }
     tauriWindow.__TAURI_INTERNALS__ = {}
-=======
-    const setAppMode = vi.fn().mockResolvedValue(undefined)
-    installElectronAppModeHost({ set: setAppMode })
->>>>>>> upstream/main
 
     const { useSettingsStore } = await import('./settingsStore')
     useSettingsStore.setState({
       appMode: {
         mode: 'portable',
         portableDir: 'D:\\portable-data',
-<<<<<<< HEAD
         defaultPortableDir: 'C:\\hubo\\CLAUDE_CONFIG_DIR',
-=======
-        defaultPortableDir: 'C:\\cc-haha\\CLAUDE_CONFIG_DIR',
->>>>>>> upstream/main
         activeConfigDir: 'D:\\portable-data',
         configDirSource: 'portable',
       },
@@ -591,22 +442,14 @@ describe('settingsStore app mode', () => {
 
     await useSettingsStore.getState().setAppMode('default', null)
 
-<<<<<<< HEAD
     expect(invoke).toHaveBeenCalledWith('set_app_mode', {
-=======
-    expect(setAppMode).toHaveBeenCalledWith({
->>>>>>> upstream/main
       mode: 'default',
       portableDir: null,
     })
     expect(useSettingsStore.getState().appMode).toEqual({
       mode: 'default',
       portableDir: null,
-<<<<<<< HEAD
       defaultPortableDir: 'C:\\hubo\\CLAUDE_CONFIG_DIR',
-=======
-      defaultPortableDir: 'C:\\cc-haha\\CLAUDE_CONFIG_DIR',
->>>>>>> upstream/main
       activeConfigDir: null,
       configDirSource: 'system',
     })

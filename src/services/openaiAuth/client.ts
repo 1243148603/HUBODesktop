@@ -5,10 +5,6 @@ import type {
   OpenAIOAuthTokenResponse,
   OpenAIOAuthTokens,
 } from './types.js'
-<<<<<<< HEAD
-=======
-import { getProxyFetchOptions } from '../../utils/proxy.js'
->>>>>>> upstream/main
 
 export const OPENAI_AUTH_ISSUER = 'https://auth.openai.com'
 export const OPENAI_CODEX_CLIENT_ID = 'app_EMoamEEZ73f0CkXaXp7hrann'
@@ -27,25 +23,6 @@ const OPENAI_TOKEN_REQUEST_HEADERS = {
   'User-Agent': OPENAI_CODEX_TOKEN_USER_AGENT,
 } as const
 
-<<<<<<< HEAD
-=======
-export type OpenAITokenFetchOptions = {
-  proxyUrl?: string | null
-  timeoutMs?: number
-}
-
-function buildOpenAITokenFetchInit(
-  init: RequestInit,
-  options: OpenAITokenFetchOptions = {},
-): RequestInit {
-  return {
-    ...init,
-    ...(options.timeoutMs ? { signal: AbortSignal.timeout(options.timeoutMs) } : {}),
-    ...getProxyFetchOptions({ proxyUrl: options.proxyUrl }),
-  }
-}
-
->>>>>>> upstream/main
 export function generateOpenAIState(): string {
   return randomBytes(32).toString('hex')
 }
@@ -78,7 +55,6 @@ export async function exchangeOpenAICodeForTokens(input: {
   code: string
   redirectUri: string
   codeVerifier: string
-<<<<<<< HEAD
 }): Promise<OpenAIOAuthTokenResponse> {
   const response = await fetch(`${OPENAI_AUTH_ISSUER}/oauth/token`, {
     method: 'POST',
@@ -91,28 +67,6 @@ export async function exchangeOpenAICodeForTokens(input: {
       code_verifier: input.codeVerifier,
     }).toString(),
   })
-=======
-  proxyUrl?: string | null
-  timeoutMs?: number
-}): Promise<OpenAIOAuthTokenResponse> {
-  const response = await fetch(
-    `${OPENAI_AUTH_ISSUER}/oauth/token`,
-    buildOpenAITokenFetchInit(
-      {
-        method: 'POST',
-        headers: OPENAI_TOKEN_REQUEST_HEADERS,
-        body: new URLSearchParams({
-          grant_type: 'authorization_code',
-          code: input.code,
-          redirect_uri: input.redirectUri,
-          client_id: OPENAI_CODEX_CLIENT_ID,
-          code_verifier: input.codeVerifier,
-        }).toString(),
-      },
-      input,
-    ),
-  )
->>>>>>> upstream/main
 
   if (!response.ok) {
     throw await buildOpenAITokenHttpError('exchange', response)
@@ -123,7 +77,6 @@ export async function exchangeOpenAICodeForTokens(input: {
 
 export async function refreshOpenAITokens(
   refreshToken: string,
-<<<<<<< HEAD
 ): Promise<OpenAIOAuthTokenResponse> {
   const response = await fetch(`${OPENAI_AUTH_ISSUER}/oauth/token`, {
     method: 'POST',
@@ -135,26 +88,6 @@ export async function refreshOpenAITokens(
       scope: 'openid profile email',
     }).toString(),
   })
-=======
-  options: OpenAITokenFetchOptions = {},
-): Promise<OpenAIOAuthTokenResponse> {
-  const response = await fetch(
-    `${OPENAI_AUTH_ISSUER}/oauth/token`,
-    buildOpenAITokenFetchInit(
-      {
-        method: 'POST',
-        headers: OPENAI_TOKEN_REQUEST_HEADERS,
-        body: new URLSearchParams({
-          grant_type: 'refresh_token',
-          refresh_token: refreshToken,
-          client_id: OPENAI_CODEX_CLIENT_ID,
-          scope: 'openid profile email',
-        }).toString(),
-      },
-      options,
-    ),
-  )
->>>>>>> upstream/main
 
   if (!response.ok) {
     throw await buildOpenAITokenHttpError('refresh', response)

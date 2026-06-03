@@ -59,11 +59,7 @@ afterEach(async () => {
 })
 
 describe('ConversationService attachment materialization', () => {
-<<<<<<< HEAD
   test('inlines normalized image data attachments as SDK image blocks', async () => {
-=======
-  test('inlines image data attachments without resizing when already within API limits', async () => {
->>>>>>> upstream/main
     const svc = new ConversationService()
     const sent: unknown[] = []
     const sessionId = 'session-image-normalize'
@@ -100,21 +96,13 @@ describe('ConversationService attachment materialization', () => {
     expect(textBlocks.some((block) => block.text?.includes('@"'))).toBe(false)
     expect(imageBlocks).toHaveLength(1)
     expect(imageBlocks[0]?.source?.media_type).toBe('image/png')
-<<<<<<< HEAD
     expect(imageBlocks[0]?.source?.data).toBe(Buffer.from('resized-image').toString('base64'))
-=======
-    expect(imageBlocks[0]?.source?.data).toBe(original.toString('base64'))
->>>>>>> upstream/main
 
     const metadataText = textBlocks.find((block) => block.text?.startsWith('[Image:'))?.text
     const uploadPath = metadataText?.match(/source: ([^,\]]+)/)?.[1]
     expect(uploadPath).toBeTruthy()
     expect(uploadPath?.endsWith('.png')).toBe(true)
-<<<<<<< HEAD
     expect(await fs.readFile(uploadPath!)).toEqual(Buffer.from('resized-image'))
-=======
-    expect(await fs.readFile(uploadPath!)).toEqual(original)
->>>>>>> upstream/main
   })
 
   test('falls back to an upload path when image normalization cannot produce a block', async () => {
@@ -188,11 +176,7 @@ describe('ConversationService attachment materialization', () => {
     expect(textBlocks.some((block) => block.text?.includes(`source: ${imagePath}`))).toBe(true)
     expect(imageBlocks).toHaveLength(1)
     expect(imageBlocks[0]?.source?.media_type).toBe('image/png')
-<<<<<<< HEAD
     expect(imageBlocks[0]?.source?.data).toBe(Buffer.from('resized-image').toString('base64'))
-=======
-    expect(imageBlocks[0]?.source?.data).toBe(original.toString('base64'))
->>>>>>> upstream/main
   })
 })
 
@@ -202,12 +186,7 @@ function createOversizedPngHeader(): Buffer {
   buffer[1] = 0x50
   buffer[2] = 0x4e
   buffer[3] = 0x47
-<<<<<<< HEAD
   buffer.writeUInt32BE(3000, 16)
   buffer.writeUInt32BE(4000, 20)
-=======
-  buffer.writeUInt32BE(9000, 16)
-  buffer.writeUInt32BE(9000, 20)
->>>>>>> upstream/main
   return buffer
 }

@@ -2,11 +2,7 @@
 
 
 ```
-<<<<<<< HEAD
 bin/hubo          # 入口脚本
-=======
-bin/claude-haha          # 入口脚本
->>>>>>> upstream/main
 preload.ts               # Bun preload（设置 MACRO 全局变量）
 .env.example             # 环境变量模板
 src/

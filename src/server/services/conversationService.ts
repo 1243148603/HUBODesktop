@@ -77,11 +77,6 @@ type SessionProcess = {
   outputDrain: Promise<void>
   sdkMessages: any[]
   initMessage: any | null
-<<<<<<< HEAD
-=======
-  usesOfficialOAuth: boolean
-  officialOAuthToken: string | null
->>>>>>> upstream/main
   pendingPermissionRequests: Map<
     string,
     {
@@ -257,11 +252,7 @@ export class ConversationService {
 
     // IMPORTANT (Bug#5): 必须覆盖子进程继承的 CALLER_DIR / PWD。
     // preload.ts 顶层读 process.env.CALLER_DIR 并调用 process.chdir(CALLER_DIR)。
-<<<<<<< HEAD
     // 在 bundled 桌面端里，server sidecar 被 Tauri 从 cwd=/ 启动，hubo-sidecar.ts
-=======
-    // 在 bundled 桌面端里，server sidecar 被 Tauri 从 cwd=/ 启动，claude-sidecar.ts
->>>>>>> upstream/main
     // 在 server/cli 模式入口把 CALLER_DIR 默认设成 process.cwd()（即 '/'），
     // 随后这个 env 被完整继承到 Bun.spawn 的 CLI 子进程；即使这里显式传了
     // cwd: workDir，CLI 子进程里 preload.ts 还是会 chdir('/')，结果把
@@ -270,10 +261,6 @@ export class ConversationService {
     // chdir 后落到正确目录。
     //
     const childEnv = await this.buildChildEnv(launchWorkDir, sdkUrl, options)
-<<<<<<< HEAD
-=======
-    const usesOfficialOAuth = this.shouldMarkManagedOAuth(options?.providerId)
->>>>>>> upstream/main
 
     let proc: ReturnType<typeof Bun.spawn>
     try {
@@ -321,11 +308,6 @@ export class ConversationService {
       outputDrain: Promise.resolve(),
       sdkMessages: [],
       initMessage: null,
-<<<<<<< HEAD
-=======
-      usesOfficialOAuth,
-      officialOAuthToken: childEnv.CLAUDE_CODE_OAUTH_TOKEN ?? null,
->>>>>>> upstream/main
       pendingPermissionRequests: new Map(),
     }
     this.sessions.set(sessionId, session)
@@ -430,13 +412,6 @@ export class ConversationService {
     content: string,
     attachments?: AttachmentRef[],
   ): Promise<boolean> {
-<<<<<<< HEAD
-=======
-    const session = this.sessions.get(sessionId)
-    if (session) {
-      await this.refreshOfficialOAuthTokenBeforeTurn(sessionId, session)
-    }
->>>>>>> upstream/main
     const userContent = await this.buildUserContent(content, sessionId, attachments)
     return this.sendSdkMessage(sessionId, {
       type: 'user',
@@ -1016,11 +991,7 @@ export class ConversationService {
   ): Promise<Record<string, string>> {
     // Provider isolation: when Desktop has its own provider config/index,
     // strip inherited provider env vars so the child CLI reads fresh values
-<<<<<<< HEAD
     // from ~/.claude/hubo/settings.json instead of stale process.env.
-=======
-    // from ~/.claude/cc-haha/settings.json instead of stale process.env.
->>>>>>> upstream/main
     //
     // If the user never configured a Desktop provider and only launched the
     // app/server with ANTHROPIC_* env vars, keep those env vars so Windows
@@ -1036,11 +1007,7 @@ export class ConversationService {
       'ANTHROPIC_DEFAULT_SONNET_MODEL_SUPPORTED_CAPABILITIES',
       'ANTHROPIC_DEFAULT_OPUS_MODEL',
       'ANTHROPIC_DEFAULT_OPUS_MODEL_SUPPORTED_CAPABILITIES',
-<<<<<<< HEAD
       'HUBO_SEND_DISABLED_THINKING',
-=======
-      'CC_HAHA_SEND_DISABLED_THINKING',
->>>>>>> upstream/main
       'CLAUDE_CODE_AUTO_COMPACT_WINDOW',
       'CLAUDE_CODE_ATTRIBUTION_HEADER',
       'CLAUDE_CODE_MODEL_CONTEXT_WINDOWS',
@@ -1098,7 +1065,6 @@ export class ConversationService {
       CALLER_DIR: workDir,
       PWD: workDir,
       ...(sdkUrl
-<<<<<<< HEAD
         ? { HUBO_COMPUTER_USE_HOST_BUNDLE_ID: 'com.hubo.desktop' }
         : {}),
       ...(desktopServerUrl
@@ -1108,35 +1074,16 @@ export class ConversationService {
         ? {
             HUBO_DESKTOP_AWAIT_MCP: '1',
             HUBO_DESKTOP_AWAIT_MCP_TIMEOUT_MS: '5000',
-=======
-        ? { CC_HAHA_COMPUTER_USE_HOST_BUNDLE_ID: 'com.claude-code-haha.desktop' }
-        : {}),
-      ...(desktopServerUrl
-        ? { CC_HAHA_DESKTOP_SERVER_URL: desktopServerUrl }
-        : {}),
-      ...(sdkUrl
-        ? {
-            CC_HAHA_DESKTOP_AWAIT_MCP: '1',
-            CC_HAHA_DESKTOP_AWAIT_MCP_TIMEOUT_MS: '5000',
->>>>>>> upstream/main
           }
         : {}),
       // Tell the CLI entrypoint to skip project .env loading. Provider env
       // should come from Desktop-managed config or inherited launch env, not
       // be reintroduced from the repo's .env file.
-<<<<<<< HEAD
       HUBO_SKIP_DOTENV: '1',
       ...(explicitProviderEnv
         ? { CLAUDE_CODE_PROVIDER_MANAGED_BY_HOST: '1' }
         : {}),
       // "官方" 模式 (hubo/settings.json 没 provider env) 下,把 CLI 标记为
-=======
-      CC_HAHA_SKIP_DOTENV: '1',
-      ...(explicitProviderEnv
-        ? { CLAUDE_CODE_PROVIDER_MANAGED_BY_HOST: '1' }
-        : {}),
-      // "官方" 模式 (cc-haha/settings.json 没 provider env) 下,把 CLI 标记为
->>>>>>> upstream/main
       // managed-OAuth,让它忽略外部 ANTHROPIC_API_KEY / ANTHROPIC_AUTH_TOKEN
       // 残留、只走用户 /login 的 OAuth token。自定义 provider 模式绝不能设,
       // 否则 CLI 会忽略 provider 的 AUTH_TOKEN、错误地走 OAuth 打到第三方
@@ -1178,13 +1125,8 @@ export class ConversationService {
     try {
       // deferred import: avoids instantiating the OAuth singleton on every
       // ConversationService construction — only loaded when official mode hits.
-<<<<<<< HEAD
       const { huboOAuthService } = await import('./huboOAuthService.js')
       const token = await huboOAuthService.ensureFreshAccessToken()
-=======
-      const { hahaOAuthService } = await import('./hahaOAuthService.js')
-      const token = await hahaOAuthService.ensureFreshAccessToken()
->>>>>>> upstream/main
       if (token) {
         env.CLAUDE_CODE_OAUTH_TOKEN = token
       }
@@ -1197,36 +1139,6 @@ export class ConversationService {
     return env
   }
 
-<<<<<<< HEAD
-=======
-  private async refreshOfficialOAuthTokenBeforeTurn(
-    sessionId: string,
-    session: SessionProcess,
-  ): Promise<void> {
-    if (!session.usesOfficialOAuth) return
-
-    let token: string | null = null
-    try {
-      const { hahaOAuthService } = await import('./hahaOAuthService.js')
-      token = await hahaOAuthService.ensureFreshAccessToken()
-    } catch (err) {
-      console.error(
-        '[conversationService] refresh official OAuth token before turn failed:',
-        err instanceof Error ? err.message : err,
-      )
-      return
-    }
-
-    if (!token || token === session.officialOAuthToken) return
-
-    session.officialOAuthToken = token
-    this.sendSdkMessage(sessionId, {
-      type: 'update_environment_variables',
-      variables: { CLAUDE_CODE_OAUTH_TOKEN: token },
-    })
-  }
-
->>>>>>> upstream/main
   private shouldStripInheritedProviderEnv(providerId?: string | null): boolean {
     if (providerId !== undefined) {
       return true
@@ -1234,15 +1146,9 @@ export class ConversationService {
 
     const configDir =
       process.env.CLAUDE_CONFIG_DIR || path.join(os.homedir(), '.claude')
-<<<<<<< HEAD
     const huboDir = path.join(configDir, 'hubo')
     const providersIndexPath = path.join(huboDir, 'providers.json')
     const settingsPath = path.join(huboDir, 'settings.json')
-=======
-    const ccHahaDir = path.join(configDir, 'cc-haha')
-    const providersIndexPath = path.join(ccHahaDir, 'providers.json')
-    const settingsPath = path.join(ccHahaDir, 'settings.json')
->>>>>>> upstream/main
 
     if (fs.existsSync(providersIndexPath)) {
       return true
@@ -1263,11 +1169,7 @@ export class ConversationService {
         'ANTHROPIC_DEFAULT_SONNET_MODEL_SUPPORTED_CAPABILITIES',
         'ANTHROPIC_DEFAULT_OPUS_MODEL',
         'ANTHROPIC_DEFAULT_OPUS_MODEL_SUPPORTED_CAPABILITIES',
-<<<<<<< HEAD
         'HUBO_SEND_DISABLED_THINKING',
-=======
-        'CC_HAHA_SEND_DISABLED_THINKING',
->>>>>>> upstream/main
         'CLAUDE_CODE_AUTO_COMPACT_WINDOW',
         'CLAUDE_CODE_ATTRIBUTION_HEADER',
         'CLAUDE_CODE_MODEL_CONTEXT_WINDOWS',
@@ -1285,11 +1187,7 @@ export class ConversationService {
    * 这种情况下 CLI 必须按 token 路径走第三方 endpoint,不能被 managed 规则
    * 强制切 OAuth。
    *
-<<<<<<< HEAD
    * 默认 (读不到 settings.json) 按"官方"处理 — 即使用户从未用过 hubo
-=======
-   * 默认 (读不到 settings.json) 按"官方"处理 — 即使用户从未用过 cc-haha
->>>>>>> upstream/main
    * provider 管理,也希望官方 OAuth 能正常工作。
    */
   private shouldMarkManagedOAuth(providerId?: string | null): boolean {
@@ -1302,11 +1200,7 @@ export class ConversationService {
 
     const configDir =
       process.env.CLAUDE_CONFIG_DIR || path.join(os.homedir(), '.claude')
-<<<<<<< HEAD
     const settingsPath = path.join(configDir, 'hubo', 'settings.json')
-=======
-    const settingsPath = path.join(configDir, 'cc-haha', 'settings.json')
->>>>>>> upstream/main
     try {
       const raw = fs.readFileSync(settingsPath, 'utf-8')
       const parsed = JSON.parse(raw) as { env?: Record<string, string> }
@@ -1344,11 +1238,7 @@ export class ConversationService {
           ...baseArgs,
         ]
       }
-<<<<<<< HEAD
       return [path.resolve(import.meta.dir, '../../../bin/hubo'), ...baseArgs]
-=======
-      return [path.resolve(import.meta.dir, '../../../bin/claude-haha'), ...baseArgs]
->>>>>>> upstream/main
     }
 
     return buildClaudeCliArgs(launcher, baseArgs, process.env.CLAUDE_APP_ROOT)
@@ -1400,11 +1290,7 @@ export class ConversationService {
       )
     ) {
       return new ConversationStartupError(
-<<<<<<< HEAD
         'Desktop chat could not start because Claude CLI is not authenticated. Run `./bin/hubo /login` or provide valid API credentials, then retry.',
-=======
-        'Desktop chat could not start because Claude CLI is not authenticated. Run `./bin/claude-haha /login` or provide valid API credentials, then retry.',
->>>>>>> upstream/main
         'CLI_AUTH_REQUIRED',
       )
     }

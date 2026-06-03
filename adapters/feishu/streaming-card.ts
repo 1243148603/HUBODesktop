@@ -13,10 +13,6 @@
  */
 
 import type * as Lark from '@larksuiteoapi/node-sdk'
-<<<<<<< HEAD
-=======
-import { randomUUID } from 'node:crypto'
->>>>>>> upstream/main
 import { FlushController, THROTTLE } from './flush-controller.js'
 import {
   createCardEntity,
@@ -156,11 +152,6 @@ export class StreamingCard {
   private cardId: string | null = null
   /** IM message_id。始终应该有值（否则连 patch 也做不了）。 */
   private messageId: string | null = null
-<<<<<<< HEAD
-=======
-  /** Same idempotency key for the first IM send and any create fallback. */
-  private readonly outboundMessageUuid = randomUUID()
->>>>>>> upstream/main
   /** CardKit cardElement.content() 单调递增序列号。 */
   private sequence = 0
   /** CardKit 流式还在工作。230099 或连续 N 次未知错误之后置为 false，
@@ -207,10 +198,6 @@ export class StreamingCard {
         this.deps.chatId,
         cardId,
         this.deps.replyToMessageId,
-<<<<<<< HEAD
-=======
-        this.outboundMessageUuid,
->>>>>>> upstream/main
       )
       this.cardId = cardId
       this.messageId = messageId
@@ -232,10 +219,6 @@ export class StreamingCard {
               receive_id: this.deps.chatId,
               msg_type: 'interactive',
               content: JSON.stringify(buildRenderedCard(' ')),
-<<<<<<< HEAD
-=======
-              uuid: this.outboundMessageUuid,
->>>>>>> upstream/main
             },
           }),
         )

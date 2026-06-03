@@ -60,16 +60,9 @@ const desktopNativeExactPaths = new Set([
   'desktop/bun.lock',
   'desktop/package.json',
   'desktop/package-lock.json',
-<<<<<<< HEAD
   'desktop/src-tauri/Cargo.lock',
   'desktop/src-tauri/Cargo.toml',
   'desktop/src-tauri/tauri.conf.json',
-=======
-  'desktop/electron/tsconfig.json',
-  'desktop/scripts/build-macos-arm64.sh',
-  'desktop/scripts/build-windows-x64.ps1',
-  'desktop/scripts/build-linux.sh',
->>>>>>> upstream/main
 ])
 
 const docsExactPaths = new Set([
@@ -90,16 +83,9 @@ const releaseExactPaths = new Set([
   'scripts/pr/check-pr.ts',
   'scripts/pr/run-server-tests.ts',
   'scripts/release.ts',
-<<<<<<< HEAD
   'desktop/src-tauri/tauri.conf.json',
   'desktop/src-tauri/Cargo.toml',
   'desktop/src-tauri/Cargo.lock',
-=======
-  'desktop/electron/tsconfig.json',
-  'desktop/scripts/build-macos-arm64.sh',
-  'desktop/scripts/build-windows-x64.ps1',
-  'desktop/scripts/build-linux.sh',
->>>>>>> upstream/main
 ])
 
 const coveragePolicyExactPaths = new Set([

@@ -24,11 +24,7 @@ const HTML_SUCCESS = `<!doctype html>
 <html>
   <head>
     <meta charset="utf-8">
-<<<<<<< HEAD
     <title>hubo OpenAI Authorization Successful</title>
-=======
-    <title>cc-haha OpenAI Authorization Successful</title>
->>>>>>> upstream/main
     <style>
       body { font-family: system-ui, -apple-system, sans-serif; display:flex; justify-content:center; align-items:center; height:100vh; margin:0; background:#131010; color:#f1ecec; }
       .container { text-align:center; padding:2rem; }
@@ -38,11 +34,7 @@ const HTML_SUCCESS = `<!doctype html>
   <body>
     <div class="container">
       <h1>Authorization Successful</h1>
-<<<<<<< HEAD
       <p>You can close this window and return to HUBO.</p>
-=======
-      <p>You can close this window and return to Claude Code Haha.</p>
->>>>>>> upstream/main
     </div>
     <script>setTimeout(() => window.close(), 2000)</script>
   </body>
@@ -52,19 +44,11 @@ const HTML_ERROR = `<!doctype html>
 <html>
   <head>
     <meta charset="utf-8">
-<<<<<<< HEAD
     <title>hubo OpenAI Authorization Failed</title>
   </head>
   <body>
     <h1>Authorization Failed</h1>
     <p>You can close this window and return to HUBO.</p>
-=======
-    <title>cc-haha OpenAI Authorization Failed</title>
-  </head>
-  <body>
-    <h1>Authorization Failed</h1>
-    <p>You can close this window and return to Claude Code Haha.</p>
->>>>>>> upstream/main
   </body>
 </html>`
 

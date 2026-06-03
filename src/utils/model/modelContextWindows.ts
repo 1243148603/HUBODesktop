@@ -16,7 +16,6 @@ const DIRECT_MODEL_CONTEXT_WINDOWS: Record<string, number> = {
   'kimi-k2-turbo-preview': 262_144,
   'kimi-k2-thinking': 262_144,
   'kimi-k2-thinking-turbo': 262_144,
-<<<<<<< HEAD
   'minimax-m2.7': 204_800,
   'minimax-m2.7-highspeed': 204_800,
   'minimax-m2.5': 204_800,
@@ -24,11 +23,6 @@ const DIRECT_MODEL_CONTEXT_WINDOWS: Record<string, number> = {
   'minimax-m2.1': 204_800,
   'minimax-m2.1-highspeed': 204_800,
   'minimax-m2': 204_800,
-=======
-  'minimax-m3': 1_000_000,
-  'minimax-m2.7': 204_800,
-  'minimax-m2.7-highspeed': 204_800,
->>>>>>> upstream/main
   'glm-5.1': 200_000,
   'glm-5': 200_000,
   'glm-5-turbo': 200_000,
@@ -71,7 +65,6 @@ function normalizeWindow(value: unknown): number | undefined {
   return value
 }
 
-<<<<<<< HEAD
 function parseConfiguredContextWindows(): Record<string, number> {
   const raw = process.env[MODEL_CONTEXT_WINDOWS_ENV_KEY]
   if (!raw?.trim()) {
@@ -99,27 +92,6 @@ function parseConfiguredContextWindows(): Record<string, number> {
 
 function getConfiguredModelContextWindow(model: string): number | undefined {
   const configured = parseConfiguredContextWindows()
-=======
-function normalizeConfiguredContextWindows(parsed: unknown): Record<string, number> {
-  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
-    return {}
-  }
-
-  const windows: Record<string, number> = {}
-  for (const [model, value] of Object.entries(parsed)) {
-    const normalized = normalizeWindow(value)
-    if (normalized !== undefined) {
-      windows[normalizeModelContextKey(model)] = normalized
-    }
-  }
-  return windows
-}
-
-function findConfiguredModelContextWindow(
-  model: string,
-  configured: Record<string, number>,
-): number | undefined {
->>>>>>> upstream/main
   const normalizedModel = normalizeModelContextKey(model)
   const exact = configured[normalizedModel]
   if (exact !== undefined) {
@@ -137,45 +109,6 @@ function findConfiguredModelContextWindow(
   return undefined
 }
 
-<<<<<<< HEAD
-=======
-export function getModelContextWindowFromEnvValue(
-  model: string,
-  raw: string | undefined,
-): number | undefined {
-  if (!raw?.trim()) {
-    return undefined
-  }
-
-  try {
-    const parsed = JSON.parse(raw) as Record<string, unknown>
-    return findConfiguredModelContextWindow(
-      model,
-      normalizeConfiguredContextWindows(parsed),
-    )
-  } catch {
-    return undefined
-  }
-}
-
-function parseConfiguredContextWindows(): Record<string, number> {
-  const raw = process.env[MODEL_CONTEXT_WINDOWS_ENV_KEY]
-  if (!raw?.trim()) {
-    return {}
-  }
-
-  try {
-    return normalizeConfiguredContextWindows(JSON.parse(raw) as Record<string, unknown>)
-  } catch {
-    return {}
-  }
-}
-
-function getConfiguredModelContextWindow(model: string): number | undefined {
-  return findConfiguredModelContextWindow(model, parseConfiguredContextWindows())
-}
-
->>>>>>> upstream/main
 function getBuiltInModelContextWindow(model: string): number | undefined {
   const normalizedModel = normalizeModelContextKey(model)
   const exact = DIRECT_MODEL_CONTEXT_WINDOWS[normalizedModel]

@@ -19,11 +19,7 @@
             "server",
             { "validator": "regex", "value": "^(--port|--host|--config)=.+$" }
           ],
-<<<<<<< HEAD
           "name": "binaries/hubo-sidecar",
-=======
-          "name": "binaries/claude-sidecar",
->>>>>>> upstream/main
           "sidecar": true
         },
         {
@@ -31,11 +27,7 @@
             "adapters",
             { "validator": "regex", "value": "^(feishu|telegram|wechat|dingtalk|lark|slack)(:.+)?$" }
           ],
-<<<<<<< HEAD
           "name": "binaries/hubo-sidecar",
-=======
-          "name": "binaries/claude-sidecar",
->>>>>>> upstream/main
           "sidecar": true
         },
         {
@@ -43,11 +35,7 @@
             "cli",
             { "validator": "regex", "value": "^.+$" }
           ],
-<<<<<<< HEAD
           "name": "binaries/hubo-sidecar",
-=======
-          "name": "binaries/claude-sidecar",
->>>>>>> upstream/main
           "sidecar": true
         }
       ]
@@ -60,11 +48,7 @@
             "server",
             { "validator": "regex", "value": "^(--port|--host|--config)=.+$" }
           ],
-<<<<<<< HEAD
           "name": "binaries/hubo-sidecar",
-=======
-          "name": "binaries/claude-sidecar",
->>>>>>> upstream/main
           "sidecar": true
         },
         {
@@ -72,11 +56,7 @@
             "adapters",
             { "validator": "regex", "value": "^(feishu|telegram|wechat|dingtalk|lark|slack)(:.+)?$" }
           ],
-<<<<<<< HEAD
           "name": "binaries/hubo-sidecar",
-=======
-          "name": "binaries/claude-sidecar",
->>>>>>> upstream/main
           "sidecar": true
         },
         {
@@ -84,11 +64,7 @@
             "cli",
             { "validator": "regex", "value": "^.+$" }
           ],
-<<<<<<< HEAD
           "name": "binaries/hubo-sidecar",
-=======
-          "name": "binaries/claude-sidecar",
->>>>>>> upstream/main
           "sidecar": true
         }
       ]
@@ -101,11 +77,7 @@
             "server",
             { "validator": "regex", "value": "^(--port|--host|--config)=.+$" }
           ],
-<<<<<<< HEAD
           "name": "binaries/hubo-sidecar",
-=======
-          "name": "binaries/claude-sidecar",
->>>>>>> upstream/main
           "sidecar": true
         },
         {
@@ -113,11 +85,7 @@
             "adapters",
             { "validator": "regex", "value": "^(feishu|telegram|wechat|dingtalk|lark|slack)(:.+)?$" }
           ],
-<<<<<<< HEAD
           "name": "binaries/hubo-sidecar",
-=======
-          "name": "binaries/claude-sidecar",
->>>>>>> upstream/main
           "sidecar": true
         },
         {
@@ -125,11 +93,7 @@
             "cli",
             { "validator": "regex", "value": "^.+$" }
           ],
-<<<<<<< HEAD
           "name": "binaries/hubo-sidecar",
-=======
-          "name": "binaries/claude-sidecar",
->>>>>>> upstream/main
           "sidecar": true
         }
       ]

@@ -1,19 +1,10 @@
 [package]
-<<<<<<< HEAD
 name = "hubo-desktop"
 version = "1.0.0"
 edition = "2021"
 
 [lib]
 name = "hubo_desktop_lib"
-=======
-name = "claude-code-desktop"
-version = "0.3.2"
-edition = "2021"
-
-[lib]
-name = "claude_code_desktop_lib"
->>>>>>> upstream/main
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 [build-dependencies]

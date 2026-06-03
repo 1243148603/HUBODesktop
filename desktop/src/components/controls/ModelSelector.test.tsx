@@ -4,13 +4,8 @@ import '@testing-library/jest-dom'
 
 import { ModelSelector } from './ModelSelector'
 import { useChatStore } from '../../stores/chatStore'
-<<<<<<< HEAD
 import { useHuboOAuthStore } from '../../stores/huboOAuthStore'
 import { useHuboOpenAIOAuthStore } from '../../stores/huboOpenAIOAuthStore'
-=======
-import { useHahaOAuthStore } from '../../stores/hahaOAuthStore'
-import { useHahaOpenAIOAuthStore } from '../../stores/hahaOpenAIOAuthStore'
->>>>>>> upstream/main
 import { useProviderStore } from '../../stores/providerStore'
 import { useSessionRuntimeStore } from '../../stores/sessionRuntimeStore'
 import { useSettingsStore } from '../../stores/settingsStore'
@@ -35,7 +30,6 @@ afterEach(() => {
   useProviderStore.setState(useProviderStore.getInitialState(), true)
   useSessionRuntimeStore.setState(useSessionRuntimeStore.getInitialState(), true)
   useChatStore.setState(useChatStore.getInitialState(), true)
-<<<<<<< HEAD
   useHuboOAuthStore.setState(useHuboOAuthStore.getInitialState(), true)
   useHuboOpenAIOAuthStore.setState(useHuboOpenAIOAuthStore.getInitialState(), true)
 })
@@ -47,104 +41,6 @@ beforeEach(() => {
 })
 
 describe('ModelSelector', () => {
-=======
-  useHahaOAuthStore.setState(useHahaOAuthStore.getInitialState(), true)
-  useHahaOpenAIOAuthStore.setState(useHahaOpenAIOAuthStore.getInitialState(), true)
-})
-
-beforeEach(() => {
-  useHahaOAuthStore.setState({ fetchStatus: async () => {} })
-  useHahaOpenAIOAuthStore.setState({ fetchStatus: async () => {} })
-})
-
-describe('ModelSelector', () => {
-  it('does not query official OAuth status when mounted', () => {
-    const fetchClaudeStatus = vi.fn(async () => {})
-    const fetchOpenAIStatus = vi.fn(async () => {})
-    useHahaOAuthStore.setState({ fetchStatus: fetchClaudeStatus })
-    useHahaOpenAIOAuthStore.setState({ fetchStatus: fetchOpenAIStatus })
-    useSettingsStore.setState({
-      locale: 'en',
-      availableModels: MODELS,
-      currentModel: MODELS[0],
-      activeProviderName: 'Provider A',
-    })
-    useProviderStore.setState({
-      providers: [],
-      activeId: 'provider-a',
-      hasLoadedProviders: true,
-      isLoading: true,
-    })
-
-    render(<ModelSelector runtimeKey="session-no-keychain-prompt" />)
-
-    expect(fetchClaudeStatus).not.toHaveBeenCalled()
-    expect(fetchOpenAIStatus).not.toHaveBeenCalled()
-  })
-
-  it('queries official OAuth status once when the runtime dropdown is opened', async () => {
-    const fetchClaudeStatus = vi.fn(async () => {})
-    const fetchOpenAIStatus = vi.fn(async () => {})
-    useHahaOAuthStore.setState({ fetchStatus: fetchClaudeStatus })
-    useHahaOpenAIOAuthStore.setState({ fetchStatus: fetchOpenAIStatus })
-    useSettingsStore.setState({
-      locale: 'en',
-      availableModels: MODELS,
-      currentModel: MODELS[0],
-      activeProviderName: 'Provider A',
-    })
-    useProviderStore.setState({
-      providers: [{
-        id: 'provider-a',
-        presetId: 'custom',
-        name: 'Provider A',
-        apiKey: '***',
-        baseUrl: 'https://api.example.com',
-        apiFormat: 'anthropic',
-        models: {
-          main: 'provider-main',
-          haiku: '',
-          sonnet: '',
-          opus: '',
-        },
-      }],
-      activeId: 'provider-a',
-      hasLoadedProviders: true,
-      isLoading: true,
-    })
-
-    render(<ModelSelector runtimeKey="session-oauth-on-open" />)
-
-    await clickByRole(/alpha/i)
-    await act(async () => {
-      await Promise.resolve()
-    })
-    await clickByRole(/alpha/i)
-
-    expect(fetchClaudeStatus).toHaveBeenCalledTimes(1)
-    expect(fetchOpenAIStatus).toHaveBeenCalledTimes(1)
-  })
-
-  it('does not query official OAuth status for plain model dropdowns', async () => {
-    const fetchClaudeStatus = vi.fn(async () => {})
-    const fetchOpenAIStatus = vi.fn(async () => {})
-    useHahaOAuthStore.setState({ fetchStatus: fetchClaudeStatus })
-    useHahaOpenAIOAuthStore.setState({ fetchStatus: fetchOpenAIStatus })
-    useSettingsStore.setState({
-      locale: 'en',
-      availableModels: MODELS,
-      currentModel: MODELS[0],
-    })
-
-    render(<ModelSelector value="alpha" onChange={vi.fn()} />)
-
-    await clickByRole(/alpha/i)
-
-    expect(fetchClaudeStatus).not.toHaveBeenCalled()
-    expect(fetchOpenAIStatus).not.toHaveBeenCalled()
-  })
-
->>>>>>> upstream/main
   it('uses controlled model selection without mutating settings directly', async () => {
     const onChange = vi.fn()
     useSettingsStore.setState({
@@ -305,11 +201,7 @@ describe('ModelSelector', () => {
       },
     ]
     const setSessionRuntime = vi.fn()
-<<<<<<< HEAD
     useHuboOpenAIOAuthStore.setState({
-=======
-    useHahaOpenAIOAuthStore.setState({
->>>>>>> upstream/main
       status: { loggedIn: true, expiresAt: null, email: null, accountId: null },
       fetchStatus: async () => {},
     })
@@ -350,13 +242,8 @@ describe('ModelSelector', () => {
   })
 
   it('hides official provider sections when OAuth is not logged in', async () => {
-<<<<<<< HEAD
     useHuboOAuthStore.setState({ status: { loggedIn: false }, fetchStatus: async () => {} })
     useHuboOpenAIOAuthStore.setState({ status: { loggedIn: false }, fetchStatus: async () => {} })
-=======
-    useHahaOAuthStore.setState({ status: { loggedIn: false }, fetchStatus: async () => {} })
-    useHahaOpenAIOAuthStore.setState({ status: { loggedIn: false }, fetchStatus: async () => {} })
->>>>>>> upstream/main
     useSettingsStore.setState({
       locale: 'en',
       availableModels: MODELS,

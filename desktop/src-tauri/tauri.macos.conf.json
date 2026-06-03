@@ -2,11 +2,7 @@
   "app": {
     "windows": [
       {
-<<<<<<< HEAD
         "title": "HUBO",
-=======
-        "title": "Claude Code Haha",
->>>>>>> upstream/main
         "width": 1440,
         "height": 960,
         "minWidth": 960,
