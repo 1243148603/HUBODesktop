@@ -6,7 +6,7 @@ import { runDesktopPersistenceMigrations } from './lib/persistenceMigrations'
 
 declare global {
   interface Window {
-    __CC_HAHA_BOOTSTRAPPED__?: boolean
+    __HUBO_BOOTSTRAPPED__?: boolean
     __CC_HAHA_SHOW_STARTUP_ERROR__?: (reason: unknown) => void
   }
 }
@@ -47,7 +47,7 @@ export async function bootstrapDesktopApp(
         </ErrorBoundary>
       </React.StrictMode>,
     )
-    window.__CC_HAHA_BOOTSTRAPPED__ = true
+    window.__HUBO_BOOTSTRAPPED__ = true
   } catch (error) {
     console.error('[desktop] Failed to bootstrap app', error)
     if (root) {
