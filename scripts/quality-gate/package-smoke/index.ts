@@ -509,7 +509,7 @@ function inspectMacosArtifacts(rootDir: string, report: PackageSmokeReport, opti
     report,
     rootDir,
     'macOS unpacked sidecar binary',
-    findMatches(join(unpackedDir, 'src-tauri', 'binaries'), (candidate) => normalizePath(candidate).includes('/claude-sidecar-')),
+    findMatches(join(unpackedDir, 'src-tauri', 'binaries'), (candidate) => normalizePath(candidate).includes('/hubo-sidecar-')),
     join(unpackedDir, 'src-tauri', 'binaries'),
   )
   addMatchCheck(
@@ -596,7 +596,7 @@ function inspectWindowsArtifacts(rootDir: string, report: PackageSmokeReport) {
       report,
       rootDir,
       'Windows unpacked sidecar binary',
-      findMatches(join(unpackedResourcesDir, 'src-tauri', 'binaries'), (candidate) => normalizePath(candidate).includes('/claude-sidecar-')),
+      findMatches(join(unpackedResourcesDir, 'src-tauri', 'binaries'), (candidate) => normalizePath(candidate).includes('/hubo-sidecar-')),
       join(unpackedResourcesDir, 'src-tauri', 'binaries'),
     )
     addMatchCheck(
@@ -684,7 +684,7 @@ function inspectLinuxArtifacts(rootDir: string, report: PackageSmokeReport) {
       report,
       rootDir,
       'Linux unpacked sidecar binary',
-      findMatches(join(unpackedResourcesDir, 'src-tauri', 'binaries'), (candidate) => normalizePath(candidate).includes('/claude-sidecar-')),
+      findMatches(join(unpackedResourcesDir, 'src-tauri', 'binaries'), (candidate) => normalizePath(candidate).includes('/hubo-sidecar-')),
       join(unpackedResourcesDir, 'src-tauri', 'binaries'),
     )
     addMatchCheck(

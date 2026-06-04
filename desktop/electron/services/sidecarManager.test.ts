@@ -58,7 +58,7 @@ describe('Electron sidecar manager', () => {
       env: {},
     })
 
-    expect(plan.command).toContain('/Applications/App.app/Contents/Resources/app.asar.unpacked/src-tauri/binaries/claude-sidecar-')
+    expect(plan.command).toContain('/Applications/App.app/Contents/Resources/app.asar.unpacked/src-tauri/binaries/hubo-sidecar-')
     expect(plan.args).toContain('/Applications/App.app/Contents/Resources/app.asar')
     expect(plan.env.CLAUDE_H5_DIST_DIR).toBe('/Applications/App.app/Contents/Resources/app.asar.unpacked/dist')
   })

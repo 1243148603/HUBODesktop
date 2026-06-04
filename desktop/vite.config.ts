@@ -18,6 +18,7 @@ function healthCheckPlugin() {
 }
 
 export default defineConfig({
+  base: './',
   plugins: [react(), tailwindcss(), healthCheckPlugin()],
   build: {
     // Vite 8 defaults to baseline-widely-available (safari16.4+), which
