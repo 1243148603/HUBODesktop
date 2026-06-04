@@ -3802,21 +3802,21 @@ function AboutSettings() {
         <button
           className="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-[var(--color-surface-hover)] transition-colors cursor-pointer"
         >
-          <img src="/niya.png" alt="CQU" className="w-4 h-4 opacity-60" />
+          <img src={publicAssetPath('niya.png')} alt="CQU" className="w-4 h-4 opacity-60" />
           <span className="text-sm text-[var(--color-text-primary)]">1243148603</span>
           <span className="text-xs text-[var(--color-text-tertiary)] ml-auto">{t('settings.about.roleDesign')}</span>
         </button>
          <button
           className="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-[var(--color-surface-hover)] transition-colors cursor-pointer"
         >
-          <img src="/icons/github.svg" alt="GitHub" className="w-4 h-4 opacity-60" />
+          <img src={publicAssetPath('icons/github.svg')} alt="GitHub" className="w-4 h-4 opacity-60" />
           <span className="text-sm text-[var(--color-text-primary)]">NanmiCoder</span>
           <span className="text-xs text-[var(--color-text-tertiary)] ml-auto">{t('settings.about.roleArchitecture')}</span>
         </button>
           <button
           className="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-[var(--color-surface-hover)] transition-colors cursor-pointer"
         >
-          <img src="/icons/github.svg" alt="GitHub" className="w-4 h-4 opacity-60" />
+          <img src={publicAssetPath('icons/github.svg')} alt="GitHub" className="w-4 h-4 opacity-60" />
           <span className="text-sm text-[var(--color-text-primary)]">ultraworkers</span>
           <span className="text-xs text-[var(--color-text-tertiary)] ml-auto">{t('settings.about.roleKernel')}</span>
         </button>
