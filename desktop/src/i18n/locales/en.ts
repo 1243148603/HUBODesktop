@@ -806,6 +806,11 @@ export const en = {
   'settings.about.socialMedia': 'Social Media',
   'settings.about.updates': 'App Updates',
   'settings.about.updatesDesc': 'Check GitHub Releases, download the installer, and relaunch after install.',
+  'settings.about.companyName': 'Green Manufacturing Institute, Chongqing University',
+  'settings.about.roleDesign': 'Design/Development',
+  'settings.about.roleArchitecture': 'Architecture',
+  'settings.about.roleKernel': 'Kernel',
+  'settings.about.address': 'Address: Shapingba, University City South Road 55, Huxi Campus, Chongqing, China',
 
   // Settings > Computer Use
   'settings.tab.computerUse': 'Computer Use',

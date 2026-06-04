@@ -33,7 +33,7 @@ describe('desktop bootstrap', () => {
   afterEach(() => {
     cleanup()
     document.body.innerHTML = ''
-    delete window.__CC_HAHA_BOOTSTRAPPED__
+    delete window.__HUBO_BOOTSTRAPPED__
     delete window.__CC_HAHA_SHOW_STARTUP_ERROR__
     vi.restoreAllMocks()
     vi.clearAllMocks()
@@ -49,7 +49,7 @@ describe('desktop bootstrap', () => {
 
     expect(await screen.findByText('Auto boot app')).toBeInTheDocument()
     expect(mocks.runDesktopPersistenceMigrations).toHaveBeenCalledTimes(1)
-    expect(window.__CC_HAHA_BOOTSTRAPPED__).toBe(true)
+    expect(window.__HUBO_BOOTSTRAPPED__).toBe(true)
   })
 
   it('surfaces bootstrap failures in the root element', async () => {

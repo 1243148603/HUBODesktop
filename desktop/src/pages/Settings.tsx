@@ -3445,11 +3445,7 @@ function PluginSettings() {
 
 // ─── About Settings ──────────────────────────────────────
 
-const GITHUB_REPO = 'https://github.com/1243148603/HUBODesktop'
-const GITHUB_ISSUES = `${GITHUB_REPO}/issues`
-const GITHUB_RELEASES = `${GITHUB_REPO}/releases`
-const AUTHOR_GITHUB = 'https://github.com/1243148603'
-const SOCIAL_LINKS = [] as const
+const GITHUB_RELEASES = 'https://github.com/1243148603/HUBODesktop/releases'
 
 function isValidHttpProxyUrl(value: string) {
   try {
@@ -3598,18 +3594,15 @@ function AboutSettings() {
         </div>
       )}
 
-      {/* GitHub Repo */}
+      {/* Company Info */}
       <div className="mt-6 w-full">
-        <button
-          onClick={() => openUrl(GITHUB_REPO)}
-          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl border border-[var(--color-border)] hover:bg-[var(--color-surface-hover)] transition-colors cursor-pointer"
-        >
-          <img src={publicAssetPath('icons/github.svg')} alt="GitHub" className="w-5 h-5 opacity-70" />
+        <div className="w-full flex items-center gap-3 px-4 py-3 rounded-xl border border-[var(--color-border)]">
+          <img src={publicAssetPath('icons/logo.png')} alt="Logo" className="w-5 h-5 opacity-70" />
           <div className="flex-1 text-left">
-            <div className="text-sm font-medium text-[var(--color-text-primary)]">1243148603/HUBODesktop</div>
-            <div className="text-xs text-[var(--color-text-tertiary)]">{t('settings.about.starHint')}</div>
+            <div className="text-sm font-medium text-[var(--color-text-primary)]">{t('settings.about.companyName')}</div>
+            <div className="text-xs text-[var(--color-text-tertiary)]">{t('settings.about.address')}</div>
           </div>
-        </button>
+        </div>
       </div>
 
       <div className="mt-4 w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-container-low)] p-4">
@@ -3805,47 +3798,31 @@ function AboutSettings() {
 
       {/* Author */}
       <div className="w-full">
-        <h3 className="text-xs font-medium text-[var(--color-text-tertiary)] uppercase tracking-wider mb-3">{t('settings.about.author')}</h3>
+       <h3 className="text-xs font-medium text-[var(--color-text-tertiary)] uppercase tracking-wider mb-3">贡献者</h3>
         <button
-          onClick={() => openUrl(AUTHOR_GITHUB)}
           className="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-[var(--color-surface-hover)] transition-colors cursor-pointer"
         >
-          <img src={publicAssetPath('icons/github.svg')} alt="GitHub" className="w-4 h-4 opacity-60" />
-          <span className="text-sm text-[var(--color-text-primary)]">程序员阿江-Relakkes</span>
-          <span className="text-xs text-[var(--color-text-tertiary)] ml-auto">GitHub</span>
+          <img src="/niya.png" alt="CQU" className="w-4 h-4 opacity-60" />
+          <span className="text-sm text-[var(--color-text-primary)]">1243148603</span>
+          <span className="text-xs text-[var(--color-text-tertiary)] ml-auto">{t('settings.about.roleDesign')}</span>
         </button>
-      </div>
-
-      {/* Social Media */}
-      <div className="w-full mt-4">
-        <h3 className="text-xs font-medium text-[var(--color-text-tertiary)] uppercase tracking-wider mb-3">{t('settings.about.socialMedia')}</h3>
-        <div className="flex flex-col gap-0.5">
-          {SOCIAL_LINKS.map((link) => (
-            <button
-              key={link.name}
-              onClick={() => openUrl(link.url)}
-              className="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-[var(--color-surface-hover)] transition-colors cursor-pointer"
-            >
-              <img src={publicAssetPath(link.icon)} alt={link.name} className="w-4 h-4 opacity-60" />
-              <span className="text-sm text-[var(--color-text-primary)]">{link.label}</span>
-              <span className="text-xs text-[var(--color-text-tertiary)] ml-auto">{link.name}</span>
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div className="mt-6 w-full">
-        <button
-          onClick={() => openUrl(GITHUB_ISSUES)}
-          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl border border-[var(--color-border)] hover:bg-[var(--color-surface-hover)] transition-colors cursor-pointer"
+         <button
+          className="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-[var(--color-surface-hover)] transition-colors cursor-pointer"
         >
-          <span className="material-symbols-outlined text-[20px] text-[var(--color-text-tertiary)]">feedback</span>
-          <div className="flex-1 text-left">
-            <div className="text-sm font-medium text-[var(--color-text-primary)]">{t('settings.about.feedback')}</div>
-            <div className="text-xs text-[var(--color-text-tertiary)]">{t('settings.about.feedbackDesc')}</div>
-          </div>
+          <img src="/icons/github.svg" alt="GitHub" className="w-4 h-4 opacity-60" />
+          <span className="text-sm text-[var(--color-text-primary)]">NanmiCoder</span>
+          <span className="text-xs text-[var(--color-text-tertiary)] ml-auto">{t('settings.about.roleArchitecture')}</span>
+        </button>
+          <button
+          className="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-[var(--color-surface-hover)] transition-colors cursor-pointer"
+        >
+          <img src="/icons/github.svg" alt="GitHub" className="w-4 h-4 opacity-60" />
+          <span className="text-sm text-[var(--color-text-primary)]">ultraworkers</span>
+          <span className="text-xs text-[var(--color-text-tertiary)] ml-auto">{t('settings.about.roleKernel')}</span>
         </button>
       </div>
+
+     
     </div>
   )
 }

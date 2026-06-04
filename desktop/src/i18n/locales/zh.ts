@@ -808,6 +808,11 @@ export const zh: Record<TranslationKey, string> = {
   'settings.about.socialMedia': '社交媒体',
   'settings.about.updates': '应用更新',
   'settings.about.updatesDesc': '检查 GitHub Releases，下载安装包，并在安装后自动重启。',
+  'settings.about.companyName': '重庆大学绿色制造研究所',
+  'settings.about.roleDesign': '设计/开发',
+  'settings.about.roleArchitecture': '架构',
+  'settings.about.roleKernel': '内核',
+  'settings.about.address': '地址：重庆市沙坪坝区大学城南路 55 号 重庆大学虎溪校区科学中心 ',
 
   // Settings > Computer Use
   'settings.tab.computerUse': 'Computer Use',
