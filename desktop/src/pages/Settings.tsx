@@ -35,8 +35,11 @@ import { ClaudeOfficialLogin } from '../components/settings/ClaudeOfficialLogin'
 import { ChatGPTOfficialLogin } from '../components/settings/ChatGPTOfficialLogin'
 import { OPENAI_OFFICIAL_PROVIDER_ID } from '../constants/openaiOfficialProvider'
 import { useUpdateStore } from '../stores/updateStore'
+import { getBaseUrl } from '../api/client'
 import { formatBytes } from '../lib/formatBytes'
-import { isTauriRuntime } from '../lib/desktopRuntime'
+import { isDesktopRuntime } from '../lib/desktopRuntime'
+import { getDesktopHost } from '../lib/desktopHost'
+import { publicAssetPath } from '../lib/publicAsset'
 import {
   getDesktopNotificationPermission,
   notifyDesktop,
@@ -196,10 +199,11 @@ function TabButton({ icon, label, active, onClick }: { icon: string; label: stri
   return (
     <button
       onClick={onClick}
-      className={`w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-left transition-colors ${active
+      className={`w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-left transition-colors ${
+        active
           ? 'bg-[var(--color-surface-selected)] text-[var(--color-text-primary)] font-medium'
           : 'text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-hover)]'
-        }`}
+      }`}
     >
       <span className="material-symbols-outlined text-[18px]">{icon}</span>
       {label}
@@ -299,10 +303,11 @@ function ProviderSettings() {
       {/* Official provider — always visible at top */}
       <div
         data-testid="claude-official-provider"
-        className={`relative flex flex-col rounded-xl border transition-all mb-2 ${isClaudeOfficialActive
+        className={`relative flex flex-col rounded-xl border transition-all mb-2 ${
+          isClaudeOfficialActive
             ? 'border-[var(--color-brand)] bg-[var(--color-surface-container)] shadow-[var(--shadow-focus-ring)]'
             : 'border-[var(--color-border)] hover:border-[var(--color-border-focus)] cursor-pointer'
-          }`}
+        }`}
       >
         <div
           className="flex items-center gap-4 px-4 py-3.5"
@@ -329,10 +334,11 @@ function ProviderSettings() {
 
       <div
         data-testid="openai-official-provider"
-        className={`relative flex flex-col rounded-xl border transition-all mb-2 ${isOpenAIOfficialActive
+        className={`relative flex flex-col rounded-xl border transition-all mb-2 ${
+          isOpenAIOfficialActive
             ? 'border-[var(--color-brand)] bg-[var(--color-surface-container)] shadow-[var(--shadow-focus-ring)]'
             : 'border-[var(--color-border)] hover:border-[var(--color-border-focus)] cursor-pointer'
-          }`}
+        }`}
       >
         <div
           className="flex items-center gap-4 px-4 py-3.5"
@@ -371,10 +377,11 @@ function ProviderSettings() {
             return (
               <div
                 key={provider.id}
-                className={`relative flex items-center gap-4 px-4 py-3.5 rounded-xl border transition-all group ${isActive
+                className={`relative flex items-center gap-4 px-4 py-3.5 rounded-xl border transition-all group ${
+                  isActive
                     ? 'border-[var(--color-brand)] bg-[var(--color-surface-container)] shadow-[var(--shadow-focus-ring)]'
                     : 'border-[var(--color-border)] hover:border-[var(--color-border-focus)]'
-                  }`}
+                }`}
               >
                 <span className={`w-2.5 h-2.5 rounded-full flex-shrink-0 ${isActive ? 'bg-[var(--color-success)]' : 'bg-[var(--color-text-tertiary)]'}`} />
                 <div className="flex-1 min-w-0">
@@ -685,6 +692,7 @@ function updateSettingsJsonProviderConnection(
   apiKey: string,
   preset: ProviderPreset,
   baseUrl: string,
+  proxyBaseUrl: string,
 ): string {
   try {
     const parsed = JSON.parse(raw || '{}') as { env?: Record<string, unknown> }
@@ -694,13 +702,17 @@ function updateSettingsJsonProviderConnection(
     const env = { ...existingEnv }
     delete env.ANTHROPIC_API_KEY
     delete env.ANTHROPIC_AUTH_TOKEN
-    env.ANTHROPIC_BASE_URL = apiFormat !== 'anthropic' ? 'http://127.0.0.1:3456/proxy' : baseUrl
+    env.ANTHROPIC_BASE_URL = apiFormat !== 'anthropic' ? proxyBaseUrl : baseUrl
     Object.assign(env, buildSettingsJsonAuthEnv(apiFormat, authStrategy, apiKey, preset))
     parsed.env = env
     return JSON.stringify(parsed, null, 2)
   } catch {
     return raw
   }
+}
+
+function getProviderProxyBaseUrl(): string {
+  return `${getBaseUrl().replace(/\/$/, '')}/proxy`
 }
 
 function buildFallbackPreset(provider?: SavedProvider): ProviderPreset {
@@ -721,13 +733,7 @@ function buildFallbackPreset(provider?: SavedProvider): ProviderPreset {
 }
 
 function openExternalUrl(url: string) {
-  if (!isTauriRuntime()) {
-    window.open(url, '_blank', 'noopener,noreferrer')
-    return
-  }
-
-  void import('@tauri-apps/plugin-shell')
-    .then((mod) => mod.open(url))
+  void getDesktopHost().shell.open(url)
     .catch(() => window.open(url, '_blank', 'noopener,noreferrer'))
 }
 
@@ -776,6 +782,7 @@ function ProviderFormModal({ open, onClose, mode, provider, presets }: ProviderF
   const [settingsJson, setSettingsJson] = useState('')
   const [settingsJsonError, setSettingsJsonError] = useState<string | null>(null)
   const jsonPastedRef = useRef(false)
+  const providerProxyBaseUrl = useMemo(() => getProviderProxyBaseUrl(), [])
 
   // Load current settings.json and merge provider env vars
   useEffect(() => {
@@ -802,7 +809,7 @@ function ProviderFormModal({ open, onClose, mode, provider, presets }: ProviderF
             ...(Object.keys(modelContextWindows).length > 0
               ? { [MODEL_CONTEXT_WINDOWS_ENV_KEY]: JSON.stringify(modelContextWindows) }
               : {}),
-            ANTHROPIC_BASE_URL: needsProxy ? 'http://127.0.0.1:3456/proxy' : baseUrl,
+            ANTHROPIC_BASE_URL: needsProxy ? providerProxyBaseUrl : baseUrl,
             ...buildSettingsJsonAuthEnv(apiFormat, authStrategy, apiKey, selectedPreset),
             ANTHROPIC_MODEL: normalizedModels.main,
             ANTHROPIC_DEFAULT_HAIKU_MODEL: normalizedModels.haiku,
@@ -815,8 +822,8 @@ function ProviderFormModal({ open, onClose, mode, provider, presets }: ProviderF
         setSettingsJson(JSON.stringify({}, null, 2))
       })
     })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedPreset.id])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedPreset.id, providerProxyBaseUrl])
 
   const handlePresetChange = (preset: ProviderPreset) => {
     setSelectedPreset(preset)
@@ -912,19 +919,19 @@ function ProviderFormModal({ open, onClose, mode, provider, presets }: ProviderF
   }
   const handleBaseUrlChange = (value: string) => {
     setBaseUrl(value)
-    setSettingsJson((current) => updateSettingsJsonProviderConnection(current, apiFormat, authStrategy, apiKey, selectedPreset, value))
+    setSettingsJson((current) => updateSettingsJsonProviderConnection(current, apiFormat, authStrategy, apiKey, selectedPreset, value, providerProxyBaseUrl))
   }
   const handleApiKeyChange = (value: string) => {
     setApiKey(value)
-    setSettingsJson((current) => updateSettingsJsonProviderConnection(current, apiFormat, authStrategy, value, selectedPreset, baseUrl))
+    setSettingsJson((current) => updateSettingsJsonProviderConnection(current, apiFormat, authStrategy, value, selectedPreset, baseUrl, providerProxyBaseUrl))
   }
   const handleApiFormatChange = (value: ApiFormat) => {
     setApiFormat(value)
-    setSettingsJson((current) => updateSettingsJsonProviderConnection(current, value, authStrategy, apiKey, selectedPreset, baseUrl))
+    setSettingsJson((current) => updateSettingsJsonProviderConnection(current, value, authStrategy, apiKey, selectedPreset, baseUrl, providerProxyBaseUrl))
   }
   const handleAuthStrategyChange = (value: ProviderAuthStrategy) => {
     setAuthStrategy(value)
-    setSettingsJson((current) => updateSettingsJsonProviderConnection(current, apiFormat, value, apiKey, selectedPreset, baseUrl))
+    setSettingsJson((current) => updateSettingsJsonProviderConnection(current, apiFormat, value, apiKey, selectedPreset, baseUrl, providerProxyBaseUrl))
   }
   const handleModelChange = (slot: ModelSlot, value: string) => {
     const nextModels = { ...models, [slot]: value }
@@ -951,10 +958,11 @@ function ProviderFormModal({ open, onClose, mode, provider, presets }: ProviderF
     <button
       key={preset.id}
       onClick={() => handlePresetChange(preset)}
-      className={`px-3 py-1.5 text-xs font-medium rounded-full border transition-all ${selectedPreset.id === preset.id
+      className={`px-3 py-1.5 text-xs font-medium rounded-full border transition-all ${
+        selectedPreset.id === preset.id
           ? 'border-[var(--color-brand)] bg-[var(--color-surface-container-high)] text-[var(--color-brand)] shadow-[var(--shadow-focus-ring)]'
           : 'border-[var(--color-border)] text-[var(--color-text-secondary)] hover:border-[var(--color-border-focus)] hover:bg-[var(--color-surface-hover)]'
-        }`}
+      }`}
     >
       {preset.name}
     </button>
@@ -967,7 +975,7 @@ function ProviderFormModal({ open, onClose, mode, provider, presets }: ProviderF
     const parsedModelContextWindows = buildModelContextWindows(models, modelContextInputs)
     setIsSubmitting(true)
     try {
-      // Write the edited hubo settings.json first so provider-specific model
+      // Write the edited cc-haha settings.json first so provider-specific model
       // settings never conflict with the user's global ~/.claude/settings.json.
       if (settingsJson.trim()) {
         try {
@@ -1404,10 +1412,11 @@ function ProviderFormModal({ open, onClose, mode, provider, presets }: ProviderF
             }}
             rows={16}
             spellCheck={false}
-            className={`w-full text-xs px-3 py-3 rounded-[var(--radius-md)] bg-[var(--color-surface-container-low)] border font-mono leading-relaxed resize-y text-[var(--color-text-secondary)] outline-none ${settingsJsonError
+            className={`w-full text-xs px-3 py-3 rounded-[var(--radius-md)] bg-[var(--color-surface-container-low)] border font-mono leading-relaxed resize-y text-[var(--color-text-secondary)] outline-none ${
+              settingsJsonError
                 ? 'border-[var(--color-error)] focus:border-[var(--color-error)]'
                 : 'border-[var(--color-border)] focus:border-[var(--color-border-focus)]'
-              }`}
+            }`}
           />
           {settingsJsonError && (
             <p className="text-[11px] text-[var(--color-error)] mt-1">{t('settings.providers.jsonError', { error: settingsJsonError })}</p>
@@ -1501,7 +1510,7 @@ function GeneralSettings() {
   }, [])
 
   useEffect(() => {
-    if (!isTauriRuntime()) return
+    if (!isDesktopRuntime()) return
     void fetchAppMode()
   }, [fetchAppMode])
 
@@ -1653,9 +1662,9 @@ function GeneralSettings() {
       ? t('settings.general.networkTimeoutRequired')
       : parsedNetworkTimeoutSeconds === null
         ? t('settings.general.networkTimeoutRange', {
-          min: String(NETWORK_TIMEOUT_MIN_SECONDS),
-          max: String(NETWORK_TIMEOUT_MAX_SECONDS),
-        })
+            min: String(NETWORK_TIMEOUT_MIN_SECONDS),
+            max: String(NETWORK_TIMEOUT_MAX_SECONDS),
+          })
         : null
   const networkDirty =
     networkDraft.aiRequestTimeoutMs !== network.aiRequestTimeoutMs ||
@@ -1708,9 +1717,13 @@ function GeneralSettings() {
 
   const openPortableDirPicker = async () => {
     setModeError(null)
+    const host = getDesktopHost()
+    if (!host.capabilities.dialogs) {
+      setModeError(t('settings.general.storagePickerError'))
+      return
+    }
     try {
-      const { open } = await import('@tauri-apps/plugin-dialog')
-      const selected = await open({
+      const selected = await host.dialogs.open({
         directory: true,
         multiple: false,
         title: t('settings.general.storageChooseDirTitle'),
@@ -1755,10 +1768,9 @@ function GeneralSettings() {
     setModeError(null)
     try {
       await setAppModeAction(pendingMode, pendingPortableDir)
-      const { invoke } = await import('@tauri-apps/api/core')
-      await invoke('prepare_for_app_mode_restart')
-      const { relaunch } = await import('@tauri-apps/plugin-process')
-      await relaunch()
+      const host = getDesktopHost()
+      await host.appMode.prepareRestart()
+      await host.appMode.restart()
     } catch (error) {
       setModeError(
         error instanceof Error
@@ -1896,10 +1908,11 @@ function GeneralSettings() {
             key={value}
             onClick={() => void setTheme(value)}
             aria-pressed={theme === value}
-            className={`flex-1 py-2 text-xs font-semibold rounded-lg border transition-all ${theme === value
+            className={`flex-1 py-2 text-xs font-semibold rounded-lg border transition-all ${
+              theme === value
                 ? 'bg-[image:var(--gradient-btn-primary)] text-[var(--color-btn-primary-fg)] border-transparent shadow-[var(--shadow-button-primary)]'
                 : 'border-[var(--color-border)] text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-hover)]'
-              }`}
+            }`}
           >
             {label}
           </button>
@@ -1914,10 +1927,11 @@ function GeneralSettings() {
           <button
             key={value}
             onClick={() => setLocale(value)}
-            className={`flex-1 py-2 text-xs font-semibold rounded-lg border transition-all ${locale === value
+            className={`flex-1 py-2 text-xs font-semibold rounded-lg border transition-all ${
+              locale === value
                 ? 'bg-[var(--color-brand)] text-white border-[var(--color-brand)]'
                 : 'border-[var(--color-border)] text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-hover)]'
-              }`}
+            }`}
           >
             {label}
           </button>
@@ -2026,10 +2040,11 @@ function GeneralSettings() {
               type="button"
               onClick={() => void setChatSendBehavior(option.value)}
               aria-pressed={chatSendBehavior === option.value}
-              className={`rounded-lg border px-3 py-2 text-left transition-colors ${chatSendBehavior === option.value
+              className={`rounded-lg border px-3 py-2 text-left transition-colors ${
+                chatSendBehavior === option.value
                   ? 'border-[var(--color-brand)] bg-[var(--color-surface-selected)] text-[var(--color-text-primary)]'
                   : 'border-[var(--color-border)] text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-hover)]'
-                }`}
+              }`}
             >
               <div className="text-xs font-semibold">{option.label}</div>
               <div className="mt-1 text-[11px] leading-4 text-[var(--color-text-tertiary)]">
@@ -2059,10 +2074,11 @@ function GeneralSettings() {
                   setNetworkSaveError(null)
                 }}
                 aria-pressed={networkDraft.proxy.mode === mode.value}
-                className={`rounded-lg border px-3 py-2 text-left transition-colors ${networkDraft.proxy.mode === mode.value
+                className={`rounded-lg border px-3 py-2 text-left transition-colors ${
+                  networkDraft.proxy.mode === mode.value
                     ? 'border-[var(--color-brand)] bg-[var(--color-surface-selected)] text-[var(--color-text-primary)]'
                     : 'border-[var(--color-border)] text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-hover)]'
-                  }`}
+                }`}
               >
                 <div className="text-xs font-semibold">{mode.label}</div>
                 <div className="mt-1 text-[11px] leading-4 text-[var(--color-text-tertiary)]">
@@ -2138,10 +2154,11 @@ function GeneralSettings() {
                     }
                     setNetworkSaveError(null)
                   }}
-                  className={`h-10 w-full rounded-[var(--radius-md)] border bg-[var(--color-surface)] px-3 pr-12 text-sm text-[var(--color-text-primary)] outline-none transition-colors duration-150 placeholder:text-[var(--color-text-tertiary)] ${networkTimeoutError
+                  className={`h-10 w-full rounded-[var(--radius-md)] border bg-[var(--color-surface)] px-3 pr-12 text-sm text-[var(--color-text-primary)] outline-none transition-colors duration-150 placeholder:text-[var(--color-text-tertiary)] ${
+                    networkTimeoutError
                       ? 'border-[var(--color-error)] focus:shadow-[var(--shadow-error-ring)]'
                       : 'border-[var(--color-border)] focus:border-[var(--color-border-focus)] focus:shadow-[var(--shadow-focus-ring)]'
-                    }`}
+                  }`}
                 />
                 <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xs text-[var(--color-text-tertiary)]">
                   {t('settings.general.networkTimeoutUnit')}
@@ -2222,10 +2239,11 @@ function GeneralSettings() {
               <button
                 key={value}
                 onClick={() => setWebSearchDraft({ ...webSearchDraft, mode: value })}
-                className={`h-9 px-2 text-xs font-semibold rounded-lg border transition-all truncate ${(webSearchDraft.mode ?? 'auto') === value
+                className={`h-9 px-2 text-xs font-semibold rounded-lg border transition-all truncate ${
+                  (webSearchDraft.mode ?? 'auto') === value
                     ? 'bg-[var(--color-brand)] text-white border-[var(--color-brand)]'
                     : 'border-[var(--color-border)] text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-hover)]'
-                  }`}
+                }`}
                 title={label}
               >
                 {label}
@@ -2305,7 +2323,7 @@ function GeneralSettings() {
         </div>
       </div>
 
-      {isTauriRuntime() && (
+      {isDesktopRuntime() && (
         <div className="mt-8 border-t border-[var(--color-border)] pt-8">
           <h2 className="text-base font-semibold text-[var(--color-text-primary)] mb-1">{t('settings.general.storageTitle')}</h2>
           <p className="text-sm text-[var(--color-text-tertiary)] mb-3">{t('settings.general.storageDescription')}</p>
@@ -2324,10 +2342,11 @@ function GeneralSettings() {
                   }
                 }}
                 aria-pressed={appMode.mode === 'default' && !isEnvironmentConfigDir}
-                className={`flex items-start gap-3 rounded-lg border px-3 py-3 text-left transition-all ${appMode.mode === 'default' && !isEnvironmentConfigDir
+                className={`flex items-start gap-3 rounded-lg border px-3 py-3 text-left transition-all ${
+                  appMode.mode === 'default' && !isEnvironmentConfigDir
                     ? 'border-[var(--color-brand)] bg-[var(--color-surface)] shadow-[var(--shadow-focus-ring)]'
                     : 'border-[var(--color-border)] bg-[var(--color-surface)] hover:border-[var(--color-border-focus)]'
-                  }`}
+                }`}
               >
                 <span className="material-symbols-outlined mt-0.5 text-[20px] text-[var(--color-text-secondary)]">settings_applications</span>
                 <span className="min-w-0 flex-1">
@@ -2337,10 +2356,11 @@ function GeneralSettings() {
               </button>
 
               <div
-                className={`rounded-lg border px-3 py-3 transition-all ${appMode.mode === 'portable' && !isEnvironmentConfigDir
+                className={`rounded-lg border px-3 py-3 transition-all ${
+                  appMode.mode === 'portable' && !isEnvironmentConfigDir
                     ? 'border-[var(--color-brand)] bg-[var(--color-surface)] shadow-[var(--shadow-focus-ring)]'
                     : 'border-[var(--color-border)] bg-[var(--color-surface)]'
-                  }`}
+                }`}
               >
                 <div className="mb-3 flex items-start gap-3">
                   <span className="material-symbols-outlined mt-0.5 text-[20px] text-[var(--color-text-secondary)]">drive_file_move</span>
@@ -2635,10 +2655,11 @@ function H5AccessSettings() {
               </span>
             </label>
             <span
-              className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-medium ${h5Access.enabled
+              className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-medium ${
+                h5Access.enabled
                   ? 'bg-[var(--color-success)]/10 text-[var(--color-success)]'
                   : 'bg-[var(--color-surface)] text-[var(--color-text-tertiary)] border border-[var(--color-border)]'
-                }`}
+              }`}
             >
               {h5Access.enabled ? t('settings.general.h5AccessStatusEnabled') : t('settings.general.h5AccessDisabledValue')}
             </span>
@@ -2655,11 +2676,11 @@ function H5AccessSettings() {
               <div className="mt-1 text-[var(--color-text-secondary)]">
                 {h5AccessDiagnostics.suggestedHost
                   ? t('settings.general.h5AccessStaleHostBody', {
-                    storedHost: extractHostnameFromUrl(h5AccessDiagnostics.storedPublicBaseUrl) ?? h5AccessDiagnostics.storedPublicBaseUrl,
-                  })
+                      storedHost: extractHostnameFromUrl(h5AccessDiagnostics.storedPublicBaseUrl) ?? h5AccessDiagnostics.storedPublicBaseUrl,
+                    })
                   : t('settings.general.h5AccessStaleHostNoSuggestion', {
-                    storedHost: extractHostnameFromUrl(h5AccessDiagnostics.storedPublicBaseUrl) ?? h5AccessDiagnostics.storedPublicBaseUrl,
-                  })}
+                      storedHost: extractHostnameFromUrl(h5AccessDiagnostics.storedPublicBaseUrl) ?? h5AccessDiagnostics.storedPublicBaseUrl,
+                    })}
               </div>
               {h5AccessDiagnostics.suggestedHost && (
                 <div className="mt-2">
@@ -2873,10 +2894,11 @@ function SettingsCheckboxMark({ checked, disabled = false }: { checked: boolean;
   return (
     <span
       aria-hidden="true"
-      className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md border transition-all peer-focus-visible:ring-2 peer-focus-visible:ring-[var(--color-brand)]/40 ${checked
+      className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md border transition-all peer-focus-visible:ring-2 peer-focus-visible:ring-[var(--color-brand)]/40 ${
+        checked
           ? 'border-[var(--color-brand)] bg-[var(--color-brand)] text-white shadow-[var(--shadow-button-primary)]'
           : 'border-[var(--color-border-focus)] bg-[var(--color-surface)] text-transparent'
-        } ${disabled ? 'opacity-50' : ''}`}
+      } ${disabled ? 'opacity-50' : ''}`}
     >
       <span className="material-symbols-outlined text-[16px] leading-none" style={{ fontVariationSettings: "'FILL' 1" }}>
         check
@@ -2933,7 +2955,7 @@ function AgentsSettings() {
   const groupedAgents = useMemo(() => {
     const groups: Partial<Record<AgentSource, AgentDefinition[]>> = {}
     for (const agent of allAgents) {
-      ; (groups[agent.source] ??= []).push(agent)
+      ;(groups[agent.source] ??= []).push(agent)
     }
     return groups
   }, [allAgents])
@@ -3423,6 +3445,16 @@ function PluginSettings() {
 
 // ─── About Settings ──────────────────────────────────────
 
+const GITHUB_REPO = 'https://github.com/NanmiCoder/cc-haha'
+const GITHUB_ISSUES = `${GITHUB_REPO}/issues`
+const GITHUB_RELEASES = `${GITHUB_REPO}/releases`
+const AUTHOR_GITHUB = 'https://github.com/NanmiCoder'
+const SOCIAL_LINKS = [
+  { name: 'Bilibili', icon: '/icons/bilibili.svg', url: 'https://space.bilibili.com/434377496', label: '程序员阿江-Relakkes' },
+  { name: 'Douyin', icon: '/icons/douyin.svg', url: 'https://www.douyin.com/user/MS4wLjABAAAATJPY7LAlaa5X-c8uNdWkvz0jUGgpw4eeXIwu_8BhvqE', label: '程序员阿江-Relakkes' },
+  { name: 'Xiaohongshu', icon: '/icons/xiaohongshu.svg', url: 'https://www.xiaohongshu.com/user/profile/5f58bd990000000001003753', label: '程序员阿江-Relakkes' },
+] as const
+
 function isValidHttpProxyUrl(value: string) {
   try {
     const url = new URL(value)
@@ -3456,8 +3488,7 @@ function AboutSettings() {
   useEffect(() => {
     let cancelled = false
 
-    import('@tauri-apps/api/app')
-      .then((mod) => mod.getVersion())
+    getDesktopHost().app.getVersion()
       .then((value) => {
         if (!cancelled) setVersion(value)
       })
@@ -3479,14 +3510,18 @@ function AboutSettings() {
     setUpdateProxySaveError(null)
   }, [updateProxy])
 
+  const openUrl = (url: string) => {
+    void getDesktopHost().shell.open(url).catch(() => window.open(url, '_blank'))
+  }
+
   const checkedAtText =
     checkedAt
       ? new Date(checkedAt).toLocaleString(undefined, {
-        hour: '2-digit',
-        minute: '2-digit',
-        month: 'short',
-        day: 'numeric',
-      })
+          hour: '2-digit',
+          minute: '2-digit',
+          month: 'short',
+          day: 'numeric',
+        })
       : null
   const updateProxyModes: Array<{ value: UpdateProxyMode; label: string; description: string }> = [
     {
@@ -3552,25 +3587,31 @@ function AboutSettings() {
   return (
     <div className="w-full min-w-0 max-w-lg mx-auto flex flex-col items-center py-6">
       {/* Logo + App Name + Version */}
-      <img src="/app-icon.png" alt="HUBO" className="w-20 h-20 mb-4" />
-      <h1 className="text-xl font-bold text-[var(--color-text-primary)]">HUBO</h1>
+      <img src={publicAssetPath('app-icon.png')} alt="Claude Code Haha" className="w-20 h-20 mb-4" />
+      <h1 className="text-xl font-bold text-[var(--color-text-primary)]">Claude Code Haha</h1>
       {version && (
         <div className="mt-1 flex items-center gap-2 text-xs text-[var(--color-text-tertiary)]">
           <span>{t('settings.about.version')} {version}</span>
           <span className="text-[var(--color-border)]">·</span>
+          <button
+            onClick={() => openUrl(GITHUB_RELEASES)}
+            className="rounded-[var(--radius-sm)] text-[var(--color-text-accent)] transition-colors hover:text-[var(--color-brand)] focus:outline-none focus:shadow-[var(--shadow-focus-ring)]"
+          >
+            {t('settings.about.changelog')}
+          </button>
         </div>
       )}
 
       {/* GitHub Repo */}
       <div className="mt-6 w-full">
         <button
-
+          onClick={() => openUrl(GITHUB_REPO)}
           className="w-full flex items-center gap-3 px-4 py-3 rounded-xl border border-[var(--color-border)] hover:bg-[var(--color-surface-hover)] transition-colors cursor-pointer"
         >
-          <img src="/icons/logo.png" alt="CQU" className="w-5 h-5 opacity-70" />
+          <img src={publicAssetPath('icons/github.svg')} alt="GitHub" className="w-5 h-5 opacity-70" />
           <div className="flex-1 text-left">
-            <div className="text-sm font-medium text-[var(--color-text-primary)]">重庆大学绿色智能制造研究所</div>
-            <div className="text-xs text-[var(--color-text-tertiary)]">地址：重庆市沙坪坝区重庆大学A区机械与运载工程学院</div>
+            <div className="text-sm font-medium text-[var(--color-text-primary)]">NanmiCoder/cc-haha</div>
+            <div className="text-xs text-[var(--color-text-tertiary)]">{t('settings.about.starHint')}</div>
           </div>
         </button>
       </div>
@@ -3651,10 +3692,11 @@ function AboutSettings() {
                         setUpdateProxySaveError(null)
                       }}
                       aria-pressed={updateProxyDraft.mode === mode.value}
-                      className={`rounded-lg border px-3 py-2 text-left transition-colors ${updateProxyDraft.mode === mode.value
+                      className={`rounded-lg border px-3 py-2 text-left transition-colors ${
+                        updateProxyDraft.mode === mode.value
                           ? 'border-[var(--color-brand)] bg-[var(--color-surface-selected)] text-[var(--color-text-primary)]'
                           : 'border-[var(--color-border)] text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-hover)]'
-                        }`}
+                      }`}
                     >
                       <div className="text-xs font-semibold">{mode.label}</div>
                       <div className="mt-1 text-[11px] leading-4 text-[var(--color-text-tertiary)]">
@@ -3767,34 +3809,47 @@ function AboutSettings() {
 
       {/* Author */}
       <div className="w-full">
-        <h3 className="text-xs font-medium text-[var(--color-text-tertiary)] uppercase tracking-wider mb-3">{t('settings.about.contributors')}</h3>
+        <h3 className="text-xs font-medium text-[var(--color-text-tertiary)] uppercase tracking-wider mb-3">{t('settings.about.author')}</h3>
         <button
+          onClick={() => openUrl(AUTHOR_GITHUB)}
           className="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-[var(--color-surface-hover)] transition-colors cursor-pointer"
         >
-          <img src="/niya.png" alt="CQU" className="w-4 h-4 opacity-60" />
-          <span className="text-sm text-[var(--color-text-primary)]">1243148603</span>
-          <span className="text-xs text-[var(--color-text-tertiary)] ml-auto">{t('settings.about.role.designDev')}</span>
-        </button>
-         <button
-          className="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-[var(--color-surface-hover)] transition-colors cursor-pointer"
-        >
-          <img src="/icons/github.svg" alt="GitHub" className="w-4 h-4 opacity-60" />
-          <span className="text-sm text-[var(--color-text-primary)]">NanmiCoder</span>
-          <span className="text-xs text-[var(--color-text-tertiary)] ml-auto">{t('settings.about.role.architecture')}</span>
-        </button>
-          <button
-          className="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-[var(--color-surface-hover)] transition-colors cursor-pointer"
-        >
-          <img src="/icons/github.svg" alt="GitHub" className="w-4 h-4 opacity-60" />
-          <span className="text-sm text-[var(--color-text-primary)]">ultraworkers</span>
-          <span className="text-xs text-[var(--color-text-tertiary)] ml-auto">{t('settings.about.role.core')}</span>
+          <img src={publicAssetPath('icons/github.svg')} alt="GitHub" className="w-4 h-4 opacity-60" />
+          <span className="text-sm text-[var(--color-text-primary)]">程序员阿江-Relakkes</span>
+          <span className="text-xs text-[var(--color-text-tertiary)] ml-auto">GitHub</span>
         </button>
       </div>
 
+      {/* Social Media */}
+      <div className="w-full mt-4">
+        <h3 className="text-xs font-medium text-[var(--color-text-tertiary)] uppercase tracking-wider mb-3">{t('settings.about.socialMedia')}</h3>
+        <div className="flex flex-col gap-0.5">
+          {SOCIAL_LINKS.map((link) => (
+            <button
+              key={link.name}
+              onClick={() => openUrl(link.url)}
+              className="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-[var(--color-surface-hover)] transition-colors cursor-pointer"
+            >
+              <img src={publicAssetPath(link.icon)} alt={link.name} className="w-4 h-4 opacity-60" />
+              <span className="text-sm text-[var(--color-text-primary)]">{link.label}</span>
+              <span className="text-xs text-[var(--color-text-tertiary)] ml-auto">{link.name}</span>
+            </button>
+          ))}
+        </div>
+      </div>
 
-
-
-
+      <div className="mt-6 w-full">
+        <button
+          onClick={() => openUrl(GITHUB_ISSUES)}
+          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl border border-[var(--color-border)] hover:bg-[var(--color-surface-hover)] transition-colors cursor-pointer"
+        >
+          <span className="material-symbols-outlined text-[20px] text-[var(--color-text-tertiary)]">feedback</span>
+          <div className="flex-1 text-left">
+            <div className="text-sm font-medium text-[var(--color-text-primary)]">{t('settings.about.feedback')}</div>
+            <div className="text-xs text-[var(--color-text-tertiary)]">{t('settings.about.feedbackDesc')}</div>
+          </div>
+        </button>
+      </div>
     </div>
   )
 }

@@ -1,13 +1,13 @@
 // desktop/src/components/settings/ClaudeOfficialLogin.tsx
 //
 // 显示当前 Claude Official OAuth 登录状态,提供 Login / Logout 按钮。
-// 点击 Login 调 Tauri shell.open 打开浏览器走 OAuth flow;浏览器回 callback
+// 点击 Login 调 desktop host shell.open 打开浏览器走 OAuth flow;浏览器回 callback
 // 到 haha server 后,store 的 polling 自动刷新 UI 展示"已登录"。
 
 import { useEffect } from 'react'
-import { open as shellOpen } from '@tauri-apps/plugin-shell'
-import { useHuboOAuthStore } from '../../stores/huboOAuthStore'
+import { useHahaOAuthStore } from '../../stores/hahaOAuthStore'
 import { useTranslation } from '../../i18n'
+import { getDesktopHost } from '../../lib/desktopHost'
 
 export function ClaudeOfficialLogin() {
   const t = useTranslation()
@@ -20,7 +20,7 @@ export function ClaudeOfficialLogin() {
     logout,
     startPolling,
     stopPolling,
-  } = useHuboOAuthStore()
+  } = useHahaOAuthStore()
 
   useEffect(() => {
     fetchStatus()
@@ -31,11 +31,11 @@ export function ClaudeOfficialLogin() {
     try {
       const { authorizeUrl } = await login()
       try {
-        await shellOpen(authorizeUrl)
+        await getDesktopHost().shell.open(authorizeUrl)
         startPolling()
       } catch (err) {
         console.error('[ClaudeOfficialLogin] shellOpen failed:', err)
-        useHuboOAuthStore.setState({
+        useHahaOAuthStore.setState({
           error: t('settings.claudeOfficialLogin.openBrowserFailed'),
         })
       }

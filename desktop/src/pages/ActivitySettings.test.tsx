@@ -92,8 +92,8 @@ describe('ActivitySettings', () => {
       preferences: {
         schemaVersion: 2,
         profile: {
-          displayName: 'hubo',
-          subtitle: 'github.com/1243148603/HUBODesktop',
+          displayName: 'cc-haha',
+          subtitle: 'github.com/NanmiCoder/cc-haha',
           avatarFile: null,
           avatarUpdatedAt: null,
         },
@@ -130,8 +130,8 @@ describe('ActivitySettings', () => {
       preferences: {
         schemaVersion: 2,
         profile: {
-          displayName: 'hubo',
-          subtitle: 'github.com/1243148603/HUBODesktop',
+          displayName: 'cc-haha',
+          subtitle: 'github.com/NanmiCoder/cc-haha',
           avatarFile: 'profile/avatar.png',
           avatarUpdatedAt: '2026-05-09T12:00:00.000Z',
         },
@@ -149,8 +149,8 @@ describe('ActivitySettings', () => {
       preferences: {
         schemaVersion: 2,
         profile: {
-          displayName: 'hubo',
-          subtitle: 'github.com/1243148603/HUBODesktop',
+          displayName: 'cc-haha',
+          subtitle: 'github.com/NanmiCoder/cc-haha',
           avatarFile: null,
           avatarUpdatedAt: null,
         },
@@ -177,12 +177,12 @@ describe('ActivitySettings', () => {
 
     expect(getStatsMock).toHaveBeenCalledWith('all')
 
-    expect(screen.getByText('hubo')).toBeInTheDocument()
-    expect(screen.getByAltText('hubo avatar')).toHaveAttribute('src', '/app-icon.png')
-    expect(screen.getByAltText('hubo avatar')).toHaveClass('scale-[1.28]')
-    expect(screen.getByRole('link', { name: 'github.com/1243148603/HUBODesktop' })).toHaveAttribute(
+    expect(screen.getByText('cc-haha')).toBeInTheDocument()
+    expect(screen.getByAltText('cc-haha avatar')).toHaveAttribute('src', '/app-icon.png')
+    expect(screen.getByAltText('cc-haha avatar')).toHaveClass('scale-[1.28]')
+    expect(screen.getByRole('link', { name: 'github.com/NanmiCoder/cc-haha' })).toHaveAttribute(
       'href',
-      'https://github.com/1243148603/HUBODesktop',
+      'https://github.com/NanmiCoder/cc-haha',
     )
     expect(screen.getByText('Token Activity')).toBeInTheDocument()
     expect(screen.getByText('Total tokens')).toBeInTheDocument()
@@ -237,6 +237,30 @@ describe('ActivitySettings', () => {
     expect(editButton).toHaveClass('group-hover/activity-profile:opacity-100')
     expect(editButton).toHaveClass('focus-visible:opacity-100')
     expect(editButton.closest('div')).toHaveClass('group/activity-profile')
+  })
+
+  it('uses a balanced responsive summary grid instead of the loose medium-width layout', async () => {
+    render(<ActivitySettings />)
+
+    await flushActivityLoad()
+
+    const summaryPanel = screen.getByText('Total tokens').closest('section')
+    expect(summaryPanel).toHaveClass('activity-summary-panel')
+
+    const summaryGrid = summaryPanel?.querySelector('.activity-summary-grid')
+    expect(summaryGrid).not.toHaveClass('sm:grid-cols-2')
+    expect(summaryGrid).not.toHaveClass('lg:grid-cols-5')
+    expect(summaryGrid).not.toHaveClass('xl:grid-cols-5')
+
+    const primaryMetric = screen.getByText('Total tokens').closest('.activity-summary-metric')
+    expect(primaryMetric).toHaveClass('activity-summary-metric-primary')
+    expect(primaryMetric).not.toHaveClass('sm:col-span-2')
+    expect(primaryMetric).not.toHaveClass('lg:col-span-1')
+
+    const longestTaskValue = screen.getByText('0m')
+    expect(longestTaskValue).toHaveClass('activity-summary-value')
+    expect(longestTaskValue).not.toHaveClass('truncate')
+    expect(longestTaskValue).not.toHaveClass('break-words')
   })
 
   it('supports localized heatmap mode switches and persisted display name edits', async () => {
@@ -328,7 +352,7 @@ describe('ActivitySettings', () => {
     await flushActivityLoad()
 
     expect(deleteProfileAvatarMock).toHaveBeenCalled()
-    expect(screen.getByAltText('hubo avatar')).toHaveAttribute('src', '/app-icon.png')
+    expect(screen.getByAltText('cc-haha avatar')).toHaveAttribute('src', '/app-icon.png')
   })
 
   it('shows localized duration details and the empty usage state', async () => {

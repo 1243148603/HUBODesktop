@@ -1,11 +1,11 @@
 // desktop/src/components/settings/ChatGPTOfficialLogin.tsx
 
 import { useEffect, useState } from 'react'
-import { open as shellOpen } from '@tauri-apps/plugin-shell'
 import { Copy, LogIn, LogOut } from 'lucide-react'
-import { useHuboOpenAIOAuthStore } from '../../stores/huboOpenAIOAuthStore'
+import { useHahaOpenAIOAuthStore } from '../../stores/hahaOpenAIOAuthStore'
 import { useTranslation } from '../../i18n'
 import { copyTextToClipboard } from '../chat/clipboard'
+import { getDesktopHost } from '../../lib/desktopHost'
 
 export function ChatGPTOfficialLogin() {
   const t = useTranslation()
@@ -19,7 +19,7 @@ export function ChatGPTOfficialLogin() {
     logout,
     startPolling,
     stopPolling,
-  } = useHuboOpenAIOAuthStore()
+  } = useHahaOpenAIOAuthStore()
 
   useEffect(() => {
     void fetchStatus()
@@ -38,12 +38,12 @@ export function ChatGPTOfficialLogin() {
       const { authorizeUrl } = await login()
       setManualAuthorizeUrl(authorizeUrl)
       try {
-        await shellOpen(authorizeUrl)
+        await getDesktopHost().shell.open(authorizeUrl)
         setManualAuthorizeUrl(null)
         startPolling()
       } catch (err) {
         console.error('[ChatGPTOfficialLogin] shellOpen failed:', err)
-        useHuboOpenAIOAuthStore.setState({
+        useHahaOpenAIOAuthStore.setState({
           error: t('settings.chatgptOfficialLogin.openBrowserFailed'),
         })
       }
@@ -57,11 +57,11 @@ export function ChatGPTOfficialLogin() {
     const copied = await copyTextToClipboard(manualAuthorizeUrl)
     if (copied) {
       setManualAuthorizeUrl(null)
-      useHuboOpenAIOAuthStore.setState({ error: null })
+      useHahaOpenAIOAuthStore.setState({ error: null })
       startPolling()
       return
     }
-    useHuboOpenAIOAuthStore.setState({
+    useHahaOpenAIOAuthStore.setState({
       error: t('settings.chatgptOfficialLogin.copyLinkFailed'),
     })
   }

@@ -113,11 +113,11 @@ import { useTabStore } from '../../stores/tabStore'
 import { useUIStore } from '../../stores/uiStore'
 import type { SessionListItem } from '../../types/session'
 
-const PROJECT_ORDER_STORAGE_KEY = 'hubo-sidebar-project-order'
-const PROJECT_PINNED_STORAGE_KEY = 'hubo-sidebar-pinned-projects'
-const PROJECT_HIDDEN_STORAGE_KEY = 'hubo-sidebar-hidden-projects'
-const PROJECT_ORGANIZATION_STORAGE_KEY = 'hubo-sidebar-project-organization'
-const PROJECT_SORT_STORAGE_KEY = 'hubo-sidebar-project-sort'
+const PROJECT_ORDER_STORAGE_KEY = 'cc-haha-sidebar-project-order'
+const PROJECT_PINNED_STORAGE_KEY = 'cc-haha-sidebar-pinned-projects'
+const PROJECT_HIDDEN_STORAGE_KEY = 'cc-haha-sidebar-hidden-projects'
+const PROJECT_ORGANIZATION_STORAGE_KEY = 'cc-haha-sidebar-project-organization'
+const PROJECT_SORT_STORAGE_KEY = 'cc-haha-sidebar-project-sort'
 
 function makeSession(
   id: string,
@@ -254,7 +254,8 @@ describe('Sidebar', () => {
       { sessionId: 'session-new-1', title: 'New Session', type: 'session', status: 'idle' },
     ])
     expect(useTabStore.getState().activeTabId).toBe('session-new-1')
-    expect(screen.getByRole('complementary')).not.toHaveAttribute('data-tauri-drag-region')
+    expect(screen.getByRole('complementary')).not.toHaveAttribute('data-desktop-drag-region')
+    expect(screen.getByTestId('sidebar-title-region')).toHaveAttribute('data-desktop-drag-region')
   })
 
   it('groups sessions by project and expands overflow rows', () => {
@@ -805,7 +806,7 @@ describe('Sidebar', () => {
     const now = new Date().toISOString()
     useSessionStore.setState({
       sessions: [
-        makeSession('child-1', 'Child Session', 'D:\\workspace\\code\\hubo', now),
+        makeSession('child-1', 'Child Session', 'D:\\workspace\\code\\cc-haha', now),
       ],
     })
     useTabStore.setState({
@@ -820,7 +821,7 @@ describe('Sidebar', () => {
     })
 
     await waitFor(() => {
-      expect(createSession).toHaveBeenCalledWith('D:\\workspace\\code\\hubo')
+      expect(createSession).toHaveBeenCalledWith('D:\\workspace\\code\\cc-haha')
     })
     expect(JSON.parse(window.localStorage.getItem(PROJECT_HIDDEN_STORAGE_KEY) ?? '[]')).toEqual(['D:\\'])
     expect(desktopUiPreferencesApiMock.updateSidebarPreferences).not.toHaveBeenCalled()
