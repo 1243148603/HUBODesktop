@@ -1,6 +1,21 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# install-macos-unsigned.sh
+#
+# Installs the unsigned macOS build of Claude Code Haha from a DMG that sits
+# next to this script (download both from the same GitHub Release into one
+# folder, e.g. ~/Downloads, then run this script).
+#
+# Because this release ships without an Apple Developer ID signature, macOS
+# quarantines the download and Gatekeeper refuses to launch it ("damaged" /
+# "cannot verify developer"). This script installs the app to /Applications
+# and removes the com.apple.quarantine attribute so it opens normally.
+#
+# Usage:
+#   bash install-macos-unsigned.sh                       # auto-pick the DMG next to this script
+#   bash install-macos-unsigned.sh /path/to/Claude-Code-Haha-0.4.0-mac-arm64.dmg
+
 APP_NAME="Claude Code Haha.app"
 APP_PATH="/Applications/${APP_NAME}"
 
@@ -51,6 +66,7 @@ main() {
   if [ -z "$dmg" ]; then
     if ! dmg="$(find_dmg "$base_dir")"; then
       echo "No Claude Code Haha macOS DMG found next to this script."
+      echo "Download the DMG into the same folder as this script, then run it again."
       echo "Usage: bash install-macos-unsigned.sh /path/to/Claude-Code-Haha-0.4.0-mac-arm64.dmg"
       exit 1
     fi

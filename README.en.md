@@ -1,23 +1,23 @@
-# HUBO
+# Claude Code Haha
 
 <p align="center">
-  <img src="docs/images/logo-horizontal.png" alt="HUBO" width="480">
+  <img src="docs/images/logo-horizontal.png" alt="Claude Code Haha" width="480">
 </p>
 
 <div align="center">
 
-[![GitHub Stars](https://img.shields.io/github/stars/1243148603/HUBODesktop?style=social)](https://github.com/1243148603/HUBODesktop/stargazers)
-[![GitHub Forks](https://img.shields.io/github/forks/1243148603/HUBODesktop?style=social)](https://github.com/1243148603/HUBODesktop/network/members)
-[![GitHub Issues](https://img.shields.io/github/issues/1243148603/HUBODesktop)](https://github.com/1243148603/HUBODesktop/issues)
-[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/1243148603/HUBODesktop)](https://github.com/1243148603/HUBODesktop/pulls)
-[![License](https://img.shields.io/github/license/1243148603/HUBODesktop)](https://github.com/1243148603/HUBODesktop/blob/main/LICENSE)
+[![GitHub Stars](https://img.shields.io/github/stars/NanmiCoder/cc-haha?style=social)](https://github.com/NanmiCoder/cc-haha/stargazers)
+[![GitHub Forks](https://img.shields.io/github/forks/NanmiCoder/cc-haha?style=social)](https://github.com/NanmiCoder/cc-haha/network/members)
+[![GitHub Issues](https://img.shields.io/github/issues/NanmiCoder/cc-haha)](https://github.com/NanmiCoder/cc-haha/issues)
+[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/NanmiCoder/cc-haha)](https://github.com/NanmiCoder/cc-haha/pulls)
+[![License](https://img.shields.io/github/license/NanmiCoder/cc-haha)](https://github.com/NanmiCoder/cc-haha/blob/main/LICENSE)
 [![中文](https://img.shields.io/badge/🇨🇳_中文-Available-green)](README.md)
 [![English](https://img.shields.io/badge/🇺🇸_English-当前-blue)](README.en.md)
-[![Docs](https://img.shields.io/badge/📖_Documentation-Visit-FF7A00)](https://hubo.relakkesyang.org)
+[![Docs](https://img.shields.io/badge/📖_Documentation-Visit-FF7A00)](https://claudecode-haha.relakkesyang.org)
 
 </div>
 
-A Claude Code build repaired from the source leaked from Anthropic's npm registry on 2026-03-31. HUBO is now primarily a **desktop Claude Code workspace** for macOS and Windows: sessions, projects, branch / Worktree launch, right-side file changes, code diffs, permission review, provider setup, Computer Use, H5 remote access, IM integration, and scheduled tasks in one app.
+A Claude Code build repaired from the source leaked from Anthropic's npm registry on 2026-03-31. Claude Code Haha is now primarily a **desktop Claude Code workspace** for macOS, Windows, and Linux: sessions, projects, branch / Worktree launch, right-side file changes, code diffs, permission review, provider setup, Computer Use, H5 remote access, IM integration, and scheduled tasks in one app.
 
 <p align="center">
   <a href="#desktop-preview">Desktop Preview</a> · <a href="#install-the-desktop-app">Install</a> · <a href="#desktop-highlights">Highlights</a> · <a href="#sponsorship--partnership">Sponsorship</a> · <a href="#more-documentation">More Docs</a>
@@ -27,10 +27,10 @@ A Claude Code build repaired from the source leaked from Anthropic's npm registr
 
 ## Desktop Preview
 
-The HUBO desktop app brings sessions, multi-project navigation, branch / Worktree controls, right-side file changes, code diffs, permission review, provider setup, and remote access into one graphical workspace for daily development flows beyond the terminal.
+The Claude Code Haha desktop app brings sessions, multi-project navigation, branch / Worktree controls, right-side file changes, code diffs, permission review, provider setup, and remote access into one graphical workspace for daily development flows beyond the terminal.
 
 <p align="center">
-  <a href="https://github.com/1243148603/HUBODesktop/releases"><img src="https://img.shields.io/badge/⬇_Download_Desktop-macOS_%7C_Windows-FF7A00?style=for-the-badge" alt="Download Desktop"></a>
+  <a href="https://github.com/NanmiCoder/cc-haha/releases"><img src="https://img.shields.io/badge/⬇_Download_Desktop-macOS_%7C_Windows_%7C_Linux-FF7A00?style=for-the-badge" alt="Download Desktop"></a>
   &nbsp;
   <a href="docs/desktop/04-installation.md"><img src="https://img.shields.io/badge/📖_Install_Guide-Guide-gray?style=for-the-badge" alt="Install Guide"></a>
 </p>
@@ -54,9 +54,9 @@ The HUBO desktop app brings sessions, multi-project navigation, branch / Worktre
 
 ## Install the Desktop App
 
-1. Download the macOS or Windows desktop installer from [Releases](https://github.com/1243148603/HUBODesktop/releases).
+1. Download the macOS / Windows / Linux desktop installer from [Releases](https://github.com/NanmiCoder/cc-haha/releases).
 2. On first launch, configure your model provider, API key, and default model in Settings.
-3. If macOS blocks the app on first open, follow the [desktop installation guide](docs/desktop/04-installation.md) for Gatekeeper steps.
+3. This build is currently unsigned, so the first launch needs a one-time manual approval (clear quarantine on macOS, click "Run anyway" on Windows). See the [desktop installation guide](docs/desktop/04-installation.md).
 
 ## Run the CLI from Source
 
@@ -65,7 +65,7 @@ For users who want to debug the underlying CLI, server, or local development flo
 ```bash
 bun install
 cp .env.example .env
-./bin/hubo
+./bin/claude-haha
 ```
 
 See [environment variables](docs/en/guide/env-vars.md) and [global usage](docs/en/guide/global-usage.md) for more configuration options.
@@ -99,8 +99,8 @@ See [environment variables](docs/en/guide/env-vars.md) and [global usage](docs/e
 | [Skills System](docs/skills/01-usage-guide.md) | Extensible capability plugins, custom workflows and conditional activation |
 | [IM Integration](docs/im/) | Remote chat, project switching, and permission approval via Telegram / Feishu / WeChat / DingTalk |
 | [Computer Use](docs/en/features/computer-use.md) | Desktop control (screenshots, mouse, keyboard) — [Architecture](docs/en/features/computer-use-architecture.md) |
-| [Desktop App](docs/desktop/) | Tauri 2 + React GUI client — [Quick Start](docs/desktop/01-quick-start.md) \| [Architecture](docs/desktop/02-architecture.md) \| [Installation](docs/desktop/04-installation.md) |
-| [Global Usage](docs/en/guide/global-usage.md) | Run hubo from any directory |
+| [Desktop App](docs/desktop/) | Electron + React GUI client — [Quick Start](docs/desktop/01-quick-start.md) \| [Architecture](docs/desktop/02-architecture.md) \| [Installation](docs/desktop/04-installation.md) |
+| [Global Usage](docs/en/guide/global-usage.md) | Run claude-haha from any directory |
 | [FAQ](docs/en/guide/faq.md) | Common error troubleshooting |
 | [Source Fixes](docs/en/reference/fixes.md) | Fixes compared with the original leaked source |
 | [Project Structure](docs/en/reference/project-structure.md) | Code directory structure |
@@ -177,7 +177,7 @@ If this project helps you, consider buying me a coffee — every bit of support 
 | Category | Technology |
 |------|------|
 | Language | TypeScript |
-| Desktop app | Tauri 2 |
+| Desktop app | Electron |
 | Desktop UI | React + Vite |
 | Local runtime | [Bun](https://bun.sh) |
 | Terminal UI | React + [Ink](https://github.com/vadimdemedes/ink) |
@@ -190,20 +190,20 @@ If this project helps you, consider buying me a coffee — every bit of support 
 Thanks to the following open-source projects and community practices for reference and inspiration:
 
 - [React](https://github.com/facebook/react): frontend engineering and component-based UI ecosystem.
-- [Tauri](https://github.com/tauri-apps/tauri): cross-platform desktop app capabilities and engineering practices.
+- [Electron](https://github.com/electron/electron): cross-platform desktop app capabilities and engineering practices.
 - [cc-switch](https://github.com/farion1231/cc-switch): reference for model provider configuration.
 
 ---
 
 ## ⭐ Star History
 
-If this project helps you, please support it with a ⭐ Star so more people can discover HUBO.
+If this project helps you, please support it with a ⭐ Star so more people can discover Claude Code Haha.
 
-<a href="https://www.star-history.com/#1243148603/HUBODesktop&Date">
+<a href="https://www.star-history.com/#NanmiCoder/cc-haha&Date">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=1243148603/HUBODesktop&type=Date&theme=dark" />
-    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=1243148603/HUBODesktop&type=Date" />
-    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=1243148603/HUBODesktop&type=Date" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=NanmiCoder/cc-haha&type=Date&theme=dark" />
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=NanmiCoder/cc-haha&type=Date" />
+    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=NanmiCoder/cc-haha&type=Date" />
   </picture>
 </a>
 
