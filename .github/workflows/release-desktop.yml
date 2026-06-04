@@ -68,26 +68,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - platform: macos-latest
-            target_triple: aarch64-apple-darwin
-            builder_args: --mac dmg zip --arm64
-            label: macOS-ARM64
-            smoke_platform: macos
-          - platform: macos-latest
-            target_triple: x86_64-apple-darwin
-            builder_args: --mac dmg zip --x64
-            label: macOS-x64
-            smoke_platform: macos
-          - platform: ubuntu-22.04
-            target_triple: x86_64-unknown-linux-gnu
-            builder_args: --linux AppImage deb --x64
-            label: Linux-x64
-            smoke_platform: linux
-          - platform: ubuntu-22.04-arm
-            target_triple: aarch64-unknown-linux-gnu
-            builder_args: --linux AppImage deb --arm64
-            label: Linux-ARM64
-            smoke_platform: linux
           - platform: windows-latest
             target_triple: x86_64-pc-windows-msvc
             builder_args: --win nsis --x64
@@ -188,42 +168,10 @@ jobs:
           APP_VERSION: ${{ steps.version.outputs.value }}
         run: |
           case "${{ matrix.label }}" in
-            macOS-ARM64)
-              expected=(
-                "Claude-Code-Haha-${APP_VERSION}-mac-arm64.dmg"
-                "Claude-Code-Haha-${APP_VERSION}-mac-arm64.dmg.blockmap"
-                "Claude-Code-Haha-${APP_VERSION}-mac-arm64.zip"
-                "Claude-Code-Haha-${APP_VERSION}-mac-arm64.zip.blockmap"
-                "latest-mac.yml"
-              )
-              ;;
-            macOS-x64)
-              expected=(
-                "Claude-Code-Haha-${APP_VERSION}-mac-x64.dmg"
-                "Claude-Code-Haha-${APP_VERSION}-mac-x64.dmg.blockmap"
-                "Claude-Code-Haha-${APP_VERSION}-mac-x64.zip"
-                "Claude-Code-Haha-${APP_VERSION}-mac-x64.zip.blockmap"
-                "latest-mac.yml"
-              )
-              ;;
-            Linux-x64)
-              expected=(
-                "Claude-Code-Haha-${APP_VERSION}-linux-x86_64.AppImage"
-                "Claude-Code-Haha-${APP_VERSION}-linux-amd64.deb"
-                "latest-linux.yml"
-              )
-              ;;
-            Linux-ARM64)
-              expected=(
-                "Claude-Code-Haha-${APP_VERSION}-linux-arm64.AppImage"
-                "Claude-Code-Haha-${APP_VERSION}-linux-arm64.deb"
-                "latest-linux-arm64.yml"
-              )
-              ;;
             Windows-x64)
               expected=(
-                "Claude-Code-Haha-${APP_VERSION}-win-x64.exe"
-                "Claude-Code-Haha-${APP_VERSION}-win-x64.exe.blockmap"
+                "HUBO-${APP_VERSION}-win-x64.exe"
+                "HUBO-${APP_VERSION}-win-x64.exe.blockmap"
                 "latest.yml"
               )
               ;;
@@ -334,20 +282,8 @@ jobs:
           APP_VERSION: ${{ steps.version.outputs.value }}
         run: |
           expected=(
-            "Claude-Code-Haha-${APP_VERSION}-mac-arm64.dmg"
-            "Claude-Code-Haha-${APP_VERSION}-mac-arm64.dmg.blockmap"
-            "Claude-Code-Haha-${APP_VERSION}-mac-arm64.zip"
-            "Claude-Code-Haha-${APP_VERSION}-mac-arm64.zip.blockmap"
-            "Claude-Code-Haha-${APP_VERSION}-mac-x64.dmg"
-            "Claude-Code-Haha-${APP_VERSION}-mac-x64.dmg.blockmap"
-            "Claude-Code-Haha-${APP_VERSION}-mac-x64.zip"
-            "Claude-Code-Haha-${APP_VERSION}-mac-x64.zip.blockmap"
-            "Claude-Code-Haha-${APP_VERSION}-linux-x86_64.AppImage"
-            "Claude-Code-Haha-${APP_VERSION}-linux-amd64.deb"
-            "Claude-Code-Haha-${APP_VERSION}-linux-arm64.AppImage"
-            "Claude-Code-Haha-${APP_VERSION}-linux-arm64.deb"
-            "Claude-Code-Haha-${APP_VERSION}-win-x64.exe"
-            "Claude-Code-Haha-${APP_VERSION}-win-x64.exe.blockmap"
+            "HUBO-${APP_VERSION}-win-x64.exe"
+            "HUBO-${APP_VERSION}-win-x64.exe.blockmap"
           )
 
           missing=()
@@ -373,9 +309,6 @@ jobs:
         shell: bash
         run: |
           expected=(
-            "latest-mac.yml"
-            "latest-linux.yml"
-            "latest-linux-arm64.yml"
             "latest.yml"
           )
           missing=()
@@ -391,15 +324,11 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ steps.version.outputs.value }}
-          name: Claude Code Haha v${{ steps.version.outputs.value }}
+          name: HUBO v${{ steps.version.outputs.value }}
           body: ${{ steps.release_notes.outputs.body }}
           draft: ${{ github.event_name == 'workflow_dispatch' && inputs.draft || false }}
           prerelease: false
           fail_on_unmatched_files: true
           files: |
-            artifacts/release-assets/**/*.dmg
             artifacts/release-assets/**/*.exe
-            artifacts/release-assets/**/*.AppImage
-            artifacts/release-assets/**/*.deb
             artifacts/update-metadata-standard/*.yml
-            desktop/scripts/install-macos-unsigned.sh
