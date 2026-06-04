@@ -7,7 +7,7 @@ describe('resolveSidecarInvocation', () => {
     expect(
       resolveSidecarInvocation(
         ['server', '--host', '127.0.0.1'],
-        '/tmp/hubo-sidecar',
+        '/tmp/claude-sidecar',
         null,
       ),
     ).toEqual({
@@ -17,11 +17,11 @@ describe('resolveSidecarInvocation', () => {
     })
   })
 
-  it('defaults hubo invocations to cli mode', () => {
+  it('defaults claude-haha invocations to cli mode', () => {
     expect(
       resolveSidecarInvocation(
         ['plugin', 'install', 'demo'],
-        '/Users/demo/.local/bin/hubo',
+        '/Users/demo/.local/bin/claude-haha',
         null,
       ),
     ).toEqual({

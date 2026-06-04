@@ -3,7 +3,7 @@ import path from 'node:path'
 export type SidecarMode = 'server' | 'cli' | 'adapters'
 
 const EXPLICIT_MODES = new Set<SidecarMode>(['server', 'cli', 'adapters'])
-const DESKTOP_CLI_NAMES = new Set(['hubo', 'hubo.exe'])
+const DESKTOP_CLI_NAMES = new Set(['claude-haha', 'claude-haha.exe'])
 
 export function resolveSidecarInvocation(
   rawArgs: string[],
@@ -57,7 +57,7 @@ export function parseLauncherArgs(
   }
 
   if (!appRoot) {
-    throw new Error('Missing --app-root for hubo-sidecar')
+    throw new Error('Missing --app-root for claude-sidecar')
   }
 
   return { appRoot, args: nextArgs }
